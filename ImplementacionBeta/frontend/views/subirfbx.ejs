@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Subir FBX y Textura</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .form-container {
+      background-color: #fff;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #333;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #444;
+    }
+
+    input[type="file"] {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background-color: #fafafa;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #1e39d1;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: rgb(63, 69, 156);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-container">
+    <h2>Subir FBX con Textura</h2>
+    <form action="/uploadfbx" method="POST" enctype="multipart/form-data">
+      <div>
+        <label for="fbxfile">Archivo FBX:</label>
+        <input type="file" id="fbxfile" name="fbxfile" accept=".fbx" required />
+      </div>
+      <div>
+        <label for="texturefile">Textura (JPG/PNG):</label>
+        <input type="file" id="texturefile" name="texturefile" accept=".jpg,.jpeg,.png" required />
+      </div>
+      <button type="submit">Subir y Visualizar</button>
+    </form>
+  </div>
+
+</body>
+</html>
