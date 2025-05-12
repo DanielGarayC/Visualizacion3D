@@ -29,11 +29,11 @@ app.set('view engine','ejs');
 app.set('views',path.join(__dirname,'../frontend/views'))
 //Rutas
 app.get('/principal', (req,res) => 
-    res.render('index',{titulo: "Esculturas"})
+    res.render('index',{titulo: "Esculturas Registradas"})
 );
 //Principal con botón con permisos
 app.get('/principalAdm', (req,res) => 
-    res.render('indexAdmin',{titulo: "Esculturas"})
+    res.render('indexAdmin',{titulo: "Esculturas Registradas"})
 );
 //Ruta al dar al botón Agregar Modelo
 app.get('/newModel', (req, res) =>
@@ -53,11 +53,15 @@ app.post('/uploadfbx', upload.fields([
     }
   
     const fbxFile = req.files['fbxfile'][0];
+    console.log("fbxFile:",{fbxFile})
     const textureFile = req.files['texturefile'][0];
-  
+  console.log("textureFile:",{textureFile})
     const fbxName = fbxFile.filename;
+      console.log("fbxName:",encodeURIComponent(fbxName))
+
     const textureName = textureFile.filename;
-  
+    console.log("textureName:",encodeURIComponent(textureName))
+
     // Redireccionar a la vista del visor con los nombres como parámetros
     res.redirect(`/vermodelo/${encodeURIComponent(fbxName)}/${encodeURIComponent(textureName)}`);
   });
@@ -68,14 +72,27 @@ app.post('/uploadfbx', upload.fields([
   
     res.redirect(`/vermodelo/${encodeURIComponent(fbx)}/${encodeURIComponent(texture)}`);
   });
+  //Predefinida la escultura de void
+  app.get('/vermodelo/predefinido2', (req, res) => {
+    const fbx = 'void-fbx.fbx';
+    const texture = 'void-fbx.jpg';
+  
+    res.redirect(`/vermodelo/${encodeURIComponent(fbx)}/${encodeURIComponent(texture)}`);
+  });
 
   // Nueva ruta: visor que carga el modelo y la textura
   app.get('/vermodelo/:fbx/:texture', (req, res) => {
     const { fbx, texture } = req.params;
-  
+    if(fbx=='void-fbx.fbx'){
+      nameSculture="Escultura: Void";
+    }else if(fbx=='padre-v2-fbx.fbx'){
+      nameSculture="Escultura: El Padre";
+    }else{
+      nameSculture="Escultura subida";
+    }
     const fbxUrl = `/uploads/${fbx}`;
     const textureUrl = `/uploads/${texture}`;
   
-    res.render('visualizadorfbx', { fbxUrl, textureUrl });
+    res.render('visualizadorfbx', { fbxUrl, textureUrl, nameSculture });
   });
 module.exports = app;

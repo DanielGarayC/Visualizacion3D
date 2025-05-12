@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Subir FBX y Textura</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     * {
       box-sizing: border-box;
@@ -24,8 +25,8 @@
       padding: 30px 40px;
       border-radius: 12px;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-      width: 100%;
-      max-width: 400px;
+      width: 60vh;
+      height: 50vh;
     }
 
     h2 {
@@ -34,20 +35,39 @@
       color: #333;
     }
 
-    label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: bold;
-      color: #444;
+    .custom-file-upload {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background-color: #e0e0e0;
+      color: #333;
+      padding: 10px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+      width: 100%;
+    }
+
+    .custom-file-upload:hover {
+      background-color: #d0d0d0;
+    }
+
+    .custom-file-upload i {
+      font-size: 1.2em;
+    }
+
+    .file-name {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 0.9em;
+      color: #666;
     }
 
     input[type="file"] {
-      width: 100%;
-      padding: 8px;
-      margin-bottom: 20px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      background-color: #fafafa;
+      display: none;
     }
 
     button {
@@ -60,6 +80,7 @@
       border-radius: 6px;
       cursor: pointer;
       transition: background-color 0.3s ease;
+      margin-top: 20px;
     }
 
     button:hover {
@@ -68,21 +89,47 @@
   </style>
 </head>
 <body>
+  <img src="/images/pucp-logo.png" alt="Logo" style="
+    position: absolute;
+    top: 45px;
+    left: 70px;
+    height: 8vh;
+    z-index: 100;
+  ">
 
   <div class="form-container">
     <h2>Subir FBX con Textura</h2>
     <form action="/uploadfbx" method="POST" enctype="multipart/form-data">
-      <div>
-        <label for="fbxfile">Archivo FBX:</label>
-        <input type="file" id="fbxfile" name="fbxfile" accept=".fbx" required />
-      </div>
-      <div>
-        <label for="texturefile">Textura (JPG/PNG):</label>
-        <input type="file" id="texturefile" name="texturefile" accept=".jpg,.jpeg,.png" required />
-      </div>
+      <p style="margin-bottom: 4vh;">Elija el archivo que desea subir a la plataforma</p>
+      <!-- FBX Upload -->
+      <label class="custom-file-upload">
+        <i class="fas fa-folder-open"></i> Seleccionar archivo FBX
+        <input type="file" id="fbxfile" name="fbxfile" accept=".fbx" required onchange="updateFileName('fbxfile')">
+      </label>
+      <div class="file-name" id="fbxfile-name">Ningún archivo seleccionado</div>
+
+      <!-- Textura Upload -->
+      <label class="custom-file-upload" style="margin-top:2vh">
+        <i class="fas fa-folder-open"></i> Seleccionar imagen
+        <input type="file" id="texturefile" name="texturefile" accept=".jpg,.jpeg,.png" required onchange="updateFileName('texturefile')">
+      </label>
+      <div class="file-name" id="texturefile-name">Ningún archivo seleccionado</div>
+
       <button type="submit">Subir y Visualizar</button>
     </form>
   </div>
+
+  <script>
+    function updateFileName(inputId) {
+      const input = document.getElementById(inputId);
+      const label = document.getElementById(`${inputId}-name`);
+      if (input.files.length > 0) {
+        label.textContent = input.files[0].name;
+      } else {
+        label.textContent = 'Ningún archivo seleccionado';
+      }
+    }
+  </script>
 
 </body>
 </html>

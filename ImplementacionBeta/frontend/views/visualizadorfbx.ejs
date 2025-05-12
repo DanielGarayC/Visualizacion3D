@@ -19,19 +19,61 @@
       padding: 10px;
     }
     #canvas-container {
-      width: 90vw;
-      height: 80vh;
+      width: 60vw;
+      height: 70vh;
       margin: 0 auto;
       border: 1px solid #aaa;
       overflow: hidden;
     }
+    #boton-superior {
+      position: absolute;
+      top: 40px;
+      left: 60px;
+      padding: 8px 12px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      z-index: 10;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    #boton-inferior {
+      position: absolute;
+      bottom: 220px;
+      right: 30px;
+      padding: 8px 12px;
+      background-color: #41a0fa;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      z-index: 10;
+    }
+    #boton-descarga {
+      position: absolute;
+      bottom: 160px;
+      right: 30px;
+      padding: 8px 12px;
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      z-index: 10;
+    }
   </style>
 </head>
 <body>
-  <h2>Modelo Cargado</h2>
+  <h2><%= nameSculture %></h2>
   <div id="canvas-container">
     <canvas id="webgl-canvas"></canvas>
   </div>
+  <a href="/principal" id="boton-superior" >Regresar</a>
+  <button id="boton-inferior">Historial de datos ambientales</button>
+  <button id="boton-descarga">Acervo documentario</button>
 
   <script>
     // Variables pasadas desde el backend

@@ -4,20 +4,50 @@
   <meta charset="UTF-8">
   <title><%= titulo %></title>
   <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .card{
+      height: 60vh;
+      width: 50vh;
+      padding: 2vh;
+    }
+    .info-detalle {
+      text-align: left;
+      font-size: 1.1em;
+    }
+  </style>
 </head>
 <body>
-  <h1><%= titulo %></h1>
+  <div style="display: flex; align-items: center; justify-content: start; padding: 10px 50px;">
+      <img src="/images/pucp-logo.png" alt="Logo" style="height: 8vh; margin-right: 2vh;">
+      <h1 style="margin-left: 17vh;"><%= titulo %></h1>
+  </div>
 
   <div class="galeria">
       <div class="card">
-        <img src="/images/void.jpg" alt="Imagen 1" />
-        <p>Escultura 1: "VOID 1"</p>
+        <p style="font-weight:bold; font-size: 1.5em;">Escultura 1: "Void 1"</p>
+        <a href="/vermodelo/predefinido2">
+          <img src="/images/void.jpg" alt="Imagen 1" />
+        </a> 
+        <div class="info-detalle">
+          <p><strong>Código:</strong>----------------- </p>
+          <p><strong>Datación:</strong>----------------- </p>
+          <p><strong>Estilo:</strong> -----------------</p>
+          <p><strong>Firma:</strong> -----------------</p>
+
+        </div>
       </div>
       <div class="card">
+        <p style="font-weight:bold; font-size: 1.5em;">Escultura 2: "El Padre"</p>
         <a href="/vermodelo/predefinido">
             <img src="/images/padre.jpg" alt="Imagen 2" />
-        </a>        
-        <p>Escultura 2: "El Padre"</p>
+        </a>
+        <div class="info-detalle">
+          <p><strong>Código:</strong>----------------- </p>
+          <p><strong>Datación:</strong>----------------- </p>
+          <p><strong>Estilo:</strong> -----------------</p>
+          <p><strong>Firma:</strong> -----------------</p>
+
+        </div>
       </div>
   </div>
 </body>
