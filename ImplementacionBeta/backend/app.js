@@ -93,6 +93,7 @@ app.post('/uploadfbx', upload.fields([
     const fbxUrl = `/uploads/${fbx}`;
     const textureUrl = `/uploads/${texture}`;
   
-    res.render('visualizadorfbx', { fbxUrl, textureUrl, nameSculture });
+    res.render('/seccionamiento3dV3', { fbxUrl, textureUrl, nameSculture});
+
   });
 module.exports = app;

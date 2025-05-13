@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Visualizador FBX</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fflate@0.7.4/umd/index.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/FBXLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+    }
+    h2 {
+      text-align: center;
+      padding: 10px;
+    }
+    #canvas-container {
+      width: 60vw;
+      height: 70vh;
+      margin: 0 auto;
+      border: 1px solid #aaa;
+      overflow: hidden;
+    }
+    #boton-superior {
+      position: absolute;
+      top: 40px;
+      left: 60px;
+      padding: 8px 12px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      z-index: 10;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    #boton-inferior {
+      position: absolute;
+      bottom: 220px;
+      right: 30px;
+      padding: 8px 12px;
+      background-color: #41a0fa;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      z-index: 10;
+    }
+    #boton-descarga {
+      position: absolute;
+      bottom: 160px;
+      right: 30px;
+      padding: 8px 12px;
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      z-index: 10;
+    }
+  </style>
+</head>
+<body>
+  <h2><%= nameSculture %></h2>
+  <div style="text-align:center; margin-bottom: 10px;">
+    <button id="btn-line-mode">Modo línea sobre superficie</button>
+    <button id="btn-area-mode">Modo área sobre superficie</button>
+    <button id="btn-create-area" style="display:none;">Crear área con 3 puntos</button>
+  </div>
+  <div id="canvas-container">
+    <canvas id="webgl-canvas"></canvas>
+  </div>
+  <a href="/principal" id="boton-superior" >Regresar</a>
+  <button id="boton-inferior">Historial de datos ambientales</button>
+  <button id="boton-descarga">Acervo documentario</button>
+
+  <script>
+    const fbxPath = "<%= fbxUrl %>";
+    const texturePath = "<%= textureUrl %>";
+
+    let scene, camera, renderer, modelGroup, controls;
+    let baseDistance = 8;
+
+    let lineModeActive = false;
+    let areaModeActive = false;
+    let clickedPoints = [];
+    let areaPoints = [];
+    let drawnLines = [];
+
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+
+    init3D();
+    loadFBX(fbxPath, texturePath);
+
+    document.getElementById('btn-line-mode').addEventListener('click', () => {
+      lineModeActive = !lineModeActive;
+      areaModeActive = false;
+      clickedPoints = [];
+      areaPoints = [];
+      document.getElementById('btn-create-area').style.display = "none";
+    });
+
+    document.getElementById('btn-area-mode').addEventListener('click', () => {
+      areaModeActive = !areaModeActive;
+      lineModeActive = false;
+      areaPoints = [];
+      clickedPoints = [];
+      document.getElementById('btn-create-area').style.display = "none";
+    });
+
+    document.getElementById('btn-create-area').addEventListener('click', () => {
+      generateAreaFromPoints(areaPoints);
+      areaPoints = [];
+      areaModeActive = false;
+      document.getElementById('btn-create-area').style.display = "none";
+    });
+
+    function init3D() {
+      const container = document.getElementById('canvas-container');
+      const width = container.clientWidth;
+      const height = container.clientHeight;
+
+      scene = new THREE.Scene();
+      scene.background = new THREE.Color(0xeeeeee);
+
+      camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 2000);
+      camera.position.set(0, 2, baseDistance);
+      camera.lookAt(new THREE.Vector3(0, 0, 0));
+
+      renderer = new THREE.WebGLRenderer({
+        canvas: document.getElementById('webgl-canvas'),
+        antialias: true
+      });
+      renderer.setSize(width, height);
+
+      const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+      directionalLight.position.set(10, 20, -100);
+      scene.add(directionalLight);
+
+      const oppositeLight = new THREE.DirectionalLight(0xffffff, 0.5);
+      oppositeLight.position.set(10, 20, 100);
+      scene.add(oppositeLight);
+
+      const directionalLight1 = new THREE.DirectionalLight(0xffffff, 1);
+      directionalLight1.position.set(-10, 20, -100);
+      scene.add(directionalLight1);
+
+      const oppositeLight1 = new THREE.DirectionalLight(0xffffff, 0.5);
+      oppositeLight1.position.set(-10, 20, 100);
+      scene.add(oppositeLight1);
+
+      const toplight = new THREE.DirectionalLight(0xffffff, 0.3);
+      toplight.position.set(0, 20, 0);
+      scene.add(toplight);
+
+      const ambientLight = new THREE.AmbientLight(0x888888);
+      scene.add(ambientLight);
+
+      modelGroup = new THREE.Group();
+      scene.add(modelGroup);
+
+      controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+      controls.rotateSpeed = 0.5;
+      controls.minPolarAngle = THREE.MathUtils.degToRad(45);
+      controls.maxPolarAngle = THREE.MathUtils.degToRad(120);
+
+      window.addEventListener('resize', () => {
+        const width = container.clientWidth;
+        const height = container.clientHeight;
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+        renderer.setSize(width, height);
+      });
+
+      renderer.domElement.addEventListener('click', onCanvasClick);
+
+      animate();
+    }
+
+    function onCanvasClick(event) {
+      const rect = renderer.domElement.getBoundingClientRect();
+      mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+      mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+      raycaster.setFromCamera(mouse, camera);
+      const intersects = raycaster.intersectObjects(modelGroup.children, true);
+
+      if (intersects.length > 0) {
+        const intersect = intersects[0];
+        const clickedPoint = intersect.point.clone();
+
+        if (areaModeActive) {
+          areaPoints.push(clickedPoint);
+          if (areaPoints.length === 3) {
+            document.getElementById('btn-create-area').style.display = "inline-block";
+          }
+          if (areaPoints.length === 4) {
+            generateAreaFromPoints(areaPoints);
+            areaPoints = [];
+            areaModeActive = false;
+            document.getElementById('btn-create-area').style.display = "none";
+          }
+          return;
+        }
+
+        if (lineModeActive) {
+          clickedPoints.push(clickedPoint);
+          if (clickedPoints.length === 2) {
+            const interpolated = interpolatePointsOnSurface(clickedPoints[0], clickedPoints[1]);
+            drawLineOnSurface(interpolated);
+            clickedPoints = [];
+            lineModeActive = false;
+          }
+          return;
+        }
+
+        // Color por vértice (modo clic normal)
+        const geometry = intersect.object.geometry;
+
+        if (!geometry.attributes.color) {
+          const count = geometry.attributes.position.count;
+          const colors = new Float32Array(count * 3);
+          geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+          intersect.object.material.vertexColors = true;
+          intersect.object.material.needsUpdate = true;
+        }
+
+        const positionAttr = geometry.attributes.position;
+        const colorAttr = geometry.attributes.color;
+
+        for (let i = 0; i < positionAttr.count; i++) {
+          const vertex = new THREE.Vector3().fromBufferAttribute(positionAttr, i);
+          intersect.object.localToWorld(vertex);
+          const distance = vertex.distanceTo(clickedPoint);
+          //tamaño de los puntos
+          if (distance < 0.03) {
+            colorAttr.setXYZ(i, 1, 0, 0);
+          }
+        }
+
+        colorAttr.needsUpdate = true;
+      }
+    }
+
+    function interpolatePointsOnSurface(p1, p2) {
+      const points = [];
+      const distance = p1.distanceTo(p2);
+      //Cantidad de puntos (dinamica) para las lineas
+      const steps = Math.ceil(distance * 40);
+      for (let i = 0; i <= steps; i++) {
+        const t = i / steps;
+        const interp = new THREE.Vector3().lerpVectors(p1, p2, t);
+        const dir = new THREE.Vector3().subVectors(interp, camera.position).normalize();
+        raycaster.set(camera.position, dir);
+        const hits = raycaster.intersectObjects(modelGroup.children, true);
+        if (hits.length > 0) {
+          points.push(hits[0].point.clone());
+        } else {
+          points.push(interp.clone());
+        }
+      }
+      return points;
+    }
+
+    function drawLineOnSurface(points) {
+      modelGroup.traverse(child => {
+        if (child.isMesh && child.geometry && child.geometry.attributes.position) {
+          const geometry = child.geometry;
+          if (!geometry.attributes.color) {
+            const count = geometry.attributes.position.count;
+            const colors = new Float32Array(count * 3);
+            geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+            child.material.vertexColors = true;
+            child.material.needsUpdate = true;
+          }
+
+          const positionAttr = geometry.attributes.position;
+          const colorAttr = geometry.attributes.color;
+
+          for (const p of points) {
+            for (let i = 0; i < positionAttr.count; i++) {
+              const vertex = new THREE.Vector3().fromBufferAttribute(positionAttr, i);
+              child.localToWorld(vertex);
+              const distance = vertex.distanceTo(p);
+              if (distance < 0.03) {
+                colorAttr.setXYZ(i, 1, 0, 0);
+              }
+            }
+          }
+
+          colorAttr.needsUpdate = true;
+        }
+      });
+    }
+
+    function generateAreaFromPoints(points) {
+      const surfacePoints = [];
+      const triangles = points.length === 3 ? [[0,1,2]] : [[0,1,2], [2,3,0]];
+      for (const [i1, i2, i3] of triangles) {
+        const pA = points[i1];
+        const pB = points[i2];
+        const pC = points[i3];
+        //Cantidad de puntos para un area
+        const density = 5;
+        for (let i = 0; i <= density; i++) {
+          for (let j = 0; j <= density - i; j++) {
+            const a = i / density;
+            const b = j / density;
+            const c = 1 - a - b;
+            const interp = new THREE.Vector3()
+              .addScaledVector(pA, a)
+              .addScaledVector(pB, b)
+              .addScaledVector(pC, c);
+            const dir = new THREE.Vector3().subVectors(interp, camera.position).normalize();
+            raycaster.set(camera.position, dir);
+            const hits = raycaster.intersectObjects(modelGroup.children, true);
+            if (hits.length > 0) {
+              surfacePoints.push(hits[0].point.clone());
+            } else {
+              surfacePoints.push(interp.clone());
+            }
+          }
+        }
+      }
+      drawLineOnSurface(surfacePoints);
+    }
+
+    function loadFBX(fbxPath, texturePath) {
+      const textureLoader = new THREE.TextureLoader();
+      const loader = new THREE.FBXLoader();
+      textureLoader.load(texturePath, (texture) => {
+        loader.load(fbxPath, (object) => {
+          modelGroup.clear();
+          object.scale.set(1, 1, 1);
+          object.traverse(child => {
+            if (child.isMesh) {
+              child.material = new THREE.MeshStandardMaterial({
+                map: texture,
+                side: THREE.DoubleSide,
+                metalness: 0.1,
+                roughness: 0.8,
+                vertexColors: true
+              });
+            }
+          });
+          object.rotation.set(-Math.PI / 2, 0, 0);
+          const box = new THREE.Box3().setFromObject(object);
+          const center = box.getCenter(new THREE.Vector3());
+          object.position.sub(center);
+          modelGroup.add(object);
+          const size = box.getSize(new THREE.Vector3());
+          const maxDim = Math.max(size.x, size.y, size.z);
+          const fovRadians = (camera.fov * Math.PI) / 180;
+          let cameraZ = (maxDim / 2) / Math.tan(fovRadians / 2);
+          cameraZ *= 2;
+          baseDistance = cameraZ;
+          camera.position.set(0, 0, cameraZ);
+          camera.lookAt(new THREE.Vector3(0, 0, 0));
+          controls.update();
+        }, undefined, (error) => {
+          console.error("❌ Error al cargar FBX:", error);
+        });
+      }, undefined, (error) => {
+        console.error("❌ Error al cargar la textura:", error);
+      });
+    }
+
+    function animate() {
+      requestAnimationFrame(animate);
+      controls.update();
+      renderer.render(scene, camera);
+    }
+  </script>
+</body>
+</html>
