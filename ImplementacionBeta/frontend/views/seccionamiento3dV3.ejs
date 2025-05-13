@@ -14,6 +14,35 @@
       font-family: Arial, sans-serif;
       background-color: #f5f5f5;
     }
+    button {
+      padding: 10px 16px;
+      margin: 5px;
+      border: none;
+      border-radius: 8px;
+      background-color: #3763f1;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    button:hover {
+      background-color: #2c80b4;
+      transform: translateY(-2px);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    #btn-create-area {
+      background-color: #27ae60;
+    }
+
+    #btn-create-area:hover {
+      background-color: #219150;
+    }
     h2 {
       text-align: center;
       padding: 10px;
@@ -78,11 +107,13 @@
   </div>
   <a href="/principal" id="boton-superior" >Regresar</a>
   <button id="boton-inferior">Historial de datos ambientales</button>
-  <button id="boton-descarga">Acervo documentario</button>
+  <button id="boton-descarga" onclick="descargarPDF()">Acervo documentario</button>
 
   <script>
     const fbxPath = "<%= fbxUrl %>";
     const texturePath = "<%= textureUrl %>";
+    //Pal pdf
+    const indicator = "<%= indicator %>";
 
     let scene, camera, renderer, modelGroup, controls;
     let baseDistance = 8;
@@ -377,6 +408,23 @@
       requestAnimationFrame(animate);
       controls.update();
       renderer.render(scene, camera);
+    }
+    function descargarPDF() {
+      const enlace = document.createElement("a");
+      if(indicator=="void"){
+        enlace.href = "/pdf/Ficha_Void.pdf";  // Ruta al PDF
+        enlace.download = "ficha_escultura_void.pdf";        // Nombre sugerido
+      }else if(indicator=="padre"){
+        enlace.href = "/pdf/Ficha_El_Padre.pdf";  // Ruta al PDF
+        enlace.download = "ficha_escultura_padre.pdf";        // Nombre sugerido
+      }else{
+        enlace.href = "/pdf/Ficha_El_Padre.pdf";  
+        enlace.download = "ficha_escultura_padre.pdf";        // Nombre sugerido
+      }
+      
+      document.body.appendChild(enlace);
+      enlace.click();
+      document.body.removeChild(enlace);
     }
   </script>
 </body>

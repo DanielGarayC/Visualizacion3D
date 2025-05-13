@@ -85,15 +85,18 @@ app.post('/uploadfbx', upload.fields([
     const { fbx, texture } = req.params;
     if(fbx=='void-fbx.fbx'){
       nameSculture="Escultura: Void";
+      indicator="void";
     }else if(fbx=='padre-v2-fbx.fbx'){
       nameSculture="Escultura: El Padre";
+      indicator="padre";
     }else{
       nameSculture="Escultura subida";
+      indicator ="ola";
     }
     const fbxUrl = `/uploads/${fbx}`;
     const textureUrl = `/uploads/${texture}`;
   
-    res.render('/seccionamiento3dV3', { fbxUrl, textureUrl, nameSculture});
+    res.render('seccionamiento3dV3', { fbxUrl, textureUrl, nameSculture,indicator});
 
   });
 module.exports = app;
