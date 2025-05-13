@@ -101,6 +101,8 @@
     <button id="btn-line-mode">Modo línea sobre superficie</button>
     <button id="btn-area-mode">Modo área sobre superficie</button>
     <button id="btn-create-area" style="display:none;">Crear área con 3 puntos</button>
+    <label for="color-picker" style="font-weight:bold;">Color de marcado:</label>
+    <input type="color" id="color-picker" value="#ff0000" style="margin-top: 5px;">
   </div>
   <div id="canvas-container">
     <canvas id="webgl-canvas"></canvas>
@@ -117,6 +119,7 @@
 
     let scene, camera, renderer, modelGroup, controls;
     let baseDistance = 8;
+    let currentColor = new THREE.Color(1, 0, 0); // Rojo por defecto
 
     let lineModeActive = false;
     let areaModeActive = false;
@@ -151,6 +154,10 @@
       areaPoints = [];
       areaModeActive = false;
       document.getElementById('btn-create-area').style.display = "none";
+    });
+    document.getElementById("color-picker").addEventListener("input", (event) => {
+      const hex = event.target.value;
+      currentColor.set(hex);
     });
 
     function init3D() {
@@ -273,7 +280,7 @@
           const distance = vertex.distanceTo(clickedPoint);
           //tamaño de los puntos
           if (distance < 0.03) {
-            colorAttr.setXYZ(i, 1, 0, 0);
+            colorAttr.setXYZ(i, currentColor.r, currentColor.g, currentColor.b);          
           }
         }
 
@@ -322,7 +329,7 @@
               child.localToWorld(vertex);
               const distance = vertex.distanceTo(p);
               if (distance < 0.03) {
-                colorAttr.setXYZ(i, 1, 0, 0);
+                colorAttr.setXYZ(i, currentColor.r, currentColor.g, currentColor.b);              
               }
             }
           }
