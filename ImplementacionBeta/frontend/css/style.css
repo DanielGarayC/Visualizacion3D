@@ -43,7 +43,7 @@ body {
   }
   .btn-fijo {
     margin-left: 40vh;
-    background-color: #007BFF;
+    background-color: #1e39d1;
     color: white;
     padding: 10px 15px;
     border-radius: 8px;
@@ -55,4 +55,5 @@ body {
   
   .btn-fijo:hover {
     background-color: #0056b3;
+    color: white;
   }
