@@ -66,7 +66,7 @@ app.post('/uploadfbx', upload.fields([
       indicator : 'padre'
     });
   } catch (error) {
-    console.error("Error al buscar modelo:", error);
+    console.error("Error al buscar modelo :(", error);
     res.status(500).send("Error interno");
   }
 });
