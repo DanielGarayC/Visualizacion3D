@@ -145,11 +145,13 @@
     init3D();
     let drawingEnabled = false;
 
+    //Evento de generar Reporte :D
     document.getElementById("btn-start-report").addEventListener("click", () => {
       drawingEnabled = true;
       document.getElementById("drawing-controls").style.display = "block";
       document.getElementById("btn-start-report").style.display = "none";
     });
+
     loadFBX(fbxPath, texturePath);
 
     document.getElementById('btn-line-mode').addEventListener('click', () => {
@@ -258,7 +260,6 @@
 
         if (areaModeActive) {
           areaPoints.push(clickedPoint);
-          actualizarBotonesDeAccion();
           renderer.render(scene, camera); // actualiza la escena
           if (areaPoints.length === 3) {
             document.getElementById('btn-create-area').style.display = "inline-block";
@@ -274,7 +275,6 @@
 
         if (lineModeActive) {
           clickedPoints.push(clickedPoint);
-          actualizarBotonesDeAccion();
           renderer.render(scene, camera); // actualiza la escena
           if (clickedPoints.length === 2) {
             const interpolated = interpolatePointsOnSurface(clickedPoints[0], clickedPoints[1]);
@@ -304,7 +304,7 @@
           intersect.object.localToWorld(vertex);
           const distance = vertex.distanceTo(clickedPoint);
           //tamaño de los puntos
-          if (distance < 0.03) {
+          if (distance < 0.015) {
             colorAttr.setXYZ(i, currentColor.r, currentColor.g, currentColor.b);          
           }
         }
@@ -353,7 +353,7 @@
               const vertex = new THREE.Vector3().fromBufferAttribute(positionAttr, i);
               child.localToWorld(vertex);
               const distance = vertex.distanceTo(p);
-              if (distance < 0.03) {
+              if (distance < 0.015) {
                 colorAttr.setXYZ(i, currentColor.r, currentColor.g, currentColor.b);              
               }
             }
@@ -367,7 +367,8 @@
       const lineMaterial = new THREE.LineBasicMaterial({ color: currentColor });
       const line = new THREE.Line(lineGeometry, lineMaterial);
       scene.add(line);
-      drawnLines.push(line);  // Guardamos para poder deshacer
+      drawnLines.push(line);  
+      actualizarBotonesDeAccion();  
     }
 
     function generateAreaFromPoints(points) {
@@ -400,6 +401,7 @@
         }
       }
       drawLineOnSurface(surfacePoints);
+      actualizarBotonesDeAccion();  
     }
     //Botones de deshacer y guardar reporte
     function actualizarBotonesDeAccion() {
@@ -415,21 +417,21 @@
       }
     }
 
+    //Acción para el botón de guardar
     document.getElementById("btn-save").addEventListener("click", () => {
-      // Desactivar modos
       lineModeActive = false;
       areaModeActive = false;
       drawingEnabled = false;
       clickedPoints = [];
       areaPoints = [];
+
       document.getElementById('btn-create-area').style.display = "none";
-
-      // Opcional: ocultar controles si deseas
-      // document.getElementById("drawing-controls").style.display = "none";
-
-      // Ocultar botones de acción
       document.getElementById("btn-undo").style.display = "none";
       document.getElementById("btn-save").style.display = "none";
+
+      // 👉 Esto oculta todos los controles y muestra de nuevo el botón inicial
+      document.getElementById("drawing-controls").style.display = "none";
+      document.getElementById("btn-start-report").style.display = "inline-block";
 
       alert("✅ Reporte guardado (modo dibujo desactivado).");
     });
