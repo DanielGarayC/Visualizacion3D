@@ -39,6 +39,10 @@ app.get('/newModel', (req, res) =>
     res.render('subirfbx')
 );
 
+app.get('/datosEscultura', (req, res) =>
+    res.render('datosEscultura')
+);
+
 // Exponer la carpeta donde se guardan los archivos FBX y texturas
 app.use('/uploads', express.static('C:/Users/Daniel/Documents')); // ⚠️ Asegúrate de que los archivos realmente se están guardando ahí
 
