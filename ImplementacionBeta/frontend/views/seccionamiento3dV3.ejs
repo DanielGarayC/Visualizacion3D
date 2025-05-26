@@ -304,7 +304,7 @@
           intersect.object.localToWorld(vertex);
           const distance = vertex.distanceTo(clickedPoint);
           //tamaño de los puntos
-          if (distance < 0.015) {
+          if (distance < 0.02) {
             colorAttr.setXYZ(i, currentColor.r, currentColor.g, currentColor.b);          
           }
         }
@@ -353,7 +353,7 @@
               const vertex = new THREE.Vector3().fromBufferAttribute(positionAttr, i);
               child.localToWorld(vertex);
               const distance = vertex.distanceTo(p);
-              if (distance < 0.015) {
+              if (distance < 0.02) {
                 colorAttr.setXYZ(i, currentColor.r, currentColor.g, currentColor.b);              
               }
             }

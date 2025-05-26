@@ -3,10 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <title><%= titulo %></title>
-  <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/assets/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="/assets/vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="/assets/vendors/jvectormap/jquery-jvectormap.css">
+    <link rel="stylesheet" href="/assets/vendors/flag-icon-css/css/flag-icon.min.css">
+    <link rel="stylesheet" href="/assets/vendors/owl-carousel-2/owl.carousel.min.css">
+    <link rel="stylesheet" href="/assets/vendors/owl-carousel-2/owl.theme.default.min.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
   <style>
+    body,
+    .container-scroller,
+    .page-body-wrapper,
+    .main-panel,
+    .content-wrapper {
+      background-color: #f5f5f5 !important;
+      color: #000 !important;
+    }
+    .card {
+      background-color: white !important;
+    }
     .card{
-      height: 60vh;
+      height: 70vh; 
       width: 50vh;
       padding: 2vh;
     }
@@ -17,38 +36,69 @@
   </style>
 </head>
 <body>
-  <div style="display: flex; align-items: center; justify-content: start; padding: 10px 50px;">
-      <img src="/images/pucp-logo.png" alt="Logo" style="height: 8vh; margin-right: 2vh;">
-      <h1 style="margin-left: 17vh;"><%= titulo %></h1>
-  </div>
+  <div class="container-scroller">
+    <!-- Sidebar -->
+    <%- include('../partials/sidebar') %>
 
-  <div class="galeria">
-      <div class="card">
-        <p style="font-weight:bold; font-size: 1.5em;">Escultura 1: "Void 1"</p>
-        <a href="/vermodelo/predefinido2">
-          <img src="/images/void.jpg" alt="Imagen 1" />
-        </a> 
-        <div class="info-detalle">
-          <p><strong>Código:</strong>----------------- </p>
-          <p><strong>Datación:</strong>----------------- </p>
-          <p><strong>Estilo:</strong> -----------------</p>
-          <p><strong>Firma:</strong> -----------------</p>
+    <div class="container-fluid page-body-wrapper">
+      <!-- Navbar -->
+      <%- include('../partials/navbar') %>
 
-        </div>
-      </div>
-      <div class="card">
-        <p style="font-weight:bold; font-size: 1.5em;">Escultura 2: "El Padre"</p>
-        <a href="/vermodelo/predefinido">
-            <img src="/images/padre.jpg" alt="Imagen 2" />
-        </a>
-        <div class="info-detalle">
-          <p><strong>Código:</strong>----------------- </p>
-          <p><strong>Datación:</strong>----------------- </p>
-          <p><strong>Estilo:</strong> -----------------</p>
-          <p><strong>Firma:</strong> -----------------</p>
+      <div class="main-panel">
+        <div class="content-wrapper">
+          <div style="display: flex; align-items: center; justify-content: start; padding: 10px 50px;">
+              <h1 style="margin-left: 17vh;"><%= titulo %></h1>
+          </div>
 
-        </div>
-      </div>
-  </div>
+          <div class="galeria">
+              <div class="card">
+                <p style="font-weight:bold; font-size: 1.5em;">Escultura 1: "Void 1"</p>
+                <a href="/vermodelo/predefinido2">
+                  <img src="/images/void.jpg" alt="Imagen 1" />
+                </a> 
+                <div class="info-detalle">
+                  <p><strong>Código:</strong>----------------- </p>
+                  <p><strong>Datación:</strong>----------------- </p>
+                  <p><strong>Estilo:</strong> -----------------</p>
+                  <p><strong>Firma:</strong> -----------------</p>
+
+                </div>
+              </div>
+              <div class="card">
+                <p style="font-weight:bold; font-size: 1.5em;">Escultura 2: "El Padre"</p>
+                <a href="/vermodelo/predefinido">
+                    <img src="/images/padre.jpg" alt="Imagen 2" />
+                </a>
+                <div class="info-detalle">
+                  <p><strong>Código:</strong>----------------- </p>
+                  <p><strong>Datación:</strong>----------------- </p>
+                  <p><strong>Estilo:</strong> -----------------</p>
+                  <p><strong>Firma:</strong> -----------------</p>
+
+                </div>
+              </div>
+            </div>
+          </div>
+      </div> 
+    </div>
+  </div> 
+    <script src="/assets/vendors/js/vendor.bundle.base.js"></script>
+<!-- endinject -->
+<!-- Plugin js for this page -->
+<script src="/assets/vendors/chart.js/Chart.min.js"></script>
+<script src="/assets/vendors/progressbar.js/progressbar.min.js"></script>
+<script src="/assets/vendors/jvectormap/jquery-jvectormap.min.js"></script>
+<script src="/assets/vendors/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+<script src="/assets/vendors/owl-carousel-2/owl.carousel.min.js"></script>
+<!-- End plugin js for this page -->
+<!-- inject:js -->
+<script src="/assets/js/off-canvas.js"></script>
+<script src="/assets/js/hoverable-collapse.js"></script>
+<script src="/assets/js/misc.js"></script>
+<script src="/assets/js/settings.js"></script>
+<script src="/assets/js/todolist.js"></script>
+<!-- endinject -->
+<!-- Custom js for this page -->
+<script src="/assets/js/dashboard.js"></script>
 </body>
 </html>

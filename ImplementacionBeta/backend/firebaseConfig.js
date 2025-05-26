@@ -2,7 +2,7 @@ import { initializeApp } from 'firebase/app';
 import { getStorage, connectStorageEmulator } from 'firebase/storage';
 import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
 
-
+//http://localhost:4000/
 const firebaseConfig = {
   apiKey: "fake-api-key",                // se usara al implementar en cloud
   projectId: "modelo3d-local",           // Solo para referencia interna
