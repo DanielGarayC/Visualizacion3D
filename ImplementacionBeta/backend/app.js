@@ -3,7 +3,7 @@ import path from 'path';
 import multer from 'multer';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import { handleFbxUpload } from './fbxUpload.js';
+import { handleFbxUpload } from './modeloController.js';
 import { db } from './firebaseConfig.js'; // Ajusta la ruta si es necesario
 import { doc, getDoc } from 'firebase/firestore';
 
