@@ -9927,7 +9927,7 @@ input[type="button"].btn-block {
   background-color: transparent;
   border: 0; }
   .dropdown-item:hover, .dropdown-item:focus {
-    color: #16181b;
+    color: #2a3b8d;
     text-decoration: none;
     background-color: #13151b; }
   .dropdown-item.active, .dropdown-item:active {
@@ -12864,7 +12864,7 @@ button.bg-light:focus {
   background-color: #e6e6e6 !important; }
 
 .bg-dark {
-  background-color: #0d0d0d !important; }
+  background-color: #102454 !important; }
 
 a.bg-dark:hover, a.bg-dark:focus,
 button.bg-dark:hover,
@@ -20736,7 +20736,7 @@ div.tagsinput {
           margin-right: auto;
           margin-left: 1rem; }
       .sidebar .nav .nav-item.active > .nav-link {
-        background: #0f1015;
+        background: #2a3b8d;
         position: relative; }
         .sidebar .nav .nav-item.active > .nav-link:before {
           content: "";
