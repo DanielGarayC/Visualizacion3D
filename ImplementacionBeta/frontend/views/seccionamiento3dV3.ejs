@@ -7,6 +7,8 @@
   <script src="https://cdn.jsdelivr.net/npm/fflate@0.7.4/umd/index.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/FBXLoader.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
   <style>
     body {
       margin: 0;
@@ -98,11 +100,21 @@
 <body>
   <h2><%= nameSculture %></h2>
   <div style="text-align:center; margin-bottom: 10px;">
-    <button id="btn-line-mode">Modo línea sobre superficie</button>
-    <button id="btn-area-mode">Modo área sobre superficie</button>
-    <button id="btn-create-area" style="display:none;">Crear área con 3 puntos</button>
-    <label for="color-picker" style="font-weight:bold;">Color de marcado:</label>
-    <input type="color" id="color-picker" value="#ff0000" style="margin-top: 5px;">
+    <button id="btn-start-report">Agregar reporte</button>
+    <div id="drawing-controls" style="display:none; margin-top:10px;">
+      <button id="btn-line-mode">Modo línea sobre superficie</button>
+      <button id="btn-area-mode">Modo área sobre superficie</button>
+      <button id="btn-create-area" style="display:none;">Crear área con 3 puntos</button>
+
+      <label for="color-picker" style="font-weight:bold;">Color de marcado:</label>
+      <input type="color" id="color-picker" value="#ff0000" style="margin-top: 5px;">
+            <button id="btn-undo" style="display:none; background-color: #f39c12;">
+        <i class="fas fa-undo"></i> Deshacer
+      </button>      
+      <button id="btn-save" style="display:none; background-color: #2ecc71;">
+        <i class="fas fa-save"></i> Guardar reporte
+      </button>
+    </div>
   </div>
   <div id="canvas-container">
     <canvas id="webgl-canvas"></canvas>
@@ -131,6 +143,13 @@
     const mouse = new THREE.Vector2();
 
     init3D();
+    let drawingEnabled = false;
+
+    document.getElementById("btn-start-report").addEventListener("click", () => {
+      drawingEnabled = true;
+      document.getElementById("drawing-controls").style.display = "block";
+      document.getElementById("btn-start-report").style.display = "none";
+    });
     loadFBX(fbxPath, texturePath);
 
     document.getElementById('btn-line-mode').addEventListener('click', () => {
@@ -224,6 +243,8 @@
     }
 
     function onCanvasClick(event) {
+      //Para no pintar a menos que se haya seleccionado Agregar Reporte
+      if (!drawingEnabled) return;      
       const rect = renderer.domElement.getBoundingClientRect();
       mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
       mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
@@ -237,6 +258,8 @@
 
         if (areaModeActive) {
           areaPoints.push(clickedPoint);
+          actualizarBotonesDeAccion();
+          renderer.render(scene, camera); // actualiza la escena
           if (areaPoints.length === 3) {
             document.getElementById('btn-create-area').style.display = "inline-block";
           }
@@ -251,6 +274,8 @@
 
         if (lineModeActive) {
           clickedPoints.push(clickedPoint);
+          actualizarBotonesDeAccion();
+          renderer.render(scene, camera); // actualiza la escena
           if (clickedPoints.length === 2) {
             const interpolated = interpolatePointsOnSurface(clickedPoints[0], clickedPoints[1]);
             drawLineOnSurface(interpolated);
@@ -337,6 +362,12 @@
           colorAttr.needsUpdate = true;
         }
       });
+      // Línea visible sobre el modelo
+      const lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
+      const lineMaterial = new THREE.LineBasicMaterial({ color: currentColor });
+      const line = new THREE.Line(lineGeometry, lineMaterial);
+      scene.add(line);
+      drawnLines.push(line);  // Guardamos para poder deshacer
     }
 
     function generateAreaFromPoints(points) {
@@ -370,6 +401,38 @@
       }
       drawLineOnSurface(surfacePoints);
     }
+    //Botones de deshacer y guardar reporte
+    function actualizarBotonesDeAccion() {
+      const hayPuntos = clickedPoints.length > 0 || areaPoints.length > 0;
+      const hayDibujos = drawnLines.length > 0;
+
+      if (hayPuntos || hayDibujos) {
+        document.getElementById("btn-undo").style.display = "inline-block";
+        document.getElementById("btn-save").style.display = "inline-block";
+      } else {
+        document.getElementById("btn-undo").style.display = "none";
+        document.getElementById("btn-save").style.display = "none";
+      }
+    }
+
+    document.getElementById("btn-save").addEventListener("click", () => {
+      // Desactivar modos
+      lineModeActive = false;
+      areaModeActive = false;
+      drawingEnabled = false;
+      clickedPoints = [];
+      areaPoints = [];
+      document.getElementById('btn-create-area').style.display = "none";
+
+      // Opcional: ocultar controles si deseas
+      // document.getElementById("drawing-controls").style.display = "none";
+
+      // Ocultar botones de acción
+      document.getElementById("btn-undo").style.display = "none";
+      document.getElementById("btn-save").style.display = "none";
+
+      alert("✅ Reporte guardado (modo dibujo desactivado).");
+    });
 
     function loadFBX(fbxPath, texturePath) {
       const textureLoader = new THREE.TextureLoader();
@@ -410,6 +473,40 @@
         console.error("❌ Error al cargar la textura:", error);
       });
     }
+    //Evento botón deshacer
+    document.getElementById("btn-undo").addEventListener("click", () => {
+      let hizoAlgo = false;
+
+      // Caso 1: Deshacer punto de línea
+      if (lineModeActive && clickedPoints.length > 0) {
+        clickedPoints.pop();
+        hizoAlgo = true;
+      }
+
+      // Caso 2: Deshacer punto de área
+      else if (areaModeActive && areaPoints.length > 0) {
+        areaPoints.pop();
+        if (areaPoints.length < 3) {
+          document.getElementById('btn-create-area').style.display = "none";
+        }
+        hizoAlgo = true;
+      }
+
+      // Caso 3: Borrar la última línea o área dibujada
+      else if (drawnLines.length > 0) {
+        const last = drawnLines.pop();
+        scene.remove(last);
+        last.geometry.dispose();
+        if (last.material) last.material.dispose();
+        hizoAlgo = true;
+      }
+
+      // Actualizar estado visual si algo fue modificado
+      if (hizoAlgo) {
+        actualizarBotonesDeAccion();
+        renderer.render(scene, camera);
+      }
+    });
 
     function animate() {
       requestAnimationFrame(animate);
