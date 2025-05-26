@@ -22,6 +22,11 @@ const upload = multer({ storage });
 app.set('view engine','ejs');
 app.set('views',path.join(__dirname,'../frontend/views'))
 //Rutas
+//Login
+app.get('/login', (req,res)=> 
+  res.render('login')
+)
+//Principal sin permisos :c)
 app.get('/principal', (req,res) => 
     res.render('index',{titulo: "Esculturas Registradas"})
 );
@@ -35,7 +40,7 @@ app.get('/newModel', (req, res) =>
 );
 
 // Exponer la carpeta donde se guardan los archivos FBX y texturas
-app.use('/uploads', express.static('C:/Users/Bruno/Documents')); // ⚠️ Asegúrate de que los archivos realmente se están guardando ahí
+app.use('/uploads', express.static('C:/Users/Daniel/Documents')); // ⚠️ Asegúrate de que los archivos realmente se están guardando ahí
 
 // Endpoint para subir FBX + textura y redirigir a visor
 
