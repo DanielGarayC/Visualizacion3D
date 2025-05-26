@@ -5,88 +5,138 @@
   <title>Subir FBX y Textura</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
-    * {
-      box-sizing: border-box;
-    }
+  * {
+    box-sizing: border-box;
+  }
 
-    body {
-      margin: 0;
-      padding: 0;
-      background: #f4f4f4;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
+  body {
+    margin: 0;
+    padding: 40px 20px;
+    background: linear-gradient(145deg, #eaeaea, #ffffff);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+  }
 
-    .form-container {
-      background-color: #fff;
-      padding: 30px 40px;
-      border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-      width: 60vh;
-      height: 50vh;
-    }
+  .form-container {
+    position: relative;
+    background-color: #ffffff;
+    padding: 35px 40px;
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 520px;
+    transition: all 0.3s ease;
+  }
 
-    h2 {
-      text-align: center;
-      margin-bottom: 25px;
-      color: #333;
-    }
+  #back-arrow {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 1.5em;
+    color: #3a3a3a;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
 
-    .custom-file-upload {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background-color: #e0e0e0;
-      color: #333;
-      padding: 10px 15px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: background-color 0.3s ease;
-      width: 100%;
-    }
+  #back-arrow:hover {
+    color: #1e39d1;
+  }
 
-    .custom-file-upload:hover {
-      background-color: #d0d0d0;
-    }
+  h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #222;
+    font-size: 1.6rem;
+    font-weight: 600;
+  }
 
-    .custom-file-upload i {
-      font-size: 1.2em;
-    }
+  p {
+    margin: 18px 0 6px;
+    font-weight: 500;
+    color: #444;
+    font-size: 0.95rem;
+  }
 
-    .file-name {
-      flex: 1;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      font-size: 0.9em;
-      color: #666;
-    }
+  .custom-text-input {
+    display: flex;
+    align-items: center;
+    background-color: #f0f0f0;
+    padding: 12px 16px;
+    border-radius: 10px;
+    transition: box-shadow 0.2s ease, border 0.2s ease;
+  }
 
-    input[type="file"] {
-      display: none;
-    }
+  .custom-text-input input[type="text"] {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    color: #333;
+    font-weight: 500;
+  }
 
-    button {
-      width: 100%;
-      padding: 12px;
-      background-color: #1e39d1;
-      color: white;
-      font-weight: bold;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      margin-top: 20px;
-    }
+  .custom-text-input:focus-within {
+    box-shadow: 0 0 0 3px rgba(30, 57, 209, 0.2);
+  }
 
-    button:hover {
-      background-color: rgb(63, 69, 156);
-    }
-  </style>
+  .custom-file-upload {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background-color: #f0f0f0;
+    color: #333;
+    padding: 12px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+  }
+
+  .custom-file-upload:hover {
+    background-color: #e4e4e4;
+  }
+
+  .custom-file-upload i {
+    font-size: 1.2em;
+    color: #1e39d1;
+  }
+
+  .file-name {
+    margin-top: 6px;
+    font-size: 0.85em;
+    color: #777;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  input[type="file"] {
+    display: none;
+  }
+
+  button {
+    width: 100%;
+    padding: 13px;
+    background-color: #1e39d1;
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 25px;
+  }
+
+  button:hover {
+    background-color: #1630b5;
+  }
+</style>
+    
 </head>
 <body>
 
@@ -104,7 +154,7 @@
 
       <!-- Textura Upload -->
       <label class="custom-file-upload" style="margin-top:2vh">
-        <i class="fas fa-folder-open"></i> Seleccionar imagen
+        <i class="fas fa-folder-open"></i> Seleccionar archivo de texturas (imagen)
         <input type="file" id="texturefile" name="texturefile" accept=".jpg,.jpeg,.png" required onchange="updateFileName('texturefile')">
       </label>
       <div class="file-name" id="texturefile-name">Ningún archivo seleccionado</div>

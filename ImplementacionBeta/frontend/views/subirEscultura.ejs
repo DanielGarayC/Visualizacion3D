@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Subir FBX y Textura</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    padding: 40px 20px;
+    background: linear-gradient(145deg, #eaeaea, #ffffff);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+  }
+
+  .form-container {
+    position: relative;
+    background-color: #ffffff;
+    padding: 35px 40px;
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 520px;
+    transition: all 0.3s ease;
+  }
+
+  #back-arrow {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 1.5em;
+    color: #3a3a3a;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+
+  #back-arrow:hover {
+    color: #1e39d1;
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #222;
+    font-size: 1.6rem;
+    font-weight: 600;
+  }
+
+  p {
+    margin: 18px 0 6px;
+    font-weight: 500;
+    color: #444;
+    font-size: 0.95rem;
+  }
+
+  .custom-text-input {
+    display: flex;
+    align-items: center;
+    background-color: #f0f0f0;
+    padding: 12px 16px;
+    border-radius: 10px;
+    transition: box-shadow 0.2s ease, border 0.2s ease;
+  }
+
+  .custom-text-input input[type="text"] {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    color: #333;
+    font-weight: 500;
+  }
+
+  .custom-text-input:focus-within {
+    box-shadow: 0 0 0 3px rgba(30, 57, 209, 0.2);
+  }
+
+  .custom-file-upload {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background-color: #f0f0f0;
+    color: #333;
+    padding: 12px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+  }
+
+  .custom-file-upload:hover {
+    background-color: #e4e4e4;
+  }
+
+  .custom-file-upload i {
+    font-size: 1.2em;
+    color: #1e39d1;
+  }
+
+  .file-name {
+    margin-top: 6px;
+    font-size: 0.85em;
+    color: #777;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  input[type="file"] {
+    display: none;
+  }
+
+  button {
+    width: 100%;
+    padding: 13px;
+    background-color: #1e39d1;
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 25px;
+  }
+
+  button:hover {
+    background-color: #1630b5;
+  }
+</style>
+
+</head>
+<body>
+
+
+  <div class="form-container">
+    <div id="back-arrow" onclick="goToStep1()" style="display: none;">
+  <i class="fas fa-arrow-left"></i>
+</div>
+
+    <form action="/uploadSculpture" method="POST" enctype="multipart/form-data">
+  <h2 style="margin-bottom: 4vh;">Ingrese los datos de la escultura a subir</h2>
+
+  <!-- PRIMER BLOQUE: DATOS DE TEXTO -->
+  <div id="step1">
+    <p>Nombre</p>
+    <div class="custom-text-input">
+      <input type="text" id="nombre" name="nombre" required>
+    </div>
+
+    <p>Autor</p>
+    <div class="custom-text-input">
+      <input type="text" id="autor" name="autor" required>
+    </div>
+
+    <p>Descripción</p>
+    <div class="custom-text-input">
+      <input type="text" id="descripcion" name="descripcion" required>
+    </div>
+
+    <button type="button" onclick="goToStep2()">Continuar</button>
+  </div>
+
+  <!-- SEGUNDO BLOQUE: ARCHIVOS -->
+  <div id="step2" style="display: none;">
+
+
+    <p>Foto de la escultura*</p>
+    <label class="custom-file-upload" style="margin-top:2vh">
+      <i class="fas fa-folder-open"></i> Seleccionar imagen
+      <input type="file" id="foto" name="foto" accept=".jpg,.jpeg,.png" required onchange="updateFileName('foto')">
+    </label>
+    <div class="file-name" id="texturefile-name">Ningún archivo seleccionado</div>
+
+        <p>Ficha de ingreso de bien*</p>
+    <label class="custom-file-upload">
+      <i class="fas fa-folder-open"></i> Seleccionar archivo
+      <input type="file" id="fichaIngreso" name="fichaIngreso" accept=".pdf" required onchange="updateFileName('fichaIngreso')">
+    </label>
+    <div class="file-name" id="fichaIngreso-name">Ningún archivo seleccionado</div>
+
+
+        <p>Ficha de inventario</p>
+    <label class="custom-file-upload">
+      <i class="fas fa-folder-open"></i> Seleccionar archivo
+      <input type="file" id="fichaInventario" name="fichaInventario" accept=".pdf" required onchange="updateFileName('fichaInventario')">
+    </label>
+    <div class="file-name" id="fichaInventario-name">Ningún archivo seleccionado</div>
+
+    <p>Ficha de catalogación</p>
+    <label class="custom-file-upload">
+      <i class="fas fa-folder-open"></i> Seleccionar archivo
+      <input type="file" id="fichaCatalogacion" name="fichaCatalogacion" accept=".pdf" required onchange="updateFileName('fichaCatalogacion')">
+    </label>
+    <div class="file-name" id="fichaCatalogacion-name">Ningún archivo seleccionado</div>
+
+    <button type="submit">Subir escultura</button>
+  </div>
+</form>
+
+  </div>
+
+  <script>
+    function updateFileName(inputId) {
+      const input = document.getElementById(inputId);
+      const label = document.getElementById(`${inputId}-name`);
+      if (input.files.length > 0) {
+        label.textContent = input.files[0].name;
+      } else {
+        label.textContent = 'Ningún archivo seleccionado';
+      }
+    }
+  
+  function updateFileName(inputId) {
+    const input = document.getElementById(inputId);
+    const label = document.getElementById(`${inputId}-name`);
+    if (input.files.length > 0) {
+      label.textContent = input.files[0].name;
+    } else {
+      label.textContent = 'Ningún archivo seleccionado';
+    }
+  }
+
+  function goToStep2() {
+    document.getElementById('step1').style.display = 'none';
+    document.getElementById('step2').style.display = 'block';
+    document.getElementById('back-arrow').style.display = 'block';
+
+  }
+  function goToStep1() {
+    document.getElementById('step2').style.display = 'none';
+    document.getElementById('step1').style.display = 'block';
+    document.getElementById('back-arrow').style.display = 'none';
+  }
+</script>
+
+
+</body>
+</html>

@@ -4,7 +4,8 @@
   "type": "module",
   "main": "app.js",
   "scripts": {
-    "start": "concurrently \"node server.js\" \"firebase emulators:start --project modelo3d-local\"",
+    "start": "node server.js",
+
     "dev": "nodemon server.js"
   },
   "keywords": [],
