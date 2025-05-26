@@ -35,8 +35,12 @@ app.get('/principalAdm', (req,res) =>
     res.render('indexAdmin',{titulo: "Esculturas Registradas"})
 );
 //Ruta al dar al botón Agregar Modelo
-app.get('/newModel', (req, res) =>
+app.get('/nuevoModelo', (req, res) =>
     res.render('subirfbx')
+);
+
+app.get('/nuevaEscultura', (req, res) =>
+    res.render('subirEscultura')
 );
 
 // Exponer la carpeta donde se guardan los archivos FBX y texturas
@@ -67,7 +71,7 @@ app.post('/uploadfbx', upload.fields([
     res.render('seccionamiento3dV3', {
       fbxUrl: modelo.archivo_modelo_url,
       textureUrl: modelo.texturas[0],
-      nameSculture: modelo.nombre || 'Modelo 3D',
+      nameSculpture: modelo.nombre || 'Modelo 3D',
       indicator : 'padre'
     });
   } catch (error) {
