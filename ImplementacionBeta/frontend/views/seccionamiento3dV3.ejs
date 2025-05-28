@@ -118,6 +118,7 @@
   </div>
   <div id="canvas-container">
     <canvas id="webgl-canvas"></canvas>
+    <canvas id="view-cube" style="position: absolute; top: 20px; right: 20px; width: 100px; height: 100px; z-index: 100;"></canvas>
   </div>
   <a href="/principal" id="boton-superior" >Regresar</a>
   <button id="boton-inferior">Historial de datos ambientales</button>
@@ -128,6 +129,10 @@
     const texturePath = "<%= textureUrl %>";
     //Pal pdf
     const indicator = "<%= indicator %>";
+
+    //Cubo
+    let cubeScene, cubeCamera, cubeRenderer, cubeMesh;
+    const cubeCanvas = document.getElementById("view-cube");
 
     let scene, camera, renderer, modelGroup, controls;
     let baseDistance = 8;
@@ -514,7 +519,61 @@
       requestAnimationFrame(animate);
       controls.update();
       renderer.render(scene, camera);
+      cubeMesh.quaternion.copy(camera.quaternion).invert();
+      cubeRenderer.render(cubeScene, cubeCamera);
     }
+
+    function initViewCube() {
+      cubeScene = new THREE.Scene();
+      cubeCamera = new THREE.PerspectiveCamera(50, 1, 0.1, 10);
+      cubeCamera.position.set(2, 2, 2);
+      cubeCamera.lookAt(0, 0, 0);
+
+      const cubeRendererOptions = { canvas: cubeCanvas, alpha: true };
+      cubeRenderer = new THREE.WebGLRenderer(cubeRendererOptions);
+      cubeRenderer.setSize(100, 100);
+      cubeRenderer.setPixelRatio(window.devicePixelRatio);
+
+      const cubeGeo = new THREE.BoxGeometry();
+      const cubeMat = new THREE.MeshStandardMaterial({
+        color: 0xd3d3d3,
+        flatShading: true
+      });
+
+      const baseCube = new THREE.Mesh(cubeGeo, cubeMat); // ← este se usará para raycasting
+      const edgeLines = new THREE.LineSegments(
+        new THREE.EdgesGeometry(cubeGeo),
+        new THREE.LineBasicMaterial({ color: 0x555555 })
+      );
+
+      baseCube.add(edgeLines); // los bordes giran con el cubo
+      cubeMesh = baseCube;     // usado luego en animate()
+      cubeScene.add(baseCube);
+      cubeScene.add(new THREE.AmbientLight(0xffffff, 1));
+
+      cubeCanvas.addEventListener("click", (event) => {
+        const rect = cubeCanvas.getBoundingClientRect();
+        const mouse = new THREE.Vector2(
+          ((event.clientX - rect.left) / rect.width) * 2 - 1,
+          -((event.clientY - rect.top) / rect.height) * 2 + 1
+        );
+
+        const raycaster = new THREE.Raycaster();
+        raycaster.setFromCamera(mouse, cubeCamera);
+
+        const intersects = raycaster.intersectObject(baseCube, false); // ❗ no recursive
+
+        if (intersects.length > 0 && intersects[0].face) {
+          const normal = intersects[0].face.normal.clone().normalize();
+          const offset = camera.position.length();
+          camera.position.copy(normal.multiplyScalar(offset));
+          camera.lookAt(0, 0, 0);
+          controls.update();
+        }
+      });
+    }
+
+
     function descargarPDF() {
       const enlace = document.createElement("a");
       if(indicator=="void"){
