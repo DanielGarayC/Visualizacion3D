@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Subir FBX y Textura</title>
-<link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/assets/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="/assets/vendors/css/vendor.bundle.base.css">
     <!-- endinject -->
@@ -12,10 +12,33 @@
     <link rel="stylesheet" href="/assets/vendors/flag-icon-css/css/flag-icon.min.css">
     <link rel="stylesheet" href="/assets/vendors/owl-carousel-2/owl.carousel.min.css">
     <link rel="stylesheet" href="/assets/vendors/owl-carousel-2/owl.theme.default.min.css">
-    <link rel="stylesheet" href="/assets/css/style.css">  <style>
+    <link rel="stylesheet" href="/assets/css/style.css">  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
   * {
     box-sizing: border-box;
   }
+  @media (max-width: 600px) {
+  .form-container {
+    padding: 25px 20px;
+    margin: 0 10px;
+  }
+
+  .header-title {
+    font-size: 1.3rem;
+  }
+
+  .buttonForm {
+    font-size: 0.95rem;
+    padding: 12px;
+  }
+
+  .custom-text-input input[type="text"],
+  .custom-file-upload {
+    font-size: 0.95rem;
+  }
+}
 
   body,
   .container-scroller,
@@ -29,7 +52,7 @@
   .content-wrapper {
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     min-height: 100vh;
   }
     
@@ -40,23 +63,39 @@
     border-radius: 18px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 520px;
+    max-width: 650px;
     transition: all 0.3s ease;
   }
 
-  #back-arrow {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    font-size: 1.5em;
-    color: #3a3a3a;
-    cursor: pointer;
-    transition: color 0.2s ease;
-  }
+  .header-wrapper {
+  position: relative;
+  margin-bottom: 25px;
+  text-align: center;
+}
 
-  #back-arrow:hover {
-    color: #1e39d1;
-  }
+#back-arrow {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.5em;
+  color: #3a3a3a;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+#back-arrow:hover {
+  color: #1e39d1;
+}
+
+.header-title {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #222;
+}
+
+
 
   h2 {
     text-align: center;
@@ -145,6 +184,7 @@
     margin-top: 25px;
   }
 
+
   .buttonForm:hover {
     background-color: #1630b5;
   }
@@ -164,12 +204,18 @@
         <div class="content-wrapper">
 
           <div class="form-container">
-            <div id="back-arrow" onclick="goToStep1()" style="display: none;">
-          <i class="fas fa-arrow-left"></i>
-        </div>
+
 
             <form action="/uploadSculpture" method="POST" enctype="multipart/form-data">
-          <h2 style="margin-bottom: 4vh;">Ingrese los datos de la escultura a subir</h2>
+
+            <div class="header-wrapper">
+              <div id="back-arrow" onclick="goToStep1()" style="display: none;" title="Volver">
+                <i class="fas fa-chevron-left"></i>
+              </div>
+              <h2 class="header-title">Ingrese los datos de la escultura a subir</h2>
+            </div>
+
+
 
           <!-- PRIMER BLOQUE: DATOS DE TEXTO -->
           <div id="step1">

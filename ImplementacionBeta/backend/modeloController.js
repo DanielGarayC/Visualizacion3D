@@ -2,6 +2,7 @@
 import { ref, uploadBytes } from "firebase/storage";
 import { setDoc, doc, Timestamp } from "firebase/firestore";
 import { db, storage } from "./firebaseConfig.js";
+import { v4 as uuidv4 } from 'uuid';
 
 export async function handleFbxUpload(req, res) {
   try {
@@ -12,7 +13,7 @@ export async function handleFbxUpload(req, res) {
       return res.status(400).send('❌ Faltan archivos');
     }
 
-    const modeloId = Date.now(); // Puedes usar UUID si prefieres
+    const modeloId = uuidv4(); // Puedes usar UUID si prefieres
     const fbxRef = ref(storage, `modelos/${modeloId}/modelo.fbx`);
     const texRef = ref(storage, `modelos/${modeloId}/textura.jpg`);
 
@@ -33,7 +34,7 @@ export async function handleFbxUpload(req, res) {
       texturas: [textureUrl],
       //usuario_id: "usuario_local",
       fecha_creacion: Timestamp.now(),
-      tipo: "escultura"
+      tipo: "modelo3d"
     });
     //Modificar a donde se redirecciona
     res.redirect(`/vermodelo/${modeloId}`);

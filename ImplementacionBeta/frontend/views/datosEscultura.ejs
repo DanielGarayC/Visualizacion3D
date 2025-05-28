@@ -64,7 +64,7 @@
     
     <!-- Imagen más grande y centrada verticalmente -->
     <div class="d-flex align-items-center justify-content-center" style="flex: 1;">
-      <img src="/images/void.jpg" alt="Escultura" style="width: 100%; max-width: 300px; height: auto; max-height: 400px; object-fit: cover; border-radius: 8px;">
+      <img src="<%= escultura.imagen_url %>" alt="Escultura" style="width: 100%; border-radius: 8px;" />
     </div>
 
     <!-- Contenido a la derecha perfectamente alineado -->
@@ -73,28 +73,37 @@
 
       <!-- Tabla invisible para alinear etiquetas -->
       <div style="font-size: 1.1em; display: grid; grid-template-columns: auto 1fr; row-gap: 8px;">
-        <div><strong>Nombre:</strong></div>     <div>-----</div>
-        <div><strong>Autor: </strong></div>   <div> -----</div>
-        <div><strong>Descripción:</strong></div>     <div>-----</div>
-        <div><strong>Ubicación:</strong></div>     <div>-----</div>
-        <div><strong>Propietario:</strong></div>     <div>-----</div>
-        <div><strong>Datación: </strong></div>   <div> -----</div>
-        <div><strong>Estilo:</strong></div>     <div>-----</div>
+        <div><strong>Nombre:</strong></div>     <div><%= escultura.nombre %></div>
+        <div><strong>Autor: </strong></div>     <div><%= escultura.autor %></div>
+        <div><strong>Descripción:</strong></div> <div><%= escultura.descripcion %></div>
+        <div><strong>Ubicación:</strong></div>   <div>---</div> <!-- Agrega si luego tienes este dato -->
+        <div><strong>Propietario:</strong></div> <div>---</div>
+        <div><strong>Datación: </strong></div>   <div>---</div>
+        <div><strong>Estilo:</strong></div>      <div>---</div>
       </div>
 
       <p style="margin-top: 1.5rem; margin-left: 0.5rem; width: fit-content;">
         <strong style="display: inline-block; width: 120px;">Acciones:</strong>
       </p>      
       <div class="d-flex flex-wrap" style="gap: 10px;">
-        <a href="/newModel" class="btn btn-secondary d-flex align-items-center justify-content-center gap-2 custom-btn">
+        <% if (escultura.ficha_ingreso_url) { %>
+        <a href="<%= escultura.ficha_ingreso_url %>" download  class="btn btn-secondary d-flex align-items-center justify-content-center gap-2 custom-btn">
           <i class="mdi mdi-file-pdf"></i> Ficha de ingreso
         </a>
-        <a href="/newModel" class="btn btn-secondary d-flex align-items-center justify-content-center gap-2 custom-btn">
+        <% } %>
+
+        <% if (escultura.ficha_inventario_url) { %>
+        <a href="<%= escultura.ficha_inventario_url %>" download  class="btn btn-secondary d-flex align-items-center justify-content-center gap-2 custom-btn">
           <i class="mdi mdi-file-pdf"></i> Ficha de inventario
         </a>
-        <a href="/newModel" class="btn btn-secondary d-flex align-items-center justify-content-center gap-2 custom-btn">
+        <% } %>
+
+        <% if (escultura.ficha_catalogacion_url) { %>
+        <a href="<%= escultura.ficha_catalogacion_url %>" download  class="btn btn-secondary d-flex align-items-center justify-content-center gap-2 custom-btn">
           <i class="mdi mdi-file-pdf"></i> Ficha catalogación
         </a>
+        <% } %>
+        
         <a href="/newModel" class="btn btn-secondary d-flex align-items-center justify-content-center gap-2 custom-btn">
           <i class="mdi mdi-cube-outline"></i> Ver modelo 3D
         </a>

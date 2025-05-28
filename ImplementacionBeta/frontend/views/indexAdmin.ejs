@@ -53,7 +53,6 @@
   width: 100%;
   height: 220px;
   object-fit: cover;
-  transition: transform 0.2s ease-in-out;
   display: block;
   border-radius: 12px;
 }
@@ -62,12 +61,11 @@
   display: block;
   overflow: hidden;
   border-radius: 12px;
+  text-decoration: none; /* ✅ elimina el subrayado */
+  color: inherit;         /* ✅ mantiene el color original del texto */
 }
 
-.card a:hover img {
-  transform: scale(1.06);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-}
+
 
     .info-detalle {
       text-align: left;
@@ -99,38 +97,34 @@
           <div style="display: flex; align-items: center; justify-content: start; padding: 10px 40px;">
             <h1 style="margin-left: 3vh;"><%= titulo %></h1>
             <a href="/nuevaEscultura" class="btn-fijo"><span class="menu-icon">
-                <i class="mdi mdi-folder-plus" style="margin-right: 1vh;"></i>
-              </span>  Agregar modelo</a>
+                <i class="mdi mdi-plus" style="margin-right: 1vh;"></i>
+              </span>  Agregar escultura</a>
           </div>
 
           <div class="galeria">
-              <div class="card">
-                <p style="font-weight:bold; font-size: 1.4em;">Escultura 1: "Void 1"</p>
-                <a href="/datosEscultura">
-                  <img src="/images/void.jpg" alt="Imagen 1" />
-                </a> 
-                <div class="info-detalle">
-                  <p><strong>Código:</strong>----------------- </p>
-                  <p><strong>Datación:</strong>----------------- </p>
-                  <p><strong>Estilo:</strong> -----------------</p>
-                  <p><strong>Firma:</strong> -----------------</p>
-
+            <% if (esculturas && esculturas.length > 0) { %>
+              <% esculturas.forEach((escultura, index) => { %>
+                <div class="card">
+                  <a href="/verEscultura/<%= escultura.id %>">
+                  <p style="font-weight:bold; font-size: 1.4em;">
+                    Escultura: "<%= escultura.nombre %>"
+                  </p>
+                  
+                    <img src="<%= escultura.imagen_url %>" alt="<%= escultura.nombre %>" />
+                  
+                  <div class="info-detalle">
+                    <p><strong>Autor:</strong> <%= escultura.autor %></p>
+                    <p><strong>Descripción:</strong> <%= escultura.descripcion %></p>
+                    <p><strong>Fecha:</strong> <%= escultura.fecha_creacion.toDate().toLocaleDateString() %></p>
+                  </div>
+                  </a>
                 </div>
-              </div>
-              <div class="card">
-                <p style="font-weight:bold; font-size: 1.4em;">Escultura 2: "El Padre"</p>
-                <a href="/vermodelo/predefinido">
-                    <img src="/images/padre.jpg" alt="Imagen 2" />
-                </a>
-                <div class="info-detalle">
-                  <p><strong>Código:</strong>----------------- </p>
-                  <p><strong>Datación:</strong>----------------- </p>
-                  <p><strong>Estilo:</strong> -----------------</p>
-                  <p><strong>Firma:</strong> -----------------</p>
-
-                </div>
-              </div>
+              <% }) %>
+            <% } else { %>
+              <p>No hay esculturas registradas.</p>
+            <% } %>
           </div>
+
 
         </div>
       </div> 

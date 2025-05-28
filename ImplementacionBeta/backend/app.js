@@ -6,7 +6,14 @@ import { dirname } from 'path';
 import { handleFbxUpload } from './modeloController.js';
 import { db } from './firebaseConfig.js'; // Ajusta la ruta si es necesario
 import { doc, getDoc } from 'firebase/firestore';
+import { handleEsculturaUpload } from './esculturaController.js';
+import { listarEsculturas } from './esculturaController.js';
+import { verEsculturaPorId } from './esculturaController.js';
+import { descargarArchivo } from './esculturaController.js';
 
+
+
+//MODIFICAR LOS CONTROLLERS PARA QUE SOLO SE IMPORTE UNA VEZ Y TENGAMOS FUNCIONES
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const app = express(); 
@@ -31,13 +38,18 @@ app.get('/principal', (req,res) =>
     res.render('index',{titulo: "Esculturas Registradas"})
 );
 //Principal con botón con permisos
-app.get('/principalAdm', (req,res) => 
-    res.render('indexAdmin',{titulo: "Esculturas Registradas"})
-);
+app.get('/principalAdm', listarEsculturas);
+
+//Ver escultura por id
+app.get('/verEscultura/:id', verEsculturaPorId);
 //Ruta al dar al botón Agregar Modelo
 app.get('/nuevoModelo', (req, res) =>
     res.render('subirfbx')
 );
+
+//Descargar pdf
+
+app.get('/descargar-pdf', descargarArchivo);
 
 app.get('/datosEscultura', (req, res) =>
     res.render('datosEscultura')
@@ -46,6 +58,15 @@ app.get('/datosEscultura', (req, res) =>
 app.get('/nuevaEscultura', (req, res) =>
     res.render('subirEscultura')
 );
+
+app.post('/uploadSculpture', upload.fields([
+  { name: 'foto', maxCount: 1 },
+  { name: 'fichaIngreso', maxCount: 1 },
+  { name: 'fichaInventario', maxCount: 1 },
+  { name: 'fichaCatalogacion', maxCount: 1 }
+  ]), handleEsculturaUpload);
+
+
 
 // Exponer la carpeta donde se guardan los archivos FBX y texturas
 app.use('/uploads', express.static('C:/Users/Daniel/Documents')); // ⚠️ Asegúrate de que los archivos realmente se están guardando ahí
@@ -56,6 +77,7 @@ app.post('/uploadfbx', upload.fields([
   { name: 'fbxfile', maxCount: 1 },
   { name: 'texturefile', maxCount: 1 }
   ]), handleFbxUpload);
+
 
   // Nueva ruta: visor que carga el modelo y la textura
   app.get('/vermodelo/:id', async (req, res) => {
