@@ -6,6 +6,9 @@ import { v4 as uuidv4 } from 'uuid';
 
 export async function handleFbxUpload(req, res) {
   try {
+
+    const esculturaId = req.query.esculturaId; 
+
     const fbxFile = req.files['fbxfile']?.[0];
     const textureFile = req.files['texturefile']?.[0];
 
@@ -32,6 +35,7 @@ export async function handleFbxUpload(req, res) {
       nombre: `modelo_${modeloId}`,
       archivo_modelo_url: fbxUrl,
       texturas: [textureUrl],
+      escultura_id: esculturaId, 
       //usuario_id: "usuario_local",
       fecha_creacion: Timestamp.now(),
       tipo: "modelo3d"

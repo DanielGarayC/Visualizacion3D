@@ -143,7 +143,7 @@
 
   <div class="form-container">
     <h2>Subir FBX con Textura</h2>
-    <form action="/uploadfbx" method="POST" enctype="multipart/form-data">
+    <form action="/uploadfbx?esculturaId=<%= esculturaId %>" method="POST" enctype="multipart/form-data">
       <p style="margin-bottom: 4vh;">Elija el archivo que desea subir a la plataforma</p>
       <!-- FBX Upload -->
       <label class="custom-file-upload">

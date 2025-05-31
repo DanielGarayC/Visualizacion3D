@@ -43,9 +43,10 @@ app.get('/principalAdm', listarEsculturas);
 //Ver escultura por id
 app.get('/verEscultura/:id', verEsculturaPorId);
 //Ruta al dar al botón Agregar Modelo
-app.get('/nuevoModelo', (req, res) =>
-    res.render('subirfbx')
-);
+app.get('/nuevoModelo', (req, res) => {
+  const esculturaId = req.query.esculturaId;
+  res.render('subirfbx', { esculturaId });
+});
 
 //Descargar pdf
 
@@ -97,8 +98,8 @@ app.post('/uploadfbx', upload.fields([
     res.render('seccionamiento3dV3', {
       fbxUrl: modelo.archivo_modelo_url,
       textureUrl: modelo.texturas[0],
+      //ARREGLAR EL NOMBRE PARA QUE NO SEA ID
       nameSculpture: modelo.nombre || 'Modelo 3D',
-      indicator : 'padre'
     });
   } catch (error) {
     console.error("Error al buscar modelo", error);
