@@ -5,8 +5,10 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import { handleFbxUpload } from './modeloController.js';
 import { db } from './firebaseConfig.js'; // Ajusta la ruta si es necesario
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, query, collection, where, getDocs } from 'firebase/firestore';
 import { handleEsculturaUpload } from './esculturaController.js';
+import {fichaCatalogacion} from './esculturaController.js';
+import {fichaInventario} from './esculturaController.js';
 import { listarEsculturas } from './esculturaController.js';
 import { verEsculturaPorId } from './esculturaController.js';
 import { descargarArchivo } from './esculturaController.js';
@@ -42,11 +44,30 @@ app.get('/principalAdm', listarEsculturas);
 
 //Ver escultura por id
 app.get('/verEscultura/:id', verEsculturaPorId);
+
 //Ruta al dar al botón Agregar Modelo
-app.get('/nuevoModelo', (req, res) => {
+app.get('/nuevoModelo', async  (req, res) => {
   const esculturaId = req.query.esculturaId;
   res.render('subirfbx', { esculturaId });
 });
+
+//Ruta pa ver modelo 
+app.get('/buscarModelo', async  (req, res) => {
+  const esculturaId = req.query.esculturaId;
+  //Búsqueda de el modelo
+  const q = query(collection(db, 'modelos'), where('escultura_id', '==', esculturaId));
+  const snapshot = await getDocs(q);
+  const modelo = snapshot.docs[0].data();
+  res.redirect(`/vermodelo/${modelo.id}`);
+});
+
+
+
+//Pruebas para fichas :D
+app.post('/subirFichaCatalogacion', upload.single('ficha_catalogacion'),fichaCatalogacion );
+  
+app.post('/subirFichaInventario', upload.single('ficha_inventario'),fichaInventario );
+
 
 //Descargar pdf
 

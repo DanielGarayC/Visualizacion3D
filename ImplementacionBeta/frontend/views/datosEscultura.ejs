@@ -26,22 +26,39 @@
     .card {
       background-color: white !important;
     }
-    .card{
-      height: 70vh; 
-      width: 50vh;
+    .card {
+      width: 90%;
+      max-width: 1000px;
       padding: 2vh;
+      background-color: white !important;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
     }
     .info-detalle {
       text-align: left;
       font-size: 1.1em;
     }
     .custom-btn {
-      min-width: 45%;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-      transition: all 0.3s ease;
-      font-weight: 500;
-    }
+    min-width: 200px; /* Fuerza un ancho mínimo uniforme */
+    max-width: 100%;
+    height: 5.5vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    font-weight: 500;
+    padding: 0 16px;
+  }
+
+    .custom-btn label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
 
     .custom-btn:hover {
       transform: scale(1.03);
@@ -92,21 +109,43 @@
         </a>
         <% } %>
 
-        <% if (escultura.ficha_inventario_url) { %>
-        <a href="<%= escultura.ficha_inventario_url %>" download  class="btn btn-secondary d-flex align-items-center justify-content-center gap-2 custom-btn">
-          <i class="mdi mdi-file-pdf"></i> Ficha de inventario
+        <!-- FICHA DE INVENTARIO -->
+    <form action="/subirFichaInventario?esculturaId=<%= escultura.id %>" method="POST" enctype="multipart/form-data">
+      <% if (escultura.ficha_inventario_url) { %>
+        <a href="<%= escultura.ficha_inventario_url %>" download class="btn btn-secondary d-flex align-items-center justify-content-center gap-2 custom-btn">
+          <i class="mdi mdi-file-pdf"></i> Ver ficha de inventario
         </a>
-        <% } %>
+      <% } else { %>
+        <label class="btn btn-secondary d-flex align-items-center justify-content-center gap-2 custom-btn" style="cursor: pointer;">
+          <i class="mdi mdi-upload"></i> Agregar ficha de inventario
+          <input type="file" name="ficha_inventario" accept="application/pdf" hidden onchange="this.form.submit()">
+        </label>
+      <% } %>
+    </form>
 
-        <% if (escultura.ficha_catalogacion_url) { %>
-        <a href="<%= escultura.ficha_catalogacion_url %>" download  class="btn btn-secondary d-flex align-items-center justify-content-center gap-2 custom-btn">
-          <i class="mdi mdi-file-pdf"></i> Ficha catalogación
+    <!-- FICHA DE CATALOGACIÓN -->
+    <form action="/subirFichaCatalogacion?esculturaId=<%= escultura.id %>" method="POST" enctype="multipart/form-data">
+      <% if (escultura.ficha_catalogacion_url) { %>
+        <a href="<%= escultura.ficha_catalogacion_url %>" download class="btn btn-secondary d-flex align-items-center justify-content-center gap-2 custom-btn">
+          <i class="mdi mdi-file-pdf"></i> Ver ficha de catalogación
         </a>
-        <% } %>
-        
-        <a href="/nuevoModelo?esculturaId=<%= escultura.id %>" class="btn btn-secondary d-flex align-items-center justify-content-center gap-2 custom-btn">
+      <% } else { %>
+        <label class="btn btn-secondary d-flex align-items-center justify-content-center gap-2 custom-btn" style="cursor: pointer;">
+          <i class="mdi mdi-upload"></i> Agregar ficha de catalogación
+          <input type="file" name="ficha_catalogacion" accept="application/pdf" hidden onchange="this.form.submit()">
+        </label>
+      <% } %>
+    </form>
+      <% if (indicator) { %>
+        <a href="/buscarModelo?esculturaId=<%= escultura.id %>" class="btn btn-secondary d-flex align-items-center justify-content-center gap-2 custom-btn">
           <i class="mdi mdi-cube-outline"></i> Ver modelo 3D
         </a>
+      <% } else { %>
+        <a href="/nuevoModelo?esculturaId=<%= escultura.id %>" class="btn btn-secondary d-flex align-items-center justify-content-center gap-2 custom-btn">
+          <i class="mdi mdi-cube-outline"></i> Agregar modelo 3D
+        </a>
+      <% } %>
+
       </div>
     </div>
 

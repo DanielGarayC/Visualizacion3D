@@ -188,6 +188,16 @@
   .buttonForm:hover {
     background-color: #1630b5;
   }
+  .error-msg {
+    color: red;
+    font-size: 0.85rem;
+    margin-top: 4px;
+    display: block;
+  }
+  .input-error {
+    border: 2px solid red !important;
+    background-color: #ffecec;
+  }
 </style>
 
 </head>
@@ -206,7 +216,7 @@
           <div class="form-container">
 
 
-            <form action="/uploadSculpture" method="POST" enctype="multipart/form-data">
+            <form  id="formEscultura" action="/uploadSculpture" method="POST" enctype="multipart/form-data" novalidate  onsubmit="return validarYEnviar()" novalidate>
 
             <div class="header-wrapper">
               <div id="back-arrow" onclick="goToStep1()" style="display: none;" title="Volver">
@@ -223,16 +233,20 @@
             <div class="custom-text-input">
               <input type="text" id="nombre" name="nombre" required>
             </div>
+            <span id="error-nombre" class="error-msg"></span>
 
             <p>Autor</p>
             <div class="custom-text-input">
               <input type="text" id="autor" name="autor" required>
             </div>
+            <span id="error-autor" class="error-msg"></span>
+
 
             <p>Descripción</p>
             <div class="custom-text-input">
               <input type="text" id="descripcion" name="descripcion" required>
             </div>
+            <span id="error-descripcion" class="error-msg"></span>
 
             <button type="button" class="buttonForm" onclick="goToStep2()">Continuar</button>
           </div>
@@ -241,19 +255,22 @@
           <div id="step2" style="display: none;">
 
 
-            <p>Foto de la escultura*</p>
+            <p>Foto de la escultura* (Obligatorio)</p>
             <label class="custom-file-upload" style="margin-top:2vh">
               <i class="fas fa-folder-open"></i> Seleccionar imagen
               <input type="file" id="foto" name="foto" accept=".jpg,.jpeg,.png" required onchange="updateFileName('foto')">
             </label>
             <div class="file-name" id="foto-name">Ningún archivo seleccionado</div>
+            <span id="error-foto" class="error-msg"></span>
 
-                <p>Ficha de ingreso de bien*</p>
+
+                <p>Ficha de ingreso de bien* (Obligatorio)</p>
             <label class="custom-file-upload">
               <i class="fas fa-folder-open"></i> Seleccionar archivo
               <input type="file" id="fichaIngreso" name="fichaIngreso" accept=".pdf" required onchange="updateFileName('fichaIngreso')">
             </label>
             <div class="file-name" id="fichaIngreso-name">Ningún archivo seleccionado</div>
+            <span id="error-fichaIngreso" class="error-msg"></span>
 
 
                 <p>Ficha de inventario</p>
@@ -311,6 +328,47 @@
   
 
   function goToStep2() {
+    const nombreInput = document.getElementById('nombre');
+    const autorInput = document.getElementById('autor');
+    const descripcionInput = document.getElementById('descripcion');
+    const nombreWrapper = nombreInput.parentElement;
+    const autorWrapper = autorInput.parentElement;
+    const descripcionWrapper = descripcionInput.parentElement;
+
+    const nombre = nombreInput.value.trim();
+    const autor = autorInput.value.trim();
+    const descripcion = descripcionInput.value.trim();
+
+    let valido = true;
+
+    // Limpia errores anteriores
+    document.getElementById('error-nombre').textContent = '';
+    document.getElementById('error-autor').textContent = '';
+    document.getElementById('error-descripcion').textContent = '';
+
+    nombreWrapper.classList.remove('input-error');
+    autorWrapper.classList.remove('input-error');
+    descripcionWrapper.classList.remove('input-error');
+
+    if (nombre === '') {
+      document.getElementById('error-nombre').textContent = 'Debe ingresar el nombre de la escultura.';
+      nombreWrapper.classList.add('input-error');
+      valido = false;
+    }
+    if (autor === '') {
+      document.getElementById('error-autor').textContent = 'Debe ingresar el autor de la escultura.';
+      autorWrapper.classList.add('input-error');
+      valido = false;
+    }
+    if (descripcion === '') {
+      document.getElementById('error-descripcion').textContent = 'Debe ingresar una descripción sobre la escultura.';
+      descripcionWrapper.classList.add('input-error');
+      valido = false;
+    }
+
+
+    if (!valido) return;
+
     document.getElementById('step1').style.display = 'none';
     document.getElementById('step2').style.display = 'block';
     document.getElementById('back-arrow').style.display = 'block';
@@ -321,6 +379,45 @@
     document.getElementById('step1').style.display = 'block';
     document.getElementById('back-arrow').style.display = 'none';
   }
+  function validarYEnviar() {
+    const foto = document.getElementById('foto');
+    const ficha = document.getElementById('fichaIngreso');
+
+    // Limpia mensajes previos
+    document.getElementById('error-foto').textContent = '';
+    document.getElementById('error-fichaIngreso').textContent = '';
+
+
+    let valido = true;
+
+    if (foto.files.length === 0) {
+      document.getElementById('error-foto').textContent = 'Debe subir una foto de la escultura.';
+      valido = false;
+    }
+    if (ficha.files.length === 0) {
+      document.getElementById('error-fichaIngreso').textContent = 'Debe subir la ficha de ingreso.';
+      valido = false;
+    }
+
+    return valido;
+  }
+  document.getElementById('nombre').addEventListener('input', function () {
+    this.parentElement.classList.remove('input-error');
+    document.getElementById('error-nombre').textContent = '';
+  });
+
+  document.getElementById('autor').addEventListener('input', function () {
+    this.parentElement.classList.remove('input-error');
+    document.getElementById('error-autor').textContent = '';
+  });
+  document.getElementById('foto').addEventListener('change', function () {
+    document.getElementById('error-foto').textContent = '';
+  });
+
+  document.getElementById('fichaIngreso').addEventListener('change', function () {
+    document.getElementById('error-fichaIngreso').textContent = '';
+  });
+
 </script>
 
 

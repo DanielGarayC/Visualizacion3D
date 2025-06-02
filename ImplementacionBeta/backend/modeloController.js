@@ -1,6 +1,6 @@
 // MODIFICAR USUARIO LOCAL AL MOMENTO DE ESCLAR A NUBE
 import { ref, uploadBytes } from "firebase/storage";
-import { setDoc, doc, Timestamp } from "firebase/firestore";
+import { setDoc, doc, Timestamp, getDoc } from "firebase/firestore";
 import { db, storage } from "./firebaseConfig.js";
 import { v4 as uuidv4 } from 'uuid';
 
@@ -8,6 +8,14 @@ export async function handleFbxUpload(req, res) {
   try {
 
     const esculturaId = req.query.esculturaId; 
+
+    // Extracción del nombre de la escultura :D
+    const esculturaSnap = await getDoc(doc(db, 'esculturas', esculturaId));
+    if (!esculturaSnap.exists()) {
+      return res.status(404).send('❌ Escultura no encontrada');
+    }
+    const esculturaData = esculturaSnap.data();
+    const nombreEscultura = esculturaData.nombre || 'Escultura sin nombre';
 
     const fbxFile = req.files['fbxfile']?.[0];
     const textureFile = req.files['texturefile']?.[0];
@@ -32,7 +40,7 @@ export async function handleFbxUpload(req, res) {
 
     await setDoc(doc(db, 'modelos', modeloId.toString()), {
       id: modeloId,  
-      nombre: `modelo_${modeloId}`,
+      nombre: nombreEscultura,
       archivo_modelo_url: fbxUrl,
       texturas: [textureUrl],
       escultura_id: esculturaId, 
