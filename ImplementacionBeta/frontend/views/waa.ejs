@@ -184,7 +184,6 @@
     //Cubo
     let cubeScene, cubeCamera, cubeRenderer, cubeMesh;
     const cubeCanvas = document.getElementById("view-cube");
-    let modelInitialQuat = new THREE.Quaternion(); // ← orientación inicial del modelo
 
     let scene, camera, renderer, modelGroup, controls;
     let baseDistance = 8;
@@ -599,8 +598,6 @@
           const box = new THREE.Box3().setFromObject(object);
           const center = box.getCenter(new THREE.Vector3());
           object.position.sub(center);
-          object.updateMatrixWorld(true);
-          modelInitialQuat.copy(object.quaternion);
           modelGroup.add(object);
           const size = box.getSize(new THREE.Vector3());
           const maxDim = Math.max(size.x, size.y, size.z);
@@ -669,8 +666,7 @@
       controls.update();
       renderer.render(scene, camera);
       if (cubeMesh && camera && cubeRenderer) {
-        // Alinea el mini-cubo con la vista y luego aplica los ejes del modelo
-        cubeMesh.quaternion.copy(camera.quaternion).invert().multiply(modelInitialQuat);
+        cubeMesh.quaternion.copy(camera.quaternion).invert();
         cubeRenderer.render(cubeScene, cubeCamera);
       }
     }

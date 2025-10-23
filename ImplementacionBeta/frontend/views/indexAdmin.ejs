@@ -4,83 +4,464 @@
   <meta charset="UTF-8">
   <title><%= titulo %></title>
   <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/assets/vendors/mdi/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="/assets/vendors/css/vendor.bundle.base.css">
-    <!-- endinject -->
-    <!-- Plugin css for this page -->
-    <link rel="stylesheet" href="/assets/vendors/jvectormap/jquery-jvectormap.css">
-    <link rel="stylesheet" href="/assets/vendors/flag-icon-css/css/flag-icon.min.css">
-    <link rel="stylesheet" href="/assets/vendors/owl-carousel-2/owl.carousel.min.css">
-    <link rel="stylesheet" href="/assets/vendors/owl-carousel-2/owl.theme.default.min.css">
-    <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/vendors/mdi/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="/assets/vendors/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="/assets/vendors/jvectormap/jquery-jvectormap.css">
+  <link rel="stylesheet" href="/assets/vendors/flag-icon-css/css/flag-icon.min.css">
+  <link rel="stylesheet" href="/assets/vendors/owl-carousel-2/owl.carousel.min.css">
+  <link rel="stylesheet" href="/assets/vendors/owl-carousel-2/owl.theme.default.min.css">
+  <link rel="stylesheet" href="/assets/css/style.css">
 
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body,
     .container-scroller,
     .page-body-wrapper,
     .main-panel,
     .content-wrapper {
-      background-color: #f5f5f5 !important;
-      color: #000 !important;
+      background-color: #f8f9fc !important;
+      font-family: 'Inter', sans-serif !important;
+      color: #2c3e50 !important;
+      min-height: 100vh;
     }
-    .card {
-      background-color: white !important;
+
+    .content-wrapper {
+      padding: 3rem 3.5rem !important;
+      position: relative;
+      max-width: 1800px;
+      margin: 0 auto;
     }
+
+    /* Header Section */
+    .header-section {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 3rem;
+      padding: 0;
+      animation: slideDown 0.6s ease-out;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .header-section h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #000000;
+      margin: 0;
+      letter-spacing: -0.5px;
+      position: relative;
+      padding-bottom: 0.75rem;
+    }
+
+    .header-section h1::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100px;
+      height: 5px;
+      background: linear-gradient(90deg, #1e3a8a 0%, #3b82f6 100%);
+      border-radius: 3px;
+    }
+
+    .btn-fijo {
+      padding: 8px 15px;
+      background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+      color: white !important;
+      text-decoration: none;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 16px rgba(30, 58, 138, 0.25);
+      border: none;
+      cursor: pointer;
+      letter-spacing: 0.3px;
+    }
+
+    .btn-fijo:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(30, 58, 138, 0.35);
+      background: linear-gradient(135deg, #2563eb 0%, #1e3a8a 100%);
+    }
+
+    .btn-fijo:active {
+      transform: translateY(-1px);
+    }
+
+    .btn-fijo i {
+      font-size: 1.1rem;
+      transition: transform 0.3s ease;
+    }
+
+    .btn-fijo:hover i {
+      transform: rotate(90deg);
+    }
+
+    /* Gallery Grid - Con ancho fijo como el original */
     .galeria {
-  display: flex;
-  gap: 30px;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  margin-top: 30px;
-  padding-left: 40px; 
-}
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2.5rem;
+      padding: 0;
+      justify-content: flex-start;
+    }
 
-.card {
-  background-color: #ffffff;
-  border-radius: 15px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  transition: transform 0.25s ease-in-out, box-shadow 0.25s ease-in-out;
-  width: 320px;
-  cursor: pointer;
-}
+    /* Card Styles - Ancho fijo de 380px */
+    .card {
+      background: #ffffff;
+      border-radius: 20px;
+      overflow: hidden;
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      position: relative;
+      cursor: pointer;
+      width: 380px;
+      display: flex;
+      flex-direction: column;
+    }
 
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.18);
-}
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, #1e3a8a 0%, #3b82f6 100%);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+      z-index: 1;
+    }
 
-.card img {
-  width: 100%;
-  height: 220px;
-  object-fit: cover;
-  display: block;
-  border-radius: 12px;
-}
+    .card:hover::before {
+      transform: scaleX(1);
+    }
 
-.card a {
-  display: block;
-  overflow: hidden;
-  border-radius: 12px;
-  text-decoration: none; /* ✅ elimina el subrayado */
-  color: inherit;         /* ✅ mantiene el color original del texto */
-}
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(30, 58, 138, 0.15);
+      border-color: #3b82f6;
+    }
 
+    .card a {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      text-decoration: none;
+      color: inherit;
+    }
 
+    /* Image Container - Tamaño similar al original */
+    .card-image-container {
+      position: relative;
+      width: 100%;
+      height: 220px;
+      overflow: hidden;
+      background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+    }
+
+    .card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .card:hover img {
+      transform: scale(1.1);
+      filter: brightness(1.05);
+    }
+
+    /* Overlay on hover - Más elegante */
+    .card-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(to bottom, transparent 0%, rgba(30, 58, 138, 0.85) 100%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      display: flex;
+      align-items: flex-end;
+      padding: 2rem;
+      color: white;
+      font-weight: 600;
+      font-size: 1rem;
+      letter-spacing: 0.5px;
+    }
+
+    .card:hover .card-overlay {
+      opacity: 1;
+    }
+
+    /* Card Content - Muy compacto */
+    .card-content {
+      padding: 1.1rem 1.4rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: #ffffff;
+    }
 
     .info-detalle {
-      text-align: left;
-      font-size: 1.1em;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      flex: 1;
     }
-    .card p {
-      font-weight: bold;
-      font-size: 1.1em;
-      color: #1e1e1e;
+
+    .info-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      color: #64748b;
+      font-size: 0.9rem;
+      line-height: 1.4;
+      align-items: start;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid #f8fafc;
+    }
+
+    .info-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .info-item:first-child {
+      padding-top: 0;
+    }
+
+    .info-item strong {
+      color: #475569;
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .info-item strong::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: #1e3a8a;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .info-item-content {
+      font-weight: 500;
+      color: #334155;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    /* Estilo especial para el nombre */
+    .info-item-nombre .info-item-content {
+      font-weight: 700;
+      color: #1e293b;
+      font-size: 1rem;
       transition: color 0.3s ease;
     }
 
-    .card:hover p {
-      color: #0c1f86;
+    .card:hover .info-item-nombre .info-item-content {
+      color: #1e3a8a;
+    }
+
+    /* Icon badges */
+    .icon-badge {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+      width: 52px;
+      height: 52px;
+      background: rgba(255, 255, 255, 0.98);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+      opacity: 0;
+      transform: scale(0.8) rotate(-10deg);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 10;
+      backdrop-filter: blur(10px);
+    }
+
+    .icon-badge i {
+      color: #1e3a8a;
+      font-size: 1.6rem;
+    }
+
+    .card:hover .icon-badge {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+    }
+
+    /* Empty State */
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 6rem 2rem;
+      background: #ffffff;
+      border-radius: 20px;
+      border: 2px dashed #cbd5e1;
+      margin: 2rem 0;
+    }
+
+    .empty-state-icon {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 2rem;
+      background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.15;
+    }
+
+    .empty-state-icon i {
+      font-size: 3rem;
+      color: white;
+    }
+
+    .empty-state p {
+      font-size: 1.3rem;
+      color: #64748b;
+      font-weight: 500;
+      margin: 0;
+    }
+
+    /* Responsive */
+    @media (max-width: 1400px) {
+      .galeria {
+        gap: 2rem;
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .galeria {
+        gap: 1.75rem;
+      }
+
+      .content-wrapper {
+        padding: 2.5rem 2rem !important;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .content-wrapper {
+        padding: 1.5rem !important;
+      }
+
+      .header-section {
+        flex-direction: column;
+        gap: 1.5rem;
+        align-items: flex-start;
+      }
+
+      .header-section h1 {
+        font-size: 2.25rem;
+      }
+
+      .galeria {
+        justify-content: center;
+        gap: 1.5rem;
+      }
+
+      .card {
+        width: 100%;
+        max-width: 380px;
+      }
+
+      .card-title {
+        font-size: 1.3rem;
+      }
+
+      .card-content {
+        padding: 1.1rem 1.4rem;
+      }
+
+      .info-item {
+        gap: 0.4rem;
+        font-size: 0.9rem;
+      }
+    }
+
+    /* Loading animation */
+    .card {
+      animation: fadeInUp 0.6s ease-out backwards;
+    }
+
+    .card:nth-child(1) { animation-delay: 0.05s; }
+    .card:nth-child(2) { animation-delay: 0.1s; }
+    .card:nth-child(3) { animation-delay: 0.15s; }
+    .card:nth-child(4) { animation-delay: 0.2s; }
+    .card:nth-child(5) { animation-delay: 0.25s; }
+    .card:nth-child(6) { animation-delay: 0.3s; }
+    .card:nth-child(7) { animation-delay: 0.35s; }
+    .card:nth-child(8) { animation-delay: 0.4s; }
+    .card:nth-child(9) { animation-delay: 0.45s; }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Subtle pulse for add button */
+    @keyframes pulse {
+      0%, 100% {
+        box-shadow: 0 4px 16px rgba(30, 58, 138, 0.25);
+      }
+      50% {
+        box-shadow: 0 4px 20px rgba(30, 58, 138, 0.4);
+      }
+    }
+
+    .btn-fijo {
+      animation: pulse 3s ease-in-out infinite;
+    }
+
+    .btn-fijo:hover {
+      animation: none;
+    }
+
+    /* Scroll suave */
+    html {
+      scroll-behavior: smooth;
     }
   </style>
 </head>
@@ -95,11 +476,12 @@
 
       <div class="main-panel">
         <div class="content-wrapper">
-          <div style="display: flex; align-items: center; justify-content: start; padding: 10px 40px;">
-            <h1 style="margin-left: 3vh;"><%= titulo %></h1>
-            <a href="/nuevaEscultura" class="btn-fijo"><span class="menu-icon">
-                <i class="mdi mdi-plus" style="margin-right: 1vh;"></i>
-              </span>  Agregar escultura</a>
+          <div class="header-section">
+            <h1><%= titulo %></h1>
+            <a href="/nuevaEscultura" class="btn-fijo">
+              <i class="mdi mdi-plus"></i>
+              Agregar escultura
+            </a>
           </div>
 
           <div class="galeria">
@@ -107,47 +489,63 @@
               <% esculturas.forEach((escultura, index) => { %>
                 <div class="card">
                   <a href="/verEscultura/<%= escultura.id %>">
-                  <p style="font-weight:bold; font-size: 1.4em;">
-                    Escultura: "<%= escultura.nombre %>"
-                  </p>
-                  
-                    <img src="<%= escultura.imagen_url %>" alt="<%= escultura.nombre %>" />
-                  
-                  <div class="info-detalle">
-                    <p><strong>Autor:</strong> <%= escultura.autor %></p>
-                    <p><strong>Descripción:</strong> <%= escultura.descripcion %></p>
-                    <p><strong>Fecha:</strong> <%= escultura.fecha_creacion.toDate().toLocaleDateString() %></p>
-                  </div>
+                    <div class="card-image-container">
+                      <img src="<%= escultura.imagen_url %>" alt="<%= escultura.nombre %>" />
+                      <div class="card-overlay">
+                        <span>Ver detalles completos →</span>
+                      </div>
+                      <div class="icon-badge">
+                        <i class="mdi mdi-eye"></i>
+                      </div>
+                    </div>
+                    <div class="card-content">
+                      <div class="info-detalle">
+                        <div class="info-item info-item-nombre">
+                          <strong>Nombre</strong>
+                          <span class="info-item-content"><%= escultura.nombre %></span>
+                        </div>
+                        <div class="info-item">
+                          <strong>Autor</strong>
+                          <span class="info-item-content"><%= escultura.autor %></span>
+                        </div>
+                        <div class="info-item">
+                          <strong>Descripción</strong>
+                          <span class="info-item-content"><%= escultura.descripcion %></span>
+                        </div>
+                        <div class="info-item">
+                          <strong>Fecha</strong>
+                          <span class="info-item-content"><%= escultura.fecha_creacion.toDate().toLocaleDateString() %></span>
+                        </div>
+                      </div>
+                    </div>
                   </a>
                 </div>
               <% }) %>
             <% } else { %>
-              <p>No hay esculturas registradas.</p>
+              <div class="empty-state">
+                <div class="empty-state-icon">
+                  <i class="mdi mdi-image-off"></i>
+                </div>
+                <p>No hay esculturas registradas.</p>
+              </div>
             <% } %>
           </div>
-
-
         </div>
       </div> 
     </div>
   </div> 
+
   <script src="/assets/vendors/js/vendor.bundle.base.js"></script>
-<!-- endinject -->
-<!-- Plugin js for this page -->
-<script src="/assets/vendors/chart.js/Chart.min.js"></script>
-<script src="/assets/vendors/progressbar.js/progressbar.min.js"></script>
-<script src="/assets/vendors/jvectormap/jquery-jvectormap.min.js"></script>
-<script src="/assets/vendors/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
-<script src="/assets/vendors/owl-carousel-2/owl.carousel.min.js"></script>
-<!-- End plugin js for this page -->
-<!-- inject:js -->
-<script src="/assets/js/off-canvas.js"></script>
-<script src="/assets/js/hoverable-collapse.js"></script>
-<script src="/assets/js/misc.js"></script>
-<script src="/assets/js/settings.js"></script>
-<script src="/assets/js/todolist.js"></script>
-<!-- endinject -->
-<!-- Custom js for this page -->
-<script src="/assets/js/dashboard.js"></script>
+  <script src="/assets/vendors/chart.js/Chart.min.js"></script>
+  <script src="/assets/vendors/progressbar.js/progressbar.min.js"></script>
+  <script src="/assets/vendors/jvectormap/jquery-jvectormap.min.js"></script>
+  <script src="/assets/vendors/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+  <script src="/assets/vendors/owl-carousel-2/owl.carousel.min.js"></script>
+  <script src="/assets/js/off-canvas.js"></script>
+  <script src="/assets/js/hoverable-collapse.js"></script>
+  <script src="/assets/js/misc.js"></script>
+  <script src="/assets/js/settings.js"></script>
+  <script src="/assets/js/todolist.js"></script>
+  <script src="/assets/js/dashboard.js"></script>
 </body>
 </html>

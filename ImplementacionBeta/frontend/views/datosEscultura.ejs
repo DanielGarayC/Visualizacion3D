@@ -4,173 +4,366 @@
   <meta charset="UTF-8">
   <title>Datos de la escultura</title>
   <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/assets/vendors/mdi/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="/assets/vendors/css/vendor.bundle.base.css">
-    <!-- endinject -->
-    <!-- Plugin css for this page -->
-    <link rel="stylesheet" href="/assets/vendors/jvectormap/jquery-jvectormap.css">
-    <link rel="stylesheet" href="/assets/vendors/flag-icon-css/css/flag-icon.min.css">
-    <link rel="stylesheet" href="/assets/vendors/owl-carousel-2/owl.carousel.min.css">
-    <link rel="stylesheet" href="/assets/vendors/owl-carousel-2/owl.theme.default.min.css">
-    <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/vendors/mdi/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="/assets/vendors/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="/assets/vendors/jvectormap/jquery-jvectormap.css">
+  <link rel="stylesheet" href="/assets/vendors/flag-icon-css/css/flag-icon.min.css">
+  <link rel="stylesheet" href="/assets/vendors/owl-carousel-2/owl.carousel.min.css">
+  <link rel="stylesheet" href="/assets/vendors/owl-carousel-2/owl.theme.default.min.css">
+  <link rel="stylesheet" href="/assets/css/style.css">
 
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body,
     .container-scroller,
     .page-body-wrapper,
-    .main-panel,
-    .content-wrapper {
-      background-color: #f5f5f5 !important;
-      color: #000 !important;
+    .main-panel {
+      background-color: #f8f9fc !important;
+      font-family: 'Inter', sans-serif !important;
+      color: #2c3e50 !important;
+      min-height: 100vh;
     }
-    .card {
-      background-color: white !important;
-    }
-    .card {
-      width: 90%;
-      max-width: 1000px;
-      padding: 2vh;
-      background-color: white !important;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-    }
-    .info-detalle {
-      text-align: left;
-      font-size: 1.1em;
-    }
-    .custom-btn {
-    min-width: 200px; /* Fuerza un ancho mínimo uniforme */
-    max-width: 100%;
-    height: 5.5vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-    transition: all 0.3s ease;
-    font-weight: 500;
-    padding: 0 16px;
-  }
 
-    .custom-btn label {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-}
+    .content-wrapper{
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;      /* botón a la izquierda */
+      justify-content: flex-start;
+      padding-top: 1rem;            /* antes 2rem */
+      gap: .75rem;                  /* antes 1.5rem */
+    }
+
+
+    /* Card */
+    .card {
+      background-color: white !important;
+      max-width: 1000px;
+      width: 90%;
+      padding: 2vh;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      border: 1px solid #e2e8f0;
+      display: flex;
+      align-self: center; 
+      flex-direction: row;
+      margin-top: 0;
+      animation: fadeInUp 0.6s ease-out;
+    }
+
+    @keyframes fadeInUp {
+      from {opacity: 0; transform: translateY(40px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, #1e3a8a 0%, #3b82f6 100%);
+      border-radius: 20px 20px 0 0;
+    }
+
+    /* Imagen */
+    .image-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .image-container img {
+      width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .image-container img:hover {transform: scale(1.02);}
+
+    /* Contenido */
+    .content-container {
+      flex: 2;
+      padding-left: 2rem;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .content-title {
+      font-weight: 900;
+      font-size: 1.3em !important;
+      margin-bottom: 1rem;
+      color: #1e293b;
+      letter-spacing: -0.5px;
+    }
+
+    .info-grid {
+      font-size: 1em;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      row-gap: 8px;
+      column-gap: 1rem;
+    }
+
+    .info-grid strong {
+      color: #475569;
+      font-weight: 700;
+      font-size: 0.9em;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .info-grid strong::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: #1e3a8a;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .info-grid div:nth-child(even) {
+      color: #334155;
+      font-weight: 500;
+    }
+
+    
+
+    .actions-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .acciones-row {margin-bottom: 1.2rem;}
+
+    /* === SOLO COLORES (del dashboard original) === */
+    .custom-btn {
+      min-width: 200px;
+      max-width: 100%;
+      height: 5.5vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(108, 117, 125, 0.25);
+      transition: all 0.3s ease;
+      font-weight: 600;
+      padding: 0 16px;
+      gap: 8px;
+  
+      border: none !important;
+      text-decoration: none;
+      cursor: pointer;
+      font-size: 0.9rem;
+      letter-spacing: 0.3px;
+    }
 
     .custom-btn:hover {
       transform: scale(1.03);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 6px 20px rgba(92, 99, 106, 0.35);
     }
+
+    .custom-btn:active {
+      transform: translateY(-1px);
+    }
+
+    .custom-btn label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      gap: 8px;
+      cursor: pointer;
+      margin: 0;
+      color: white;
+    }
+
+    .custom-btn i {font-size: 1.1rem;}
+
+    form {margin: 0;}
+
+    @media (max-width: 768px) {
+      .card {flex-direction: column;}
+      .image-container {margin-bottom: 1.5rem;}
+      .content-container {padding-left: 0;}
+      .actions-buttons {flex-direction: column;}
+      .custom-btn {width: 100%;}
+    }
+
+    html {scroll-behavior: smooth;}
+    
+
+/* Asegura que iconos/label hereden el color del texto del botón */
+.btn.btn-secondary.custom-btn i,
+.btn.btn-secondary.custom-btn label{
+  color: inherit;
+}
+/* SOLO COLOR (como en tu captura: gris claro pill) */
+.btn.btn-secondary.custom-btn{
+  background-color: #e2e8f0 !important;  /* fondo */
+  color: #1f2937 !important;              /* texto */
+  border-color: #e2e8f0 !important;
+}
+.btn.btn-secondary.custom-btn:hover{
+  background-color: #cbd5e1 !important;   /* hover */
+  color: #111827 !important;
+  border-color: #cbd5e1 !important;
+}
+
+/* que el label no fuerce blanco */
+.custom-btn label{
+  color: inherit !important;
+}
+.btn-back {
+  background: #fff !important;
+  color: #475569 !important;
+  border: 2px solid #e2e8f0 !important;
+  border-radius: 12px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+.btn-back:hover {
+  background: #f8fafc !important;
+  border-color: #cbd5e1 !important;
+  transform: translateX(-2px);
+}
+.page-header i {
+  font-size: 1rem;
+}
+.main-panel,
+.page-body-wrapper,
+.content-wrapper {
+  background-color: #f8f9fc !important;
+}
+.page-header{
+  align-self: center;           /* que use el mismo centro que la card */
+  width: 90%;
+  max-width: 1000px;
+  margin-bottom: 0;             /* por si el tema mete margen */
+}
+
   </style>
 </head>
 <body>
   <div class="container-scroller">
-    <!-- Sidebar -->
     <%- include('../partials/sidebar') %>
 
     <div class="container-fluid page-body-wrapper">
-      <!-- Navbar -->
       <%- include('../partials/navbar') %>
 
       <div class="main-panel">
-        <div class="content-wrapper d-flex justify-content-center align-items-center" style="min-height: 80vh;">
-  <div class="card p-4 d-flex flex-row" style="max-width: 1000px; width: 90%;">
-    
-    <!-- Imagen más grande y centrada verticalmente -->
-    <div class="d-flex align-items-center justify-content-center" style="flex: 1;">
-      <img src="<%= escultura.imagen_url %>" alt="Escultura" style="width: 100%; border-radius: 8px;" />
-    </div>
+        <div class="content-wrapper">
+          <div class="page-header">
+            <a href="/principalAdm" class="btn-back">
+              <i class="fas fa-arrow-left"></i> Regresar
+            </a>
+          </div>
+          <div class="card">
+            <div class="image-container">
+              <img src="<%= escultura.imagen_url %>" alt="Escultura" />
+            </div>
 
-    <!-- Contenido a la derecha perfectamente alineado -->
-    <div class="d-flex flex-column justify-content-center" style="flex: 2; padding-left: 2rem; width: 100%;">
-      <p style="font-weight:bold; font-size: 1.5em;">Datos de la escultura</p>
+            <div class="content-container">
+              <p class="content-title">Datos de la escultura</p>
 
-      <!-- Tabla invisible para alinear etiquetas -->
-      <div style="font-size: 1.1em; display: grid; grid-template-columns: auto 1fr; row-gap: 8px;">
-        <div><strong>Nombre:</strong></div>     <div><%= escultura.nombre %></div>
-        <div><strong>Autor: </strong></div>     <div><%= escultura.autor %></div>
-        <div><strong>Descripción:</strong></div> <div><%= escultura.descripcion %></div>
-        <div><strong>Ubicación:</strong></div>   <div>---</div> <!-- Agrega si luego tienes este dato -->
-        <div><strong>Propietario:</strong></div> <div>---</div>
-        <div><strong>Datación: </strong></div>   <div>---</div>
-        <div><strong>Estilo:</strong></div>      <div>---</div>
-      </div>
+              <div class="info-grid">
+                <div><strong>Nombre:</strong></div><div><%= escultura.nombre %></div>
+                <div><strong>Autor:</strong></div><div><%= escultura.autor %></div>
+                <div><strong>Descripción:</strong></div><div><%= escultura.descripcion %></div>
+                <div><strong>Ubicación:</strong></div><div>---</div>
+                <div><strong>Propietario:</strong></div><div>---</div>
+                <div><strong>Datación:</strong></div><div>---</div>
+                <div><strong>Estilo:</strong></div><div>---</div>
+              </div>
 
-      <p style="margin-top: 1.5rem; margin-left: 0.5rem; width: fit-content;">
-        <strong style="display: inline-block; width: 120px;">Acciones:</strong>
-      </p>      
-      <div class="d-flex flex-wrap" style="gap: 10px;">
-        <% if (escultura.ficha_ingreso_url) { %>
-        <a href="<%= escultura.ficha_ingreso_url %>" download  class="btn btn-secondary d-flex align-items-center justify-content-center gap-2 custom-btn">
-          <i class="mdi mdi-file-pdf"></i> Ficha de ingreso
-        </a>
-        <% } %>
+              <div class="info-grid acciones-row">
+                <div><strong>Acciones:</strong></div><div></div>
+              </div>
+              
+              <div class="actions-buttons">
+                <% if (escultura.ficha_ingreso_url) { %>
+                <a href="<%= escultura.ficha_ingreso_url %>" download class="btn btn-secondary custom-btn">
+                  <i class="mdi mdi-file-pdf"></i> Ficha de ingreso
+                </a>
+                <% } %>
 
-        <!-- FICHA DE INVENTARIO -->
-    <form action="/subirFichaInventario?esculturaId=<%= escultura.id %>" method="POST" enctype="multipart/form-data">
-      <% if (escultura.ficha_inventario_url) { %>
-        <a href="<%= escultura.ficha_inventario_url %>" download class="btn btn-secondary d-flex align-items-center justify-content-center gap-2 custom-btn">
-          <i class="mdi mdi-file-pdf"></i> Ver ficha de inventario
-        </a>
-      <% } else { %>
-        <label class="btn btn-secondary d-flex align-items-center justify-content-center gap-2 custom-btn" style="cursor: pointer;">
-          <i class="mdi mdi-upload"></i> Agregar ficha de inventario
-          <input type="file" name="ficha_inventario" accept="application/pdf" hidden onchange="this.form.submit()">
-        </label>
-      <% } %>
-    </form>
+                <form action="/subirFichaInventario?esculturaId=<%= escultura.id %>" method="POST" enctype="multipart/form-data">
+                  <% if (escultura.ficha_inventario_url) { %>
+                    <a href="<%= escultura.ficha_inventario_url %>" download class="btn btn-secondary custom-btn">
+                      <i class="mdi mdi-file-pdf"></i> Ver ficha de inventario
+                    </a>
+                  <% } else { %>
+                    <label class="btn btn-secondary custom-btn">
+                      <i class="mdi mdi-upload"></i> Agregar ficha de inventario
+                      <input type="file" name="ficha_inventario" accept="application/pdf" hidden onchange="this.form.submit()">
+                    </label>
+                  <% } %>
+                </form>
 
-    <!-- FICHA DE CATALOGACIÓN -->
-    <form action="/subirFichaCatalogacion?esculturaId=<%= escultura.id %>" method="POST" enctype="multipart/form-data">
-      <% if (escultura.ficha_catalogacion_url) { %>
-        <a href="<%= escultura.ficha_catalogacion_url %>" download class="btn btn-secondary d-flex align-items-center justify-content-center gap-2 custom-btn">
-          <i class="mdi mdi-file-pdf"></i> Ver ficha de catalogación
-        </a>
-      <% } else { %>
-        <label class="btn btn-secondary d-flex align-items-center justify-content-center gap-2 custom-btn" style="cursor: pointer;">
-          <i class="mdi mdi-upload"></i> Agregar ficha de catalogación
-          <input type="file" name="ficha_catalogacion" accept="application/pdf" hidden onchange="this.form.submit()">
-        </label>
-      <% } %>
-    </form>
-      <% if (indicator) { %>
-        <a href="/buscarModelo?esculturaId=<%= escultura.id %>" class="btn btn-secondary d-flex align-items-center justify-content-center gap-2 custom-btn">
-          <i class="mdi mdi-cube-outline"></i> Ver modelo 3D
-        </a>
-      <% } else { %>
-        <a href="/nuevoModelo?esculturaId=<%= escultura.id %>" class="btn btn-secondary d-flex align-items-center justify-content-center gap-2 custom-btn">
-          <i class="mdi mdi-cube-outline"></i> Agregar modelo 3D
-        </a>
-      <% } %>
+                <form action="/subirFichaCatalogacion?esculturaId=<%= escultura.id %>" method="POST" enctype="multipart/form-data">
+                  <% if (escultura.ficha_catalogacion_url) { %>
+                    <a href="<%= escultura.ficha_catalogacion_url %>" download class="btn btn-secondary custom-btn">
+                      <i class="mdi mdi-file-pdf"></i> Ver ficha de catalogación
+                    </a>
+                  <% } else { %>
+                    <label class="btn btn-secondary custom-btn">
+                      <i class="mdi mdi-upload"></i> Agregar ficha de catalogación
+                      <input type="file" name="ficha_catalogacion" accept="application/pdf" hidden onchange="this.form.submit()">
+                    </label>
+                  <% } %>
+                </form>
 
-      </div>
-    </div>
-
-  </div>
-</div>
+                <% if (indicator) { %>
+                  <a href="/buscarModelo?esculturaId=<%= escultura.id %>" class="btn btn-secondary custom-btn">
+                    <i class="mdi mdi-cube-outline"></i> Ver modelo 3D
+                  </a>
+                <% } else { %>
+                  <a href="/nuevoModelo?esculturaId=<%= escultura.id %>" class="btn btn-secondary custom-btn">
+                    <i class="mdi mdi-cube-outline"></i> Agregar modelo 3D
+                  </a>
+                <% } %>
+              </div>
+            </div>
+          </div>
+        </div>
       </div> 
     </div>
   </div> 
+
   <script src="/assets/vendors/js/vendor.bundle.base.js"></script>
-<!-- endinject -->
-<!-- Plugin js for this page -->
-<script src="/assets/vendors/chart.js/Chart.min.js"></script>
-<script src="/assets/vendors/progressbar.js/progressbar.min.js"></script>
-<script src="/assets/vendors/jvectormap/jquery-jvectormap.min.js"></script>
-<script src="/assets/vendors/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
-<script src="/assets/vendors/owl-carousel-2/owl.carousel.min.js"></script>
-<!-- End plugin js for this page -->
-<!-- inject:js -->
-<script src="/assets/js/off-canvas.js"></script>
-<script src="/assets/js/hoverable-collapse.js"></script>
-<script src="/assets/js/misc.js"></script>
-<script src="/assets/js/settings.js"></script>
-<script src="/assets/js/todolist.js"></script>
-<!-- endinject -->
-<!-- Custom js for this page -->
-<script src="/assets/js/dashboard.js"></script>
+  <script src="/assets/vendors/chart.js/Chart.min.js"></script>
+  <script src="/assets/vendors/progressbar.js/progressbar.min.js"></script>
+  <script src="/assets/vendors/jvectormap/jquery-jvectormap.min.js"></script>
+  <script src="/assets/vendors/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+  <script src="/assets/vendors/owl-carousel-2/owl.carousel.min.js"></script>
+  <script src="/assets/js/off-canvas.js"></script>
+  <script src="/assets/js/hoverable-collapse.js"></script>
+  <script src="/assets/js/misc.js"></script>
+  <script src="/assets/js/settings.js"></script>
+  <script src="/assets/js/todolist.js"></script>
+  <script src="/assets/js/dashboard.js"></script>
 </body>
 </html>
