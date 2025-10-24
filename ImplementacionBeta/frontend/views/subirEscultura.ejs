@@ -2,424 +2,688 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Subir FBX y Textura</title>
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/assets/vendors/mdi/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="/assets/vendors/css/vendor.bundle.base.css">
-    <!-- endinject -->
-    <!-- Plugin css for this page -->
-    <link rel="stylesheet" href="/assets/vendors/jvectormap/jquery-jvectormap.css">
-    <link rel="stylesheet" href="/assets/vendors/flag-icon-css/css/flag-icon.min.css">
-    <link rel="stylesheet" href="/assets/vendors/owl-carousel-2/owl.carousel.min.css">
-    <link rel="stylesheet" href="/assets/vendors/owl-carousel-2/owl.theme.default.min.css">
-    <link rel="stylesheet" href="/assets/css/style.css">  
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <title>Subir Nueva Escultura</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/assets/vendors/mdi/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="/assets/vendors/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="/assets/vendors/jvectormap/jquery-jvectormap.css">
+  <link rel="stylesheet" href="/assets/vendors/flag-icon-css/css/flag-icon.min.css">
+  <link rel="stylesheet" href="/assets/vendors/owl-carousel-2/owl.carousel.min.css">
+  <link rel="stylesheet" href="/assets/vendors/owl-carousel-2/owl.theme.default.min.css">
+  <link rel="stylesheet" href="/assets/css/style.css">  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-    <style>
-  * {
-    box-sizing: border-box;
-  }
-  @media (max-width: 600px) {
-  .form-container {
-    padding: 25px 20px;
-    margin: 0 10px;
-  }
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
-  .header-title {
-    font-size: 1.3rem;
-  }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-  .buttonForm {
-    font-size: 0.95rem;
-    padding: 12px;
-  }
+    body,
+    .container-scroller,
+    .page-body-wrapper,
+    .main-panel {
+      background-color: #f8f9fc !important;
+      font-family: 'Inter', sans-serif !important;
+      color: #2c3e50 !important;
+      min-height: 100vh;
+    }
 
-  .custom-text-input input[type="text"],
-  .custom-file-upload {
-    font-size: 0.95rem;
-  }
-}
+    .content-wrapper {
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+      padding-top: 1rem;
+      gap: .75rem;
+      background-color: #f8f9fc !important;
+    }
 
-  body,
-  .container-scroller,
-  .page-body-wrapper,
-  .main-panel,
-  .content-wrapper {
-    background-color: #f5f5f5 !important;
-    color: #000 !important;
-  }
+    /* Botón de regreso */
+    .btn-back {
+      background: #fff !important;
+      color: #475569 !important;
+      border: 2px solid #e2e8f0 !important;
+      border-radius: 12px;
+      padding: 0.75rem 1.5rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
 
-  .content-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-  }
-    
-  .form-container {
-    position: relative;
-    background-color: #ffffff;
-    padding: 35px 40px;
-    border-radius: 18px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 650px;
-    transition: all 0.3s ease;
-  }
+    .btn-back:hover {
+      background: #f8fafc !important;
+      border-color: #cbd5e1 !important;
+      transform: translateX(-2px);
+    }
 
-  .header-wrapper {
-  position: relative;
-  margin-bottom: 25px;
-  text-align: center;
-}
+    .page-header {
+      align-self: center;
+      width: 90%;
+      max-width: 1000px;
+      margin-bottom: 0;
+    }
 
-#back-arrow {
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 1.5em;
-  color: #3a3a3a;
-  cursor: pointer;
-  transition: color 0.2s ease;
-}
+    .page-header i {
+      font-size: 1rem;
+    }
 
-#back-arrow:hover {
-  color: #1e39d1;
-}
+    /* Card principal */
+    .form-card {
+      background-color: white !important;
+      max-width: 1000px;
+      width: 90%;
+      padding: 2.5rem;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      border: 1px solid #e2e8f0;
+      align-self: center;
+      position: relative;
+      animation: fadeInUp 0.6s ease-out;
+    }
 
-.header-title {
-  margin: 0;
-  font-size: 1.6rem;
-  font-weight: 600;
-  color: #222;
-}
+    @keyframes fadeInUp {
+      from {opacity: 0; transform: translateY(40px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
 
+    .form-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, #1e3a8a 0%, #3b82f6 100%);
+      border-radius: 20px 20px 0 0;
+    }
 
+    /* Título del formulario */
+    .form-title {
+      font-weight: 900;
+      font-size: 1.5em !important;
+      margin-bottom: 2rem;
+      color: #1e293b;
+      letter-spacing: -0.5px;
+      text-align: center;
+    }
 
-  h2 {
-    text-align: center;
-    margin-bottom: 25px;
-    color: #222;
-    font-size: 1.6rem;
-    font-weight: 600;
-  }
+    /* Progress indicator */
+    .progress-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2.5rem;
+      position: relative;
+    }
 
-  p {
-    margin: 18px 0 6px;
-    font-weight: 500;
-    color: #444;
-    font-size: 0.95rem;
-  }
+    .progress-line {
+      position: absolute;
+      top: 20px;
+      left: 50px;
+      right: 50px;
+      height: 3px;
+      background: #e2e8f0;
+      z-index: 0;
+    }
 
-  .custom-text-input {
-    display: flex;
-    align-items: center;
-    background-color: #f0f0f0;
-    padding: 12px 16px;
-    border-radius: 10px;
-    transition: box-shadow 0.2s ease, border 0.2s ease;
-  }
+    .progress-line-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #1e3a8a 0%, #3b82f6 100%);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
 
-  .custom-text-input input[type="text"] {
-    flex: 1;
-    background: transparent;
-    border: none;
-    outline: none;
-    font-size: 1rem;
-    color: #333;
-    font-weight: 500;
-  }
+    .step-indicator {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      z-index: 1;
+      background: #f8f9fc;
+      padding-right: 1rem;
+    }
 
-  .custom-text-input:focus-within {
-    box-shadow: 0 0 0 3px rgba(30, 57, 209, 0.2);
-  }
+    .step-circle {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #e2e8f0;
+      color: #64748b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
 
-  .custom-file-upload {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    background-color: #f0f0f0;
-    color: #333;
-    padding: 12px 16px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: background-color 0.2s ease;
-  }
+    .step-indicator.active .step-circle {
+      background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+      color: white;
+      box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
+    }
 
-  .custom-file-upload:hover {
-    background-color: #e4e4e4;
-  }
+    .step-indicator.completed .step-circle {
+      background: #10b981;
+      color: white;
+    }
 
-  .custom-file-upload i {
-    font-size: 1.2em;
-    color: #1e39d1;
-  }
+    .step-label {
+      font-weight: 600;
+      color: #64748b;
+      font-size: 0.9rem;
+    }
 
-  .file-name {
-    margin-top: 6px;
-    font-size: 0.85em;
-    color: #777;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-  }
+    .step-indicator.active .step-label {
+      color: #1e293b;
+    }
 
-  input[type="file"] {
-    display: none;
-  }
+    /* Form sections */
+    .form-section {
+      display: none;
+      animation: fadeIn 0.4s ease-out;
+    }
 
-  .buttonForm {
-    width: 100%;
-    padding: 13px;
-    background-color: #1e39d1;
-    color: white;
-    font-weight: 600;
-    font-size: 1rem;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 25px;
-  }
+    .form-section.active {
+      display: block;
+    }
 
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
 
-  .buttonForm:hover {
-    background-color: #1630b5;
-  }
-  .error-msg {
-    color: red;
-    font-size: 0.85rem;
-    margin-top: 4px;
-    display: block;
-  }
-  .input-error {
-    border: 2px solid red !important;
-    background-color: #ffecec;
-  }
-</style>
+    /* Form groups */
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
 
+    .form-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: #475569;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .form-label::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: #1e3a8a;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .form-label.required::after {
+      content: '*';
+      color: #ef4444;
+      margin-left: 0.25rem;
+    }
+
+    /* Input styles */
+    .form-input {
+      width: 100%;
+      padding: 0.875rem 1rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 1rem;
+      color: #334155;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+    }
+
+    .form-input.error {
+      border-color: #ef4444;
+      background-color: #fef2f2;
+    }
+
+    textarea.form-input {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    /* File upload */
+    .file-upload-wrapper {
+      position: relative;
+    }
+
+    .file-upload-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      padding: 1.25rem;
+      border: 2px dashed #cbd5e1;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background: #f8fafc;
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    .file-upload-label:hover {
+      border-color: #3b82f6;
+      background: #eff6ff;
+      color: #3b82f6;
+    }
+
+    .file-upload-label i {
+      font-size: 1.5rem;
+    }
+
+    .file-upload-input {
+      display: none;
+    }
+
+    .file-name {
+      margin-top: 0.5rem;
+      font-size: 0.875rem;
+      color: #64748b;
+      font-weight: 500;
+      padding-left: 0.5rem;
+    }
+
+    .file-name.has-file {
+      color: #10b981;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .file-name.has-file::before {
+      content: '✓';
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      background: #10b981;
+      color: white;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 20px;
+      font-size: 0.75rem;
+    }
+
+    /* Error messages */
+    .error-message {
+      color: #ef4444;
+      font-size: 0.875rem;
+      margin-top: 0.375rem;
+      display: flex;
+      align-items: center;
+      gap: 0.375rem;
+      font-weight: 500;
+    }
+
+    .error-message::before {
+      content: '⚠';
+    }
+
+    /* Buttons */
+    .button-group {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+      justify-content: flex-end;
+    }
+
+    .btn {
+      padding: 0.875rem 2rem;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 1rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+      color: white;
+      box-shadow: 0 4px 16px rgba(30, 58, 138, 0.25);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(30, 58, 138, 0.35);
+    }
+
+    .btn-secondary {
+      background: #e2e8f0;
+      color: #475569;
+    }
+
+    .btn-secondary:hover {
+      background: #cbd5e1;
+    }
+
+    .btn i {
+      font-size: 1.1rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .form-card {
+        padding: 1.5rem;
+      }
+
+      .progress-container {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .progress-line {
+        display: none;
+      }
+
+      .step-indicator {
+        width: 100%;
+        justify-content: center;
+        padding: 0;
+      }
+
+      .button-group {
+        flex-direction: column-reverse;
+      }
+
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+    body, .container-scroller, .page-body-wrapper, .main-panel {
+      background-color: #f8f9fc !important;
+    }
+  </style>
 </head>
 <body>
   <div class="container-scroller">
-    <!-- Sidebar -->
     <%- include('../partials/sidebar') %>
 
     <div class="container-fluid page-body-wrapper">
-      <!-- Navbar -->
       <%- include('../partials/navbar') %>
 
       <div class="main-panel">
         <div class="content-wrapper">
+          <div class="page-header">
+            <a href="/principalAdm" class="btn-back">
+              <i class="fas fa-arrow-left"></i> Regresar
+            </a>
+          </div>
 
-          <div class="form-container">
+          <div class="form-card">
+            <h2 class="form-title">Registrar Nueva Escultura</h2>
 
-
-            <form  id="formEscultura" action="/uploadSculpture" method="POST" enctype="multipart/form-data" novalidate  onsubmit="return validarYEnviar()" novalidate>
-
-            <div class="header-wrapper">
-              <div id="back-arrow" onclick="goToStep1()" style="display: none;" title="Volver">
-                <i class="fas fa-chevron-left"></i>
+            <!-- Progress Indicator -->
+            <div class="progress-container">
+              <div class="progress-line">
+                <div class="progress-line-fill" id="progressFill"></div>
               </div>
-              <h2 class="header-title">Ingrese los datos de la escultura a subir</h2>
+              <div class="step-indicator active" id="stepIndicator1">
+                <div class="step-circle">1</div>
+                <span class="step-label">Información</span>
+              </div>
+              <div class="step-indicator" id="stepIndicator2">
+                <div class="step-circle">2</div>
+                <span class="step-label">Archivos</span>
+              </div>
             </div>
 
+            <form id="formEscultura" action="/uploadSculpture" method="POST" enctype="multipart/form-data" novalidate>
+              
+              <!-- STEP 1: Información básica -->
+              <div class="form-section active" id="step1">
+                <div class="form-group">
+                  <label class="form-label required">Nombre de la escultura</label>
+                  <input type="text" class="form-input" id="nombre" name="nombre" placeholder="Ingrese el nombre">
+                  <div class="error-message" id="error-nombre" style="display: none;"></div>
+                </div>
 
+                <div class="form-group">
+                  <label class="form-label required">Autor</label>
+                  <input type="text" class="form-input" id="autor" name="autor" placeholder="Ingrese el autor">
+                  <div class="error-message" id="error-autor" style="display: none;"></div>
+                </div>
 
-          <!-- PRIMER BLOQUE: DATOS DE TEXTO -->
-          <div id="step1">
-            <p>Nombre</p>
-            <div class="custom-text-input">
-              <input type="text" id="nombre" name="nombre" required>
-            </div>
-            <span id="error-nombre" class="error-msg"></span>
+                <div class="form-group">
+                  <label class="form-label required">Descripción</label>
+                  <textarea class="form-input" id="descripcion" name="descripcion" placeholder="Describa la escultura"></textarea>
+                  <div class="error-message" id="error-descripcion" style="display: none;"></div>
+                </div>
 
-            <p>Autor</p>
-            <div class="custom-text-input">
-              <input type="text" id="autor" name="autor" required>
-            </div>
-            <span id="error-autor" class="error-msg"></span>
+                <div class="button-group">
+                  <button type="button" class="btn btn-primary" onclick="goToStep2()">
+                    Continuar <i class="fas fa-arrow-right"></i>
+                  </button>
+                </div>
+              </div>
 
+              <!-- STEP 2: Archivos -->
+              <div class="form-section" id="step2">
+                <div class="form-group">
+                  <label class="form-label required">Fotografía de la escultura</label>
+                  <div class="file-upload-wrapper">
+                    <label class="file-upload-label" for="foto">
+                      <i class="fas fa-image"></i>
+                      <span>Seleccionar imagen (JPG, PNG)</span>
+                    </label>
+                    <input type="file" class="file-upload-input" id="foto" name="foto" accept=".jpg,.jpeg,.png" onchange="updateFileName('foto')">
+                    <div class="file-name" id="foto-name">Ningún archivo seleccionado</div>
+                  </div>
+                  <div class="error-message" id="error-foto" style="display: none;"></div>
+                </div>
 
-            <p>Descripción</p>
-            <div class="custom-text-input">
-              <input type="text" id="descripcion" name="descripcion" required>
-            </div>
-            <span id="error-descripcion" class="error-msg"></span>
+                <div class="form-group">
+                  <label class="form-label required">Ficha de ingreso de bien</label>
+                  <div class="file-upload-wrapper">
+                    <label class="file-upload-label" for="fichaIngreso">
+                      <i class="fas fa-file-pdf"></i>
+                      <span>Seleccionar PDF</span>
+                    </label>
+                    <input type="file" class="file-upload-input" id="fichaIngreso" name="fichaIngreso" accept=".pdf" onchange="updateFileName('fichaIngreso')">
+                    <div class="file-name" id="fichaIngreso-name">Ningún archivo seleccionado</div>
+                  </div>
+                  <div class="error-message" id="error-fichaIngreso" style="display: none;"></div>
+                </div>
 
-            <button type="button" class="buttonForm" onclick="goToStep2()">Continuar</button>
-          </div>
+                <div class="form-group">
+                  <label class="form-label">Ficha de inventario</label>
+                  <div class="file-upload-wrapper">
+                    <label class="file-upload-label" for="fichaInventario">
+                      <i class="fas fa-file-pdf"></i>
+                      <span>Seleccionar PDF (opcional)</span>
+                    </label>
+                    <input type="file" class="file-upload-input" id="fichaInventario" name="fichaInventario" accept=".pdf" onchange="updateFileName('fichaInventario')">
+                    <div class="file-name" id="fichaInventario-name">Ningún archivo seleccionado</div>
+                  </div>
+                </div>
 
-          <!-- SEGUNDO BLOQUE: ARCHIVOS -->
-          <div id="step2" style="display: none;">
+                <div class="form-group">
+                  <label class="form-label">Ficha de catalogación</label>
+                  <div class="file-upload-wrapper">
+                    <label class="file-upload-label" for="fichaCatalogacion">
+                      <i class="fas fa-file-pdf"></i>
+                      <span>Seleccionar PDF (opcional)</span>
+                    </label>
+                    <input type="file" class="file-upload-input" id="fichaCatalogacion" name="fichaCatalogacion" accept=".pdf" onchange="updateFileName('fichaCatalogacion')">
+                    <div class="file-name" id="fichaCatalogacion-name">Ningún archivo seleccionado</div>
+                  </div>
+                </div>
 
+                <div class="button-group">
+                  <button type="button" class="btn btn-secondary" onclick="goToStep1()">
+                    <i class="fas fa-arrow-left"></i> Atrás
+                  </button>
+                  <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-check"></i> Registrar escultura
+                  </button>
+                </div>
+              </div>
 
-            <p>Foto de la escultura* (Obligatorio)</p>
-            <label class="custom-file-upload" style="margin-top:2vh">
-              <i class="fas fa-folder-open"></i> Seleccionar imagen
-              <input type="file" id="foto" name="foto" accept=".jpg,.jpeg,.png" required onchange="updateFileName('foto')">
-            </label>
-            <div class="file-name" id="foto-name">Ningún archivo seleccionado</div>
-            <span id="error-foto" class="error-msg"></span>
-
-
-                <p>Ficha de ingreso de bien* (Obligatorio)</p>
-            <label class="custom-file-upload">
-              <i class="fas fa-folder-open"></i> Seleccionar archivo
-              <input type="file" id="fichaIngreso" name="fichaIngreso" accept=".pdf" required onchange="updateFileName('fichaIngreso')">
-            </label>
-            <div class="file-name" id="fichaIngreso-name">Ningún archivo seleccionado</div>
-            <span id="error-fichaIngreso" class="error-msg"></span>
-
-
-                <p>Ficha de inventario</p>
-            <label class="custom-file-upload">
-              <i class="fas fa-folder-open"></i> Seleccionar archivo
-              <input type="file" id="fichaInventario" name="fichaInventario" accept=".pdf"  onchange="updateFileName('fichaInventario')">
-            </label>
-            <div class="file-name" id="fichaInventario-name">Ningún archivo seleccionado</div>
-
-            <p>Ficha de catalogación</p>
-            <label class="custom-file-upload">
-              <i class="fas fa-folder-open"></i> Seleccionar archivo
-              <input type="file" id="fichaCatalogacion" name="fichaCatalogacion" accept=".pdf"  onchange="updateFileName('fichaCatalogacion')">
-            </label>
-            <div class="file-name" id="fichaCatalogacion-name">Ningún archivo seleccionado</div>
-
-            <button type="submit" class="buttonForm">Subir escultura</button>
-          </div>
-        </form>
-
+            </form>
           </div>
         </div>
-      </div> 
+      </div>
     </div>
-  </div> 
+  </div>
 
-    <script src="/assets/vendors/js/vendor.bundle.base.js"></script>
-  <!-- endinject -->
-  <!-- Plugin js for this page -->
+  <script src="/assets/vendors/js/vendor.bundle.base.js"></script>
   <script src="/assets/vendors/chart.js/Chart.min.js"></script>
   <script src="/assets/vendors/progressbar.js/progressbar.min.js"></script>
   <script src="/assets/vendors/jvectormap/jquery-jvectormap.min.js"></script>
   <script src="/assets/vendors/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
   <script src="/assets/vendors/owl-carousel-2/owl.carousel.min.js"></script>
-  <!-- End plugin js for this page -->
-  <!-- inject:js -->
   <script src="/assets/js/off-canvas.js"></script>
   <script src="/assets/js/hoverable-collapse.js"></script>
   <script src="/assets/js/misc.js"></script>
   <script src="/assets/js/settings.js"></script>
   <script src="/assets/js/todolist.js"></script>
-  <!-- endinject -->
-  <!-- Custom js for this page -->
   <script src="/assets/js/dashboard.js"></script>
+
   <script>
     function updateFileName(inputId) {
       const input = document.getElementById(inputId);
       const label = document.getElementById(`${inputId}-name`);
       if (input.files.length > 0) {
         label.textContent = input.files[0].name;
+        label.classList.add('has-file');
       } else {
         label.textContent = 'Ningún archivo seleccionado';
+        label.classList.remove('has-file');
       }
     }
-  
 
-  function goToStep2() {
-    const nombreInput = document.getElementById('nombre');
-    const autorInput = document.getElementById('autor');
-    const descripcionInput = document.getElementById('descripcion');
-    const nombreWrapper = nombreInput.parentElement;
-    const autorWrapper = autorInput.parentElement;
-    const descripcionWrapper = descripcionInput.parentElement;
-
-    const nombre = nombreInput.value.trim();
-    const autor = autorInput.value.trim();
-    const descripcion = descripcionInput.value.trim();
-
-    let valido = true;
-
-    // Limpia errores anteriores
-    document.getElementById('error-nombre').textContent = '';
-    document.getElementById('error-autor').textContent = '';
-    document.getElementById('error-descripcion').textContent = '';
-
-    nombreWrapper.classList.remove('input-error');
-    autorWrapper.classList.remove('input-error');
-    descripcionWrapper.classList.remove('input-error');
-
-    if (nombre === '') {
-      document.getElementById('error-nombre').textContent = 'Debe ingresar el nombre de la escultura.';
-      nombreWrapper.classList.add('input-error');
-      valido = false;
-    }
-    if (autor === '') {
-      document.getElementById('error-autor').textContent = 'Debe ingresar el autor de la escultura.';
-      autorWrapper.classList.add('input-error');
-      valido = false;
-    }
-    if (descripcion === '') {
-      document.getElementById('error-descripcion').textContent = 'Debe ingresar una descripción sobre la escultura.';
-      descripcionWrapper.classList.add('input-error');
-      valido = false;
+    function showError(fieldId, message) {
+      const input = document.getElementById(fieldId);
+      const errorDiv = document.getElementById(`error-${fieldId}`);
+      
+      input.classList.add('error');
+      errorDiv.textContent = message;
+      errorDiv.style.display = 'flex';
     }
 
-
-    if (!valido) return;
-
-    document.getElementById('step1').style.display = 'none';
-    document.getElementById('step2').style.display = 'block';
-    document.getElementById('back-arrow').style.display = 'block';
-
-  }
-  function goToStep1() {
-    document.getElementById('step2').style.display = 'none';
-    document.getElementById('step1').style.display = 'block';
-    document.getElementById('back-arrow').style.display = 'none';
-  }
-  function validarYEnviar() {
-    const foto = document.getElementById('foto');
-    const ficha = document.getElementById('fichaIngreso');
-
-    // Limpia mensajes previos
-    document.getElementById('error-foto').textContent = '';
-    document.getElementById('error-fichaIngreso').textContent = '';
-
-
-    let valido = true;
-
-    if (foto.files.length === 0) {
-      document.getElementById('error-foto').textContent = 'Debe subir una foto de la escultura.';
-      valido = false;
-    }
-    if (ficha.files.length === 0) {
-      document.getElementById('error-fichaIngreso').textContent = 'Debe subir la ficha de ingreso.';
-      valido = false;
+    function clearError(fieldId) {
+      const input = document.getElementById(fieldId);
+      const errorDiv = document.getElementById(`error-${fieldId}`);
+      
+      input.classList.remove('error');
+      errorDiv.style.display = 'none';
     }
 
-    return valido;
-  }
-  document.getElementById('nombre').addEventListener('input', function () {
-    this.parentElement.classList.remove('input-error');
-    document.getElementById('error-nombre').textContent = '';
-  });
+    function goToStep2() {
+      const nombre = document.getElementById('nombre').value.trim();
+      const autor = document.getElementById('autor').value.trim();
+      const descripcion = document.getElementById('descripcion').value.trim();
 
-  document.getElementById('autor').addEventListener('input', function () {
-    this.parentElement.classList.remove('input-error');
-    document.getElementById('error-autor').textContent = '';
-  });
-  document.getElementById('foto').addEventListener('change', function () {
-    document.getElementById('error-foto').textContent = '';
-  });
+      let valido = true;
 
-  document.getElementById('fichaIngreso').addEventListener('change', function () {
-    document.getElementById('error-fichaIngreso').textContent = '';
-  });
+      clearError('nombre');
+      clearError('autor');
+      clearError('descripcion');
 
-</script>
+      if (nombre === '') {
+        showError('nombre', 'Debe ingresar el nombre de la escultura');
+        valido = false;
+      }
+      if (autor === '') {
+        showError('autor', 'Debe ingresar el autor de la escultura');
+        valido = false;
+      }
+      if (descripcion === '') {
+        showError('descripcion', 'Debe ingresar una descripción de la escultura');
+        valido = false;
+      }
 
+      if (!valido) return;
 
+      document.getElementById('step1').classList.remove('active');
+      document.getElementById('step2').classList.add('active');
+      
+      document.getElementById('stepIndicator1').classList.remove('active');
+      document.getElementById('stepIndicator1').classList.add('completed');
+      document.getElementById('stepIndicator2').classList.add('active');
+      
+      document.getElementById('progressFill').style.width = '100%';
+      
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function goToStep1() {
+      document.getElementById('step2').classList.remove('active');
+      document.getElementById('step1').classList.add('active');
+      
+      document.getElementById('stepIndicator2').classList.remove('active');
+      document.getElementById('stepIndicator1').classList.remove('completed');
+      document.getElementById('stepIndicator1').classList.add('active');
+      
+      document.getElementById('progressFill').style.width = '0%';
+      
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    document.getElementById('formEscultura').addEventListener('submit', function(e) {
+      const foto = document.getElementById('foto');
+      const ficha = document.getElementById('fichaIngreso');
+
+      clearError('foto');
+      clearError('fichaIngreso');
+
+      let valido = true;
+
+      if (foto.files.length === 0) {
+        showError('foto', 'Debe seleccionar una fotografía de la escultura');
+        valido = false;
+      }
+      if (ficha.files.length === 0) {
+        showError('fichaIngreso', 'Debe seleccionar la ficha de ingreso');
+        valido = false;
+      }
+
+      if (!valido) {
+        e.preventDefault();
+      }
+    });
+
+    // Clear errors on input
+    ['nombre', 'autor', 'descripcion'].forEach(id => {
+      document.getElementById(id).addEventListener('input', function() {
+        clearError(id);
+      });
+    });
+
+    ['foto', 'fichaIngreso'].forEach(id => {
+      document.getElementById(id).addEventListener('change', function() {
+        clearError(id);
+      });
+    });
+  </script>
 </body>
 </html>

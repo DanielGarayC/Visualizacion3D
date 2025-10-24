@@ -14,7 +14,7 @@ const app = initializeApp(firebaseConfig);
 
 // Conectar Firestore y Storage al emulador local
 const db = getFirestore(app);
-connectFirestoreEmulator(db, 'localhost', 8080);
+connectFirestoreEmulator(db, 'localhost', 8090);
 
 const storage = getStorage(app);
 connectStorageEmulator(storage, 'localhost', 9199);
