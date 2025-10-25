@@ -117,11 +117,20 @@ app.post('/uploadfbx', upload.fields([
 
     const modelo = modeloSnap.data();
 
+    const esculturaRef = doc(db, 'esculturas', modelo.escultura_id);
+    const esculturaSnap = await getDoc(esculturaRef);
+
+    if (!esculturaSnap.exists()) {
+      return res.status(404).send('Escultura asociada no encontrada');
+    }
+    const escultura = esculturaSnap.data();
+
     res.render('seccionamiento3dV3', {
       fbxUrl: modelo.archivo_modelo_url,
-      textureUrl: modelo.texturas[0],
+      textureUrl: modelo.texturas[0] || null,
       //ARREGLAR EL NOMBRE PARA QUE NO SEA ID
       nameSculpture: modelo.nombre || 'Modelo 3D',
+      esculturaId: modelo.escultura_id,
     });
   } catch (error) {
     console.error("Error al buscar modelo", error);
