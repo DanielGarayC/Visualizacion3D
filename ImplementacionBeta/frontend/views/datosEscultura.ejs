@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Datos de la escultura</title>
+  <title>Sculpture Details</title>
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/assets/vendors/mdi/css/materialdesignicons.min.css">
   <link rel="stylesheet" href="/assets/vendors/css/vendor.bundle.base.css">
@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="/assets/vendors/owl-carousel-2/owl.carousel.min.css">
   <link rel="stylesheet" href="/assets/vendors/owl-carousel-2/owl.theme.default.min.css">
   <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
@@ -264,7 +265,324 @@
   max-width: 1000px;
   margin-bottom: 0;             /* por si el tema mete margen */
 }
+/* Backdrop mejorado */
+.modal-backdrop.show {
+  background-color: rgba(15, 23, 42, 0.75) !important;
+  backdrop-filter: blur(8px);
+}
 
+/* Modal general */
+.modal-content {
+  background: #ffffff !important;
+  border-radius: 24px !important;
+  border: none !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35) !important;
+  overflow: hidden;
+}
+
+/* Header mejorado */
+.modal-header {
+  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #60a5fa 100%) !important;
+  color: white !important;
+  padding: 2rem 2rem 1.5rem 2rem !important;
+  border-bottom: none !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.modal-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  opacity: 0.4;
+}
+
+.modal-title {
+  font-weight: 700 !important;
+  font-size: 1.5rem !important;
+  letter-spacing: -0.5px;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  position: relative;
+  z-index: 1;
+}
+
+.modal-title i {
+  font-size: 1.8rem;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+
+
+/* Body mejorado */
+.modal-body {
+  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%) !important;
+  padding: 2.5rem !important;
+}
+
+.modal-description {
+  color: #475569;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  padding: 1rem 1.5rem;
+  background: white;
+  border-left: 4px solid #3b82f6;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+/* Secciones/Cards */
+.section-card {
+  background: white;
+  border: 2px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 1.75rem;
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.section-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, #3b82f6, #1e3a8a);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.section-card:hover {
+  border-color: #3b82f6;
+  box-shadow: 0 8px 24px rgba(59, 130, 246, 0.15);
+  transform: translateY(-2px);
+}
+
+.section-card:hover::before {
+  opacity: 1;
+}
+
+.section-title {
+  color: #1e293b;
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  letter-spacing: -0.3px;
+}
+
+.section-title i {
+  font-size: 1.4rem;
+  color: #3b82f6;
+  background: linear-gradient(135deg, #eff6ff, #dbeafe);
+  padding: 8px;
+  border-radius: 10px;
+}
+
+.section-divider {
+  height: 2px;
+  background: linear-gradient(90deg, #3b82f6, transparent);
+  margin: 2rem 0;
+  border: none;
+}
+
+/* Grid de botones */
+.buttons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* Caja de descarga especial */
+.download-box {
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  border: 2px solid #93c5fd;
+  border-radius: 16px;
+  padding: 1.75rem;
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.download-box::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+  animation: pulse 3s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(1.1); opacity: 0.8; }
+}
+
+.download-box-content {
+  position: relative;
+  z-index: 1;
+}
+
+.download-title {
+  color: #1e3a8a;
+  font-weight: 700;
+  font-size: 1.05rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.download-title i {
+  font-size: 1.5rem;
+}
+
+/* Botón de descarga principal */
+.btn-download {
+  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+  color: white !important;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+  padding: 0.85rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: none;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+}
+
+.btn-download::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+.btn-download:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.5);
+  color: white !important;
+}
+
+.btn-download:hover::before {
+  left: 100%;
+}
+
+/* Mejorar botones existentes dentro del modal */
+.modal-body .custom-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.modal-body .custom-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.modal-body .custom-btn:hover::before {
+  left: 100%;
+}
+
+/* Footer mejorado */
+.modal-footer {
+  background: #f8fafc !important;
+  border-top: 2px solid #e2e8f0 !important;
+  padding: 1.5rem 2rem !important;
+}
+
+.modal-footer .btn-secondary {
+  background: #64748b !important;
+  color: white !important;
+  border: none !important;
+  padding: 0.75rem 2rem !important;
+  border-radius: 12px !important;
+  font-weight: 600 !important;
+  transition: all 0.3s ease !important;
+}
+
+.modal-footer .btn-secondary:hover {
+  background: #475569 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(100, 116, 139, 0.4) !important;
+}
+
+/* Nota informativa */
+.info-note {
+  background: #fef3c7;
+  border-left: 4px solid #f59e0b;
+  color: #92400e;
+  padding: 1rem 1.25rem;
+  border-radius: 8px;
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.info-note i {
+  font-size: 1.2rem;
+  color: #f59e0b;
+  margin-top: 2px;
+}
+
+/* Animaciones de entrada */
+.modal.fade .modal-dialog {
+  transform: scale(0.9) translateY(-30px);
+  opacity: 0;
+  transition: all 0.3s ease-out;
+}
+
+.modal.show .modal-dialog {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .modal-body {
+    padding: 1.5rem !important;
+  }
+  
+  .buttons-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .section-card {
+    padding: 1.25rem;
+  }
+  
+  .modal-title {
+    font-size: 1.25rem !important;
+  }
+}
   </style>
 </head>
 <body>
@@ -277,47 +595,45 @@
       <div class="main-panel">
         <div class="content-wrapper">
           <div class="page-header">
-            <a href="/principalAdm" class="btn-back">
-              <i class="fas fa-arrow-left"></i> Regresar
-            </a>
+            <a href="/principalAdm" class="btn-back"><i class="fas fa-arrow-left"></i> Back </a>
           </div>
           <div class="card">
             <div class="image-container">
-              <img src="<%= escultura.imagen_url %>" alt="Escultura" />
+              <img src="<%= escultura.imagen_url %>" alt="Sculpture" />
             </div>
 
             <div class="content-container">
-              <p class="content-title">Datos de la escultura</p>
+              <p class="content-title"> Sculpture Details</p>
 
               <div class="info-grid">
-                <div><strong>Nombre:</strong></div><div><%= escultura.nombre %></div>
-                <div><strong>Autor:</strong></div><div><%= escultura.autor %></div>
-                <div><strong>Descripción:</strong></div><div><%= escultura.descripcion %></div>
-                <div><strong>Ubicación:</strong></div><div>---</div>
-                <div><strong>Propietario:</strong></div><div>---</div>
-                <div><strong>Datación:</strong></div><div>---</div>
-                <div><strong>Estilo:</strong></div><div>---</div>
+                <div><strong>Name:</strong></div><div><%= escultura.nombre %></div>
+                <div><strong>Author:</strong></div><div><%= escultura.autor %></div>
+                <div><strong>Description:</strong></div><div><%= escultura.descripcion %></div>
+                <div><strong>Location:</strong></div><div>---</div>
+                <div><strong>Owner:</strong></div><div>---</div>
+                <div><strong>Dating:</strong></div><div>---</div>
+                <div><strong>Style:</strong></div><div>---</div>
               </div>
 
               <div class="info-grid acciones-row">
-                <div><strong>Acciones:</strong></div><div></div>
+                <div><strong>Actions:</strong></div><div></div>
               </div>
               
               <div class="actions-buttons">
                 <% if (escultura.ficha_ingreso_url) { %>
                 <a href="<%= escultura.ficha_ingreso_url %>" download class="btn btn-secondary custom-btn">
-                  <i class="mdi mdi-file-pdf"></i> Ficha de ingreso
+                  <i class="mdi mdi-file-pdf"></i> Entry Record
                 </a>
                 <% } %>
 
                 <form action="/subirFichaInventario?esculturaId=<%= escultura.id %>" method="POST" enctype="multipart/form-data">
                   <% if (escultura.ficha_inventario_url) { %>
                     <a href="<%= escultura.ficha_inventario_url %>" download class="btn btn-secondary custom-btn">
-                      <i class="mdi mdi-file-pdf"></i> Ver ficha de inventario
+                      <i class="mdi mdi-file-pdf"></i> View Inventory Record
                     </a>
                   <% } else { %>
                     <label class="btn btn-secondary custom-btn">
-                      <i class="mdi mdi-upload"></i> Agregar ficha de inventario
+                      <i class="mdi mdi-upload"></i> Add Inventory Record
                       <input type="file" name="ficha_inventario" accept="application/pdf" hidden onchange="this.form.submit()">
                     </label>
                   <% } %>
@@ -326,11 +642,11 @@
                 <form action="/subirFichaCatalogacion?esculturaId=<%= escultura.id %>" method="POST" enctype="multipart/form-data">
                   <% if (escultura.ficha_catalogacion_url) { %>
                     <a href="<%= escultura.ficha_catalogacion_url %>" download class="btn btn-secondary custom-btn">
-                      <i class="mdi mdi-file-pdf"></i> Ver ficha de catalogación
+                      <i class="mdi mdi-file-pdf"></i> View Cataloging Record
                     </a>
                   <% } else { %>
                     <label class="btn btn-secondary custom-btn">
-                      <i class="mdi mdi-upload"></i> Agregar ficha de catalogación
+                      <i class="mdi mdi-upload"></i> Add Cataloging Record
                       <input type="file" name="ficha_catalogacion" accept="application/pdf" hidden onchange="this.form.submit()">
                     </label>
                   <% } %>
@@ -338,13 +654,20 @@
 
                 <% if (indicator) { %>
                   <a href="/buscarModelo?esculturaId=<%= escultura.id %>" class="btn btn-secondary custom-btn">
-                    <i class="mdi mdi-cube-outline"></i> Ver modelo 3D
+                    <i class="mdi mdi-cube-outline"></i> View 3D Model
                   </a>
                 <% } else { %>
                   <a href="/nuevoModelo?esculturaId=<%= escultura.id %>" class="btn btn-secondary custom-btn">
-                    <i class="mdi mdi-cube-outline"></i> Agregar modelo 3D
+                    <i class="mdi mdi-cube-outline"></i> Add 3D Model
                   </a>
                 <% } %>
+                <button type="button" class="btn btn-secondary custom-btn" data-bs-toggle="modal" data-bs-target="#modalPlanIntervencion">
+                  <i class="mdi mdi-file-multiple"></i> Intervention Plan
+                </button>
+
+                <button type="button" class="btn btn-secondary custom-btn" data-bs-toggle="modal" data-bs-target="#modalPuestaValor">
+                  <i class="mdi mdi-file-multiple"></i> Enhancement Plan
+                </button>
               </div>
             </div>
           </div>
@@ -352,8 +675,178 @@
       </div> 
     </div>
   </div> 
+<!-- MODAL: PLAN DE INTERVENCIÓN -->
+<div class="modal fade" id="modalPlanIntervencion" tabindex="-1" aria-labelledby="planLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="planLabel">
+          <i class="mdi mdi-file-document-box-multiple-outline"></i>
+          Intervention Plan
+        </h5>
+      </div>
 
-  <script src="/assets/vendors/js/vendor.bundle.base.js"></script>
+      <div class="modal-body">
+        
+
+        <!-- DESCARGA GENERAL -->
+        <div class="download-box">
+          <div class="download-box-content">
+            <div class="download-title">
+              <i class="mdi mdi-download-circle"></i>
+              Full Plan Download
+            </div>
+            <a href="<%= escultura.plan_intervencion_url || '#' %>" class="btn-download" download>
+              <i class="mdi mdi-download"></i>
+              Download Full Plan (PDF)
+            </a>
+          </div>
+        </div>
+
+        <!-- SECCIÓN: CONSERVACIÓN -->
+        <div class="section-card">
+          <div class="section-title">
+            <i class="mdi mdi-shield-check"></i>
+            Conservation Documents
+          </div>
+          
+          <div class="buttons-grid">
+            <!-- Conservación curativa -->
+            <form action="/subirConservacionCurativa?esculturaId=<%= escultura.id %>" method="POST" enctype="multipart/form-data">
+              <% if (escultura.conservacion_curativa_url) { %>
+                <a href="<%= escultura.conservacion_curativa_url %>" download class="btn btn-secondary custom-btn">
+                  <i class="mdi mdi-file-pdf"></i> View Curative Conservation
+                </a>
+              <% } else { %>
+                <label class="btn btn-secondary custom-btn">
+                  <i class="mdi mdi-upload"></i> Add Curative Conservation
+                  <input type="file" name="conservacion_curativa" accept="application/pdf" hidden onchange="this.form.submit()">
+                </label>
+              <% } %>
+            </form>
+
+            <!-- Conservación restauración -->
+            <form action="/subirConservacionRestauracion?esculturaId=<%= escultura.id %>" method="POST" enctype="multipart/form-data">
+              <% if (escultura.conservacion_restauracion_url) { %>
+                <a href="<%= escultura.conservacion_restauracion_url %>" download class="btn btn-secondary custom-btn">
+                  <i class="mdi mdi-file-pdf"></i> View Restoration Conservation
+                </a>
+              <% } else { %>
+                <label class="btn btn-secondary custom-btn">
+                  <i class="mdi mdi-upload"></i> Add Restoration Conservation
+                  <input type="file" name="conservacion_restauracion" accept="application/pdf" hidden onchange="this.form.submit()">
+                </label>
+              <% } %>
+            </form>
+          </div>
+        </div>
+
+        <hr class="section-divider">
+
+        <!-- SECCIÓN: OTROS DOCUMENTOS -->
+        <div class="section-card">
+          <div class="section-title">
+            <i class="mdi mdi-file-plus"></i>
+            Additional Documentation
+          </div>
+          
+          <form action="/subirOtroPlan?esculturaId=<%= escultura.id %>" method="POST" enctype="multipart/form-data">
+            <label class="btn btn-secondary custom-btn">
+              <i class="mdi mdi-cloud-upload"></i> Upload Additional Document
+              <input type="file" name="otros_plan" accept="application/pdf" hidden onchange="this.form.submit()">
+            </label>
+          </form>
+
+          <div class="info-note">
+            <i class="mdi mdi-information"></i>
+            <span>Uploaded files will be automatically integrated into the general plan for download.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: PUESTA EN VALOR -->
+<div class="modal fade" id="modalPuestaValor" tabindex="-1" aria-labelledby="valorLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="valorLabel">
+          <i class="mdi mdi-lightbulb-on-outline"></i>
+          Enhancement Plan
+        </h5>
+      </div>
+
+      <div class="modal-body">
+        
+
+        <!-- SECCIÓN: DOCUMENTOS PRINCIPALES -->
+        <div class="section-card">
+          <div class="section-title">
+            <i class="mdi mdi-folder-open"></i>
+            Main Documentation
+          </div>
+          
+          <div class="buttons-grid">
+            <!-- Investigación -->
+            <form action="/subirInvestigacion?esculturaId=<%= escultura.id %>" method="POST" enctype="multipart/form-data">
+              <% if (escultura.investigacion_url) { %>
+                <a href="<%= escultura.investigacion_url %>" download class="btn btn-secondary custom-btn">
+                  <i class="mdi mdi-file-pdf"></i> View Research
+                </a>
+              <% } else { %>
+                <label class="btn btn-secondary custom-btn">
+                  <i class="mdi mdi-flask"></i> Add Research
+                  <input type="file" name="investigacion" accept="application/pdf" hidden onchange="this.form.submit()">
+                </label>
+              <% } %>
+            </form>
+
+            <!-- Docencia -->
+            <form action="/subirDocencia?esculturaId=<%= escultura.id %>" method="POST" enctype="multipart/form-data">
+              <% if (escultura.docencia_url) { %>
+                <a href="<%= escultura.docencia_url %>" download class="btn btn-secondary custom-btn">
+                  <i class="mdi mdi-file-pdf"></i> View Teaching
+                </a>
+              <% } else { %>
+                <label class="btn btn-secondary custom-btn">
+                  <i class="mdi mdi-school"></i> Add Teaching
+                  <input type="file" name="docencia" accept="application/pdf" hidden onchange="this.form.submit()">
+                </label>
+              <% } %>
+            </form>
+
+            <!-- Difusión -->
+            <form action="/subirDifusion?esculturaId=<%= escultura.id %>" method="POST" enctype="multipart/form-data">
+              <% if (escultura.difusion_url) { %>
+                <a href="<%= escultura.difusion_url %>" download class="btn btn-secondary custom-btn">
+                  <i class="mdi mdi-file-pdf"></i> View Dissemination 
+                </a>
+              <% } else { %>
+                <label class="btn btn-secondary custom-btn">
+                  <i class="mdi mdi-bullhorn"></i> Add Dissemination 
+                  <input type="file" name="difusion" accept="application/pdf" hidden onchange="this.form.submit()">
+                </label>
+              <% } %>
+            </form>
+          </div>
+        </div>
+
+        
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="/assets/vendors/chart.js/Chart.min.js"></script>
   <script src="/assets/vendors/progressbar.js/progressbar.min.js"></script>
   <script src="/assets/vendors/jvectormap/jquery-jvectormap.min.js"></script>

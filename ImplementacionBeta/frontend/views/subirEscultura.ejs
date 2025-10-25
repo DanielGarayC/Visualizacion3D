@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Subir Nueva Escultura</title>
+  <title>Upload New Sculpture</title>
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/assets/vendors/mdi/css/materialdesignicons.min.css">
   <link rel="stylesheet" href="/assets/vendors/css/vendor.bundle.base.css">
@@ -435,12 +435,12 @@
         <div class="content-wrapper">
           <div class="page-header">
             <a href="/principalAdm" class="btn-back">
-              <i class="fas fa-arrow-left"></i> Regresar
+              <i class="fas fa-arrow-left"></i> Back
             </a>
           </div>
 
           <div class="form-card">
-            <h2 class="form-title">Registrar Nueva Escultura</h2>
+            <h2 class="form-title">Register New Sculpture</h2>
 
             <!-- Progress Indicator -->
             <div class="progress-container">
@@ -449,11 +449,11 @@
               </div>
               <div class="step-indicator active" id="stepIndicator1">
                 <div class="step-circle">1</div>
-                <span class="step-label">Información</span>
+                <span class="step-label">Information</span>
               </div>
               <div class="step-indicator" id="stepIndicator2">
                 <div class="step-circle">2</div>
-                <span class="step-label">Archivos</span>
+                <span class="step-label">Files</span>
               </div>
             </div>
 
@@ -462,26 +462,26 @@
               <!-- STEP 1: Información básica -->
               <div class="form-section active" id="step1">
                 <div class="form-group">
-                  <label class="form-label required">Nombre de la escultura</label>
-                  <input type="text" class="form-input" id="nombre" name="nombre" placeholder="Ingrese el nombre">
+                  <label class="form-label required">Sculpture Name</label>
+                  <input type="text" class="form-input" id="nombre" name="nombre" placeholder="Enter the sculpture name">
                   <div class="error-message" id="error-nombre" style="display: none;"></div>
                 </div>
 
                 <div class="form-group">
-                  <label class="form-label required">Autor</label>
-                  <input type="text" class="form-input" id="autor" name="autor" placeholder="Ingrese el autor">
+                  <label class="form-label required">Author</label>
+                  <input type="text" class="form-input" id="autor" name="autor" placeholder="Enter the author">
                   <div class="error-message" id="error-autor" style="display: none;"></div>
                 </div>
 
                 <div class="form-group">
-                  <label class="form-label required">Descripción</label>
-                  <textarea class="form-input" id="descripcion" name="descripcion" placeholder="Describa la escultura"></textarea>
+                  <label class="form-label required">Description</label>
+                  <textarea class="form-input" id="descripcion" name="descripcion" placeholder="Enter the description"></textarea>
                   <div class="error-message" id="error-descripcion" style="display: none;"></div>
                 </div>
 
                 <div class="button-group">
                   <button type="button" class="btn btn-primary" onclick="goToStep2()">
-                    Continuar <i class="fas fa-arrow-right"></i>
+                    Continue <i class="fas fa-arrow-right"></i>
                   </button>
                 </div>
               </div>
@@ -489,61 +489,61 @@
               <!-- STEP 2: Archivos -->
               <div class="form-section" id="step2">
                 <div class="form-group">
-                  <label class="form-label required">Fotografía de la escultura</label>
+                  <label class="form-label required">Sculpture Photo</label>
                   <div class="file-upload-wrapper">
                     <label class="file-upload-label" for="foto">
                       <i class="fas fa-image"></i>
-                      <span>Seleccionar imagen (JPG, PNG)</span>
+                      <span>Select image (JPG, PNG)</span>
                     </label>
                     <input type="file" class="file-upload-input" id="foto" name="foto" accept=".jpg,.jpeg,.png" onchange="updateFileName('foto')">
-                    <div class="file-name" id="foto-name">Ningún archivo seleccionado</div>
+                    <div class="file-name" id="foto-name">No file selected</div>
                   </div>
                   <div class="error-message" id="error-foto" style="display: none;"></div>
                 </div>
 
                 <div class="form-group">
-                  <label class="form-label required">Ficha de ingreso de bien</label>
+                  <label class="form-label required">Entry Record </label>
                   <div class="file-upload-wrapper">
                     <label class="file-upload-label" for="fichaIngreso">
                       <i class="fas fa-file-pdf"></i>
-                      <span>Seleccionar PDF</span>
+                      <span>Select PDF</span>
                     </label>
                     <input type="file" class="file-upload-input" id="fichaIngreso" name="fichaIngreso" accept=".pdf" onchange="updateFileName('fichaIngreso')">
-                    <div class="file-name" id="fichaIngreso-name">Ningún archivo seleccionado</div>
+                    <div class="file-name" id="fichaIngreso-name">No file selected</div>
                   </div>
                   <div class="error-message" id="error-fichaIngreso" style="display: none;"></div>
                 </div>
 
                 <div class="form-group">
-                  <label class="form-label">Ficha de inventario</label>
+                  <label class="form-label">Inventory Record </label>
                   <div class="file-upload-wrapper">
                     <label class="file-upload-label" for="fichaInventario">
                       <i class="fas fa-file-pdf"></i>
-                      <span>Seleccionar PDF (opcional)</span>
+                      <span>Select PDF (optional)</span>
                     </label>
                     <input type="file" class="file-upload-input" id="fichaInventario" name="fichaInventario" accept=".pdf" onchange="updateFileName('fichaInventario')">
-                    <div class="file-name" id="fichaInventario-name">Ningún archivo seleccionado</div>
+                    <div class="file-name" id="fichaInventario-name">No file selected</div>
                   </div>
                 </div>
 
                 <div class="form-group">
-                  <label class="form-label">Ficha de catalogación</label>
+                  <label class="form-label">Catalog Record </label>
                   <div class="file-upload-wrapper">
                     <label class="file-upload-label" for="fichaCatalogacion">
                       <i class="fas fa-file-pdf"></i>
-                      <span>Seleccionar PDF (opcional)</span>
+                      <span>Select PDF (optional)</span>
                     </label>
                     <input type="file" class="file-upload-input" id="fichaCatalogacion" name="fichaCatalogacion" accept=".pdf" onchange="updateFileName('fichaCatalogacion')">
-                    <div class="file-name" id="fichaCatalogacion-name">Ningún archivo seleccionado</div>
+                    <div class="file-name" id="fichaCatalogacion-name">No file selected</div>
                   </div>
                 </div>
 
                 <div class="button-group">
                   <button type="button" class="btn btn-secondary" onclick="goToStep1()">
-                    <i class="fas fa-arrow-left"></i> Atrás
+                    <i class="fas fa-arrow-left"></i> Back
                   </button>
                   <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-check"></i> Registrar escultura
+                    <i class="fas fa-check"></i> Register Sculpture
                   </button>
                 </div>
               </div>
@@ -576,7 +576,7 @@
         label.textContent = input.files[0].name;
         label.classList.add('has-file');
       } else {
-        label.textContent = 'Ningún archivo seleccionado';
+        label.textContent = 'No file selected';
         label.classList.remove('has-file');
       }
     }
@@ -610,15 +610,15 @@
       clearError('descripcion');
 
       if (nombre === '') {
-        showError('nombre', 'Debe ingresar el nombre de la escultura');
+        showError('nombre', 'Please enter the sculpture name');
         valido = false;
       }
       if (autor === '') {
-        showError('autor', 'Debe ingresar el autor de la escultura');
+        showError('autor', 'Please enter the author');
         valido = false;
       }
       if (descripcion === '') {
-        showError('descripcion', 'Debe ingresar una descripción de la escultura');
+        showError('descripcion', 'Please enter a sculpture description');
         valido = false;
       }
 
@@ -659,11 +659,11 @@
       let valido = true;
 
       if (foto.files.length === 0) {
-        showError('foto', 'Debe seleccionar una fotografía de la escultura');
+        showError('foto', 'You must select a sculpture photo');
         valido = false;
       }
       if (ficha.files.length === 0) {
-        showError('fichaIngreso', 'Debe seleccionar la ficha de ingreso');
+        showError('fichaIngreso', 'You must select the entry record');
         valido = false;
       }
 

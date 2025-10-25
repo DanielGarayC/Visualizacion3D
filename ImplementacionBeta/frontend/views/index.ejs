@@ -1,42 +1,252 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <title><%= titulo %></title>
+
+  <!-- Estilos base y vendors -->
   <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/assets/vendors/mdi/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="/assets/vendors/css/vendor.bundle.base.css">
-    <!-- endinject -->
-    <!-- Plugin css for this page -->
-    <link rel="stylesheet" href="/assets/vendors/jvectormap/jquery-jvectormap.css">
-    <link rel="stylesheet" href="/assets/vendors/flag-icon-css/css/flag-icon.min.css">
-    <link rel="stylesheet" href="/assets/vendors/owl-carousel-2/owl.carousel.min.css">
-    <link rel="stylesheet" href="/assets/vendors/owl-carousel-2/owl.theme.default.min.css">
-    <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/vendors/mdi/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="/assets/vendors/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="/assets/vendors/jvectormap/jquery-jvectormap.css">
+  <link rel="stylesheet" href="/assets/vendors/flag-icon-css/css/flag-icon.min.css">
+  <link rel="stylesheet" href="/assets/vendors/owl-carousel-2/owl.carousel.min.css">
+  <link rel="stylesheet" href="/assets/vendors/owl-carousel-2/owl.theme.default.min.css">
+  <link rel="stylesheet" href="/assets/css/style.css">
 
   <style>
-    body,
-    .container-scroller,
-    .page-body-wrapper,
-    .main-panel,
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body, .container-scroller, .page-body-wrapper, .main-panel, .content-wrapper {
+      background-color: #f8f9fc !important;
+      font-family: 'Inter', sans-serif !important;
+      color: #2c3e50 !important;
+      min-height: 100vh;
+    }
+
     .content-wrapper {
-      background-color: #f5f5f5 !important;
-      color: #000 !important;
+      padding: 3rem 3.5rem !important;
+      position: relative;
+      max-width: 1800px;
+      margin: 0 auto;
     }
+
+    /* Header Section */
+    .header-section {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      margin-bottom: 3rem;
+      animation: slideDown 0.6s ease-out;
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .header-section h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #000000;
+      letter-spacing: -0.5px;
+      position: relative;
+      padding-bottom: 0.75rem;
+    }
+
+    .header-section h1::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100px;
+      height: 5px;
+      background: linear-gradient(90deg, #1e3a8a 0%, #3b82f6 100%);
+      border-radius: 3px;
+    }
+
+    /* Gallery Grid */
+    .galeria {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2.5rem;
+      padding: 0;
+      justify-content: flex-start;
+    }
+
+    /* Card Styles */
     .card {
-      background-color: white !important;
+      background: #ffffff;
+      border-radius: 20px;
+      overflow: hidden;
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      position: relative;
+      cursor: pointer;
+      width: 380px;
+      display: flex;
+      flex-direction: column;
+      animation: fadeInUp 0.6s ease-out backwards;
     }
-    .card{
-      height: 70vh; 
-      width: 50vh;
-      padding: 2vh;
+
+    .card:nth-child(1) { animation-delay: 0.05s; }
+    .card:nth-child(2) { animation-delay: 0.1s; }
+    .card:nth-child(3) { animation-delay: 0.15s; }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, #1e3a8a 0%, #3b82f6 100%);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+      z-index: 1;
     }
+
+    .card:hover::before { transform: scaleX(1); }
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(30, 58, 138, 0.15);
+      border-color: #3b82f6;
+    }
+
+    /* Imagen de la tarjeta */
+    .card-image-container {
+      position: relative;
+      width: 100%;
+      height: 220px;
+      overflow: hidden;
+      background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+    }
+
+    .card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .card:hover img { transform: scale(1.1); filter: brightness(1.05); }
+
+    /* Overlay on hover */
+    .card-overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(to bottom, transparent 0%, rgba(30, 58, 138, 0.85) 100%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      display: flex;
+      align-items: flex-end;
+      padding: 2rem;
+      color: white;
+      font-weight: 600;
+      font-size: 1rem;
+      letter-spacing: 0.5px;
+    }
+    .card:hover .card-overlay { opacity: 1; }
+
+    /* Contenido */
+    .card-content {
+      padding: 1.1rem 1.4rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: #ffffff;
+    }
+
     .info-detalle {
-      text-align: left;
-      font-size: 1.1em;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      flex: 1;
     }
+
+    .info-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      color: #64748b;
+      font-size: 0.9rem;
+      line-height: 1.4;
+      align-items: start;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid #f8fafc;
+    }
+
+    .info-item strong {
+      color: #475569;
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .info-item strong::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: #1e3a8a;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .info-item-content {
+      font-weight: 500;
+      color: #334155;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .info-item-nombre .info-item-content {
+      font-weight: 700;
+      color: #1e293b;
+      font-size: 1rem;
+      transition: color 0.3s ease;
+    }
+    .card:hover .info-item-nombre .info-item-content { color: #1e3a8a; }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Estado vacío */
+    .empty-state {
+      text-align: center;
+      padding: 6rem 2rem;
+      background: #ffffff;
+      border-radius: 20px;
+      border: 2px dashed #cbd5e1;
+      margin: 2rem 0;
+    }
+
+    .empty-state-icon {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 2rem;
+      background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.15;
+    }
+
+    .empty-state-icon i { font-size: 3rem; color: white; }
+    .empty-state p { font-size: 1.3rem; color: #64748b; font-weight: 500; }
   </style>
 </head>
+
 <body>
   <div class="container-scroller">
     <!-- Sidebar -->
@@ -48,60 +258,68 @@
 
       <div class="main-panel">
         <div class="content-wrapper">
-          <div style="display: flex; align-items: center; justify-content: start; padding: 10px 50px;">
-            <h1 style="margin-left: 17vh;"><%= titulo %></h1>
+
+          <div class="header-section">
+            <h1><%= titulo %></h1>
           </div>
 
           <div class="galeria">
-              <div class="card">
-                <p style="font-weight:bold; font-size: 1.5em;">Escultura 1: "Void 1"</p>
-                <a href="/vermodelo/predefinido2">
-                  <img src="/images/void.jpg" alt="Imagen 1" />
-                </a> 
-                <div class="info-detalle">
-                  <p><strong>Código:</strong>----------------- </p>
-                  <p><strong>Datación:</strong>----------------- </p>
-                  <p><strong>Estilo:</strong> -----------------</p>
-                  <p><strong>Firma:</strong> -----------------</p>
-
+            <% if (esculturas && esculturas.length > 0) { %>
+              <% esculturas.forEach((escultura) => { %>
+                <div class="card">
+                  <a href="/verEscultura/<%= escultura.id %>">
+                    <div class="card-image-container">
+                      <img src="<%= escultura.imagen_url %>" alt="<%= escultura.nombre %>" />
+                      <div class="card-overlay"><span>View details →</span></div>
+                    </div>
+                    <div class="card-content">
+                      <div class="info-detalle">
+                        <div class="info-item info-item-nombre">
+                          <strong>Name</strong>
+                          <span class="info-item-content"><%= escultura.nombre %></span>
+                        </div>
+                        <div class="info-item">
+                          <strong>Author</strong>
+                          <span class="info-item-content"><%= escultura.autor %></span>
+                        </div>
+                        <div class="info-item">
+                          <strong>Description</strong>
+                          <span class="info-item-content"><%= escultura.descripcion %></span>
+                        </div>
+                        <div class="info-item">
+                          <strong>Date</strong>
+                          <span class="info-item-content"><%= escultura.fecha_creacion.toDate().toLocaleDateString() %></span>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
                 </div>
+              <% }) %>
+            <% } else { %>
+              <div class="empty-state">
+                <div class="empty-state-icon"><i class="mdi mdi-image-off"></i></div>
+                <p>No sculptures available.</p>
               </div>
-              <div class="card">
-                <p style="font-weight:bold; font-size: 1.5em;">Escultura 2: "El Padre"</p>
-                <a href="/vermodelo/predefinido">
-                    <img src="/images/padre.jpg" alt="Imagen 2" />
-                </a>
-                <div class="info-detalle">
-                  <p><strong>Código:</strong>----------------- </p>
-                  <p><strong>Datación:</strong>----------------- </p>
-                  <p><strong>Estilo:</strong> -----------------</p>
-                  <p><strong>Firma:</strong> -----------------</p>
-
-                </div>
-              </div>
+            <% } %>
           </div>
 
         </div>
-      </div> 
+      </div>
     </div>
-  </div> 
+  </div>
+
+  <!-- JS vendors -->
   <script src="/assets/vendors/js/vendor.bundle.base.js"></script>
-<!-- endinject -->
-<!-- Plugin js for this page -->
-<script src="/assets/vendors/chart.js/Chart.min.js"></script>
-<script src="/assets/vendors/progressbar.js/progressbar.min.js"></script>
-<script src="/assets/vendors/jvectormap/jquery-jvectormap.min.js"></script>
-<script src="/assets/vendors/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
-<script src="/assets/vendors/owl-carousel-2/owl.carousel.min.js"></script>
-<!-- End plugin js for this page -->
-<!-- inject:js -->
-<script src="/assets/js/off-canvas.js"></script>
-<script src="/assets/js/hoverable-collapse.js"></script>
-<script src="/assets/js/misc.js"></script>
-<script src="/assets/js/settings.js"></script>
-<script src="/assets/js/todolist.js"></script>
-<!-- endinject -->
-<!-- Custom js for this page -->
-<script src="/assets/js/dashboard.js"></script>
+  <script src="/assets/vendors/chart.js/Chart.min.js"></script>
+  <script src="/assets/vendors/progressbar.js/progressbar.min.js"></script>
+  <script src="/assets/vendors/jvectormap/jquery-jvectormap.min.js"></script>
+  <script src="/assets/vendors/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+  <script src="/assets/vendors/owl-carousel-2/owl.carousel.min.js"></script>
+  <script src="/assets/js/off-canvas.js"></script>
+  <script src="/assets/js/hoverable-collapse.js"></script>
+  <script src="/assets/js/misc.js"></script>
+  <script src="/assets/js/settings.js"></script>
+  <script src="/assets/js/todolist.js"></script>
+  <script src="/assets/js/dashboard.js"></script>
 </body>
 </html>

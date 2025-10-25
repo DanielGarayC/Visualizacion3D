@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Visualizador FBX</title>
+  <title>3D Model Viewer</title>
 
   <!-- Estilos del template -->
   <link rel="stylesheet" href="/css/style.css">
@@ -82,64 +82,638 @@
     .toolbar-top .toolbar-section{ gap:1rem }
 
     /* Card visor */
-    .card{background:#fff;border-radius:20px;border:1px solid rgba(226,232,240,.8);
-          box-shadow:0 10px 25px -5px rgba(0,0,0,.08),0 8px 10px -6px rgba(0,0,0,.04)}
+    
     .card-body{padding:1.5rem}
    /* Fondo profesional del visor 3D */
+/* Canvas container mejorado */
 #canvas-container {
-  width: 100%;
-  height: 40vh;
-  margin: 0 auto;
+  flex: 2 !important;
+  width: auto !important;
+  height: 65vh !important;
+  margin: 0 !important;
   border-radius: 20px;
   overflow: hidden;
   position: relative;
-
-  /* 🎨 Fondo con luz suave y textura profesional */
-  background: radial-gradient(
+  
+  /* Fondo profesional con gradiente suave */
+  background: 
+    radial-gradient(
       circle at 50% 40%, 
-      rgba(255, 255, 255, 0.9) 0%, 
-      rgba(240, 243, 247, 1) 40%, 
-      rgba(226, 232, 240, 1) 100%
-    ),
-    linear-gradient(160deg, #f8fafc 0%, #e2e8f0 100%);
-  background-blend-mode: overlay;
-
+      rgba(255, 255, 255, 0.95) 0%, 
+      rgba(248, 250, 252, 1) 40%, 
+      rgba(241, 245, 249, 1) 100%
+    );
+  
   box-shadow: 
-    inset 0 3px 10px rgba(0, 0, 0, 0.05),
-    0 8px 24px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(226, 232, 240, 0.9);
-  transition: all 0.4s ease;
+    inset 0 2px 8px rgba(0, 0, 0, 0.04),
+    0 8px 24px rgba(0, 0, 0, 0.08);
+  border: 2px solid rgba(226, 232, 240, 0.6);
+  transition: all 0.3s ease;
 }
 
-/* Al pasar el mouse, un leve realce */
 #canvas-container:hover {
-  transform: scale(1.003);
+  transform: translateY(-2px);
   box-shadow:
-    inset 0 3px 12px rgba(0, 0, 0, 0.08),
-    0 10px 28px rgba(59, 130, 246, 0.2);
+    inset 0 2px 10px rgba(0, 0, 0, 0.06),
+    0 12px 32px rgba(59, 130, 246, 0.15);
+  border-color: rgba(59, 130, 246, 0.3);
 }
 
-/* Luz sutil que se mueve con el ratón */
+/* Efecto de luz sutil */
 #canvas-container::before {
   content: '';
   position: absolute;
   inset: 0;
   background: radial-gradient(
     circle at var(--x, 50%) var(--y, 50%),
-    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0.4),
     transparent 60%
   );
   pointer-events: none;
-  transition: background 0.2s ease;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
-    #view-cube{position:absolute;top:20px;right:20px;width:120px;height:120px;z-index:100;border-radius:16px;
-      background:rgba(255,255,255,.9);backdrop-filter:blur(10px);box-shadow:0 8px 16px rgba(0,0,0,.15);cursor:pointer;transition:.25s}
-    #view-cube:hover{transform:scale(1.05)}
-    @media (max-width:768px){.toolbar{justify-content:center}.toolbar-section{justify-content:center;width:100%}#canvas-container{height:50vh}#view-cube{width:80px;height:80px}}
 
-    /* Color picker UI */
-    .color-picker-wrapper{display:inline-flex;align-items:center;gap:.75rem;background:#f8fafc;padding:.5rem 1rem;border-radius:10px;border:2px solid #e2e8f0}
-    #color-picker{width:45px;height:35px;border:3px solid #fff;border-radius:8px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+#canvas-container:hover::before {
+  opacity: 1;
+}
+  .stylish-select {
+  border-radius: 12px;
+  border: 2px solid #e2e8f0;
+  padding: 0.6rem 1rem;
+  font-weight: 500;
+  transition: all .2s ease;
+}
+.stylish-select:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.2);
+}
+.card {
+  width: 100% !important;
+  max-width: 1600px !important;
+  margin: 0 auto !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: stretch !important;
+  justify-content: space-between !important;
+  gap: 2rem !important;
+  padding: 2rem !important;
+  background: #fff !important;
+  border: 1px solid rgba(226, 232, 240, 0.8) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04) !important;
+}
+
+.report-table {
+  flex: 1 !important;
+  min-width: 320px !important;
+  max-width: 400px !important;
+  height: 65vh !important;
+  overflow-y: auto !important;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%) !important;
+  border: 2px solid #e2e8f0 !important;
+  border-radius: 20px !important;
+  padding: 1.75rem !important;
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.report-table:hover {
+  box-shadow: 
+    0 8px 24px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+}
+
+/* Header de la tabla */
+.report-table h5 {
+  color: #1e3a8a !important;
+  font-weight: 700 !important;
+  font-size: 1.2rem !important;
+  margin-bottom: 1.5rem !important;
+  padding-bottom: 1rem !important;
+  border-bottom: 3px solid #e2e8f0 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.75rem !important;
+  letter-spacing: -0.3px;
+}
+
+.report-table h5 i {
+  font-size: 1.5rem;
+  color: #3b82f6;
+  background: linear-gradient(135deg, #eff6ff, #dbeafe);
+  padding: 10px;
+  border-radius: 12px;
+}
+
+/* Tabla estilizada */
+.report-table table {
+  width: 100% !important;
+  border-collapse: separate !important;
+  border-spacing: 0 8px !important;
+}
+
+.report-table thead tr {
+  background: linear-gradient(135deg, #1e3a8a, #3b82f6) !important;
+  color: white !important;
+  border-radius: 12px !important;
+}
+
+.report-table thead th {
+  padding: 1rem 0.75rem !important;
+  font-weight: 600 !important;
+  font-size: 0.8rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  border: none !important;
+  color: white !important;
+}
+
+.report-table thead th:first-child {
+  border-radius: 12px 0 0 12px !important;
+}
+
+.report-table thead th:last-child {
+  border-radius: 0 12px 12px 0 !important;
+}
+
+.report-table tbody tr {
+  background: white !important;
+  border-radius: 10px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+  transition: all 0.2s ease !important;
+}
+
+.report-table tbody tr:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15) !important;
+  background: #f8fafc !important;
+}
+
+.report-table tbody td {
+  font-size: 0.8rem !important;
+  padding: 0.75rem 0.5rem !important;
+  border: none !important;
+  color: #334155 !important;
+  font-weight: 500 !important;
+}
+
+.report-table tbody td:first-child {
+  border-radius: 10px 0 0 10px !important;
+  font-weight: 600 !important;
+  color: #1e3a8a !important;
+}
+
+.report-table tbody td:last-child {
+  border-radius: 0 10px 10px 0 !important;
+}
+
+/* Botón de ver lista */
+.report-table .btn-link {
+  color: #3b82f6 !important;
+  font-size: 1.2rem !important;
+  transition: all 0.2s ease !important;
+  background: linear-gradient(135deg, #eff6ff, #dbeafe);
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+}
+
+.report-table .btn-link:hover {
+  color: #2563eb !important;
+  transform: scale(1.1) !important;
+  background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+/* Scrollbar personalizado */
+.report-table::-webkit-scrollbar {
+  width: 8px;
+}
+
+.report-table::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 10px;
+  margin: 10px 0;
+}
+
+.report-table::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #3b82f6, #2563eb);
+  border-radius: 10px;
+  border: 2px solid #f1f5f9;
+}
+
+.report-table::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #2563eb, #1e40af);
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 1200px) {
+  .card {
+    flex-direction: column !important;
+    gap: 1.5rem !important;
+  }
+  @media (max-width: 480px) {
+  .report-table thead th,
+  .report-table tbody td {
+    font-size: 0.7rem !important;
+  }
+}
+  #canvas-container,
+  .report-table {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 50vh !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .card {
+    padding: 1.25rem !important;
+  }
+  
+  #canvas-container,
+  .report-table {
+    height: 45vh !important;
+  }
+  
+  .report-table {
+    padding: 1.25rem !important;
+  }
+}
+/* === ESTILOS PROFESIONALES DE MODALES === */
+.modal-backdrop.show {
+  background-color: rgba(15, 23, 42, 0.75) !important;
+  backdrop-filter: blur(8px);
+}
+
+/* Modal content */
+.modal-content {
+  background: #ffffff !important;
+  border-radius: 24px !important;
+  border: none !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35) !important;
+  overflow: hidden;
+}
+
+/* Header con gradiente y patrón */
+.modal-header {
+  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #60a5fa 100%) !important;
+  color: white !important;
+  padding: 2rem 2rem 1.5rem 2rem !important;
+  border-bottom: none !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.modal-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  opacity: 0.4;
+  pointer-events: none !important;
+}
+
+.modal-title {
+  font-weight: 700 !important;
+  font-size: 1.6rem !important;
+  letter-spacing: -0.5px;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  position: relative;
+  z-index: 1;
+  margin: 0 !important;
+}
+
+.modal-title i {
+  font-size: 2rem;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+
+
+/* Body del modal */
+.modal-body {
+  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%) !important;
+  padding: 2.5rem !important;
+}
+
+/* Labels mejorados */
+.modal-body .form-label {
+  color: #475569 !important;
+  font-weight: 600 !important;
+  font-size: 0.95rem !important;
+  margin-bottom: 0.5rem !important;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.modal-body .form-label::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: #3b82f6;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/* Inputs y selects estilizados */
+.modal-body .form-control,
+.modal-body .form-select {
+  border-radius: 12px !important;
+  border: 2px solid #e2e8f0 !important;
+  padding: 0.85rem 1.25rem !important;
+  font-weight: 500 !important;
+  font-size: 0.95rem !important;
+  transition: all 0.3s ease !important;
+  background: white !important;
+}
+
+.modal-body .form-control:focus,
+.modal-body .form-select:focus {
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15) !important;
+  outline: none !important;
+  transform: translateY(-1px);
+}
+
+.modal-body .form-control::placeholder {
+  color: #94a3b8;
+  font-weight: 400;
+}
+
+.modal-body textarea.form-control {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Grid de formulario */
+.modal-body .row {
+  gap: 1.25rem;
+}
+
+.modal-body .col-12,
+.modal-body .col-md-6 {
+  padding: 0;
+}
+
+/* Footer mejorado */
+.modal-footer {
+  background: #f8fafc !important;
+  border-top: 2px solid #e2e8f0 !important;
+  padding: 1.5rem 2rem !important;
+  gap: 1rem;
+}
+
+/* Botones del modal */
+.modal-footer .btn {
+  border-radius: 12px !important;
+  padding: 0.85rem 2rem !important;
+  font-weight: 600 !important;
+  font-size: 0.95rem !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.75rem !important;
+  transition: all 0.3s ease !important;
+  border: none !important;
+}
+
+.modal-footer .btn-secondary {
+  background: #e2e8f0 !important;
+  color: #475569 !important;
+}
+
+.modal-footer .btn-secondary:hover {
+  background: #cbd5e1 !important;
+  color: #334155 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.modal-footer .btn-primary {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+  color: white !important;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+.modal-footer .btn-primary:hover {
+  background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.5);
+}
+
+/* Animación de entrada */
+.modal.fade .modal-dialog {
+  transform: scale(0.9) translateY(-30px);
+  opacity: 0;
+  transition: all 0.3s ease-out;
+}
+
+.modal.show .modal-dialog {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+}
+
+/* === MODAL LISTA DE REPORTES === */
+#modalListaReportes .modal-body {
+  padding: 2rem !important;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+#modalListaReportes .table {
+  margin-bottom: 0;
+  border-collapse: separate;
+  border-spacing: 0 8px;
+}
+
+#modalListaReportes .table thead tr {
+  background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+  color: white;
+}
+
+#modalListaReportes .table thead th {
+  padding: 1rem;
+  font-weight: 600;
+  border: none;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+}
+
+#modalListaReportes .table thead th:first-child {
+  border-radius: 12px 0 0 12px;
+}
+
+#modalListaReportes .table thead th:last-child {
+  border-radius: 0 12px 12px 0;
+}
+
+#modalListaReportes .table tbody tr {
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s ease;
+}
+
+#modalListaReportes .table tbody tr:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+  background: #f8fafc;
+}
+
+#modalListaReportes .table tbody td {
+  padding: 1rem;
+  border: none;
+  color: #334155;
+  font-weight: 500;
+}
+
+#modalListaReportes .table tbody td:first-child {
+  border-radius: 10px 0 0 10px;
+  font-weight: 600;
+  color: #1e3a8a;
+}
+
+#modalListaReportes .table tbody td:last-child {
+  border-radius: 0 10px 10px 0;
+}
+
+/* Scrollbar del modal lista */
+#modalListaReportes .modal-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+#modalListaReportes .modal-body::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 10px;
+}
+
+#modalListaReportes .modal-body::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #3b82f6, #2563eb);
+  border-radius: 10px;
+}
+/* === POSICIÓN Y ESTILO DEL MINI CUBO DE ORIENTACIÓN === */
+#view-cube {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 120px;
+  height: 120px;
+  z-index: 10;
+
+  background: rgba(255, 255, 255, 0.8);
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+  backdrop-filter: blur(6px);
+}
+/* sobrescribe el close de bootstrap para nuestros modales */
+.modal-header .btn-close {
+  position: absolute;
+  top: 1rem;
+  right: 1.25rem;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 8px;
+  background: transparent !important;
+  box-shadow: none;
+  opacity: 1;
+  cursor: pointer;
+}
+
+.modal-header .btn-close::before {
+  content: "✕";
+  display: block;
+  font-size: 20px;
+  line-height: 36px;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+}
+
+.modal-header .btn-close:hover {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(4px);
+}
+
+.modal-header .btn-close:active {
+  transform: scale(0.9);
+}
+.report-table th,
+.report-table td {
+  text-align: center !important;
+  font-size: 0.85rem !important;
+  vertical-align: middle !important;
+}
+
+/* Reducir espacio en las filas */
+.report-table tbody td {
+  padding: 0.75rem 0.5rem !important;
+}
+#modalListaReportes .btn-close {
+  position: absolute;
+  top: 1rem;
+  right: 1.25rem;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 8px;
+  background: transparent !important;
+  box-shadow: none;
+  opacity: 1;
+  cursor: pointer;
+}
+
+
+
+#modalListaReportes .btn-close:hover {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(4px);
+}
+
+#modalListaReportes .btn-close:active {
+  transform: scale(0.9);
+}
+.report-table thead th:last-child,
+.report-table tbody td:last-child {
+  width: 48px;
+  text-align: center !important;
+}
+.report-table .btn-link {
+  line-height: 1;
+}
+/* Tooltip de Bootstrap bien posicionado y sin bloquear clic */
+.tooltip {
+  pointer-events: none;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 0.8rem;
+  border-radius: 8px;
+  padding: 6px 10px;
+}
+.tooltip-inner {
+  background: linear-gradient(135deg, #1e3a8a, #2563eb);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(37,99,235,0.3);
+}
+.bs-tooltip-top .tooltip-arrow::before {
+  border-top-color: #2563eb !important;
+}
+.table thead th {
+  color: #ffffff !important;
+}
   </style>
 </head>
 <body>
@@ -153,7 +727,7 @@
 
           <!-- Header -->
           <div class="page-header">
-            <a href="/principalAdm" class="btn-back"><i class="fas fa-arrow-left"></i> Regresar</a>
+            <a href="/principalAdm" class="btn-back"><i class="fas fa-arrow-left"></i> Back </a>
             <h1 class="main-title"><%= nameSculpture %></h1>
             <span class="header-spacer">spacer</span>
           </div>
@@ -162,14 +736,19 @@
           <div class="toolbar toolbar-top">
             <div class="toolbar-section">
               <!-- Botón inicial -->
-              <button id="btn-start-report"><i class="fas fa-edit"></i> Agregar reporte</button>
+              <button id="btn-start-report" data-bs-toggle="modal" data-bs-target="#modalNuevoReporte">
+                <i class="fas fa-plus"></i> Add damage report
+              </button>              
+              <button id="btn-modelo-termico">
+                <i class="fas fa-plus"></i> Add thermal model
+              </button>
 
               <!-- Herramientas de dibujo (aparecen al iniciar) -->
               <div id="drawing-tools">
                 <div class="separator"></div>
-                <button id="btn-line-mode" class="btn-outline-primary"><i class="fas fa-pen"></i> Línea</button>
-                <button id="btn-area-mode" class="btn-outline-primary"><i class="fas fa-draw-polygon"></i> Área</button>
-                <button id="btn-create-area" style="display:none;"><i class="fas fa-check-circle"></i> Crear área</button>
+                <button id="btn-line-mode" class="btn-outline-primary"><i class="fas fa-pen"></i> Line</button>
+                <button id="btn-area-mode" class="btn-outline-primary"><i class="fas fa-draw-polygon"></i> Area</button>
+                <button id="btn-create-area" style="display:none;"><i class="fas fa-check-circle"></i> Create area</button>
 
                 <div class="separator"></div>
                 <div class="color-picker-wrapper">
@@ -178,28 +757,73 @@
                 </div>
 
                 <div class="separator"></div>
-                <button id="btn-undo" style="display:none;"><i class="fas fa-undo"></i> Deshacer</button>
-                <button id="btn-save" style="display:none;"><i class="fas fa-save"></i> Guardar</button>
-                <button id="btn-cancel" class="btn-outline-primary"><i class="fas fa-times"></i> Cancelar</button>
+                <button id="btn-undo" style="display:none;"><i class="fas fa-undo"></i> Undo</button>
+                <button id="btn-save" style="display:none;"><i class="fas fa-save"></i> Save</button>
+                <button id="btn-cancel" class="btn-outline-primary"><i class="fas fa-times"></i> Cancel</button>
               </div>
             </div>
           </div>
 
           <!-- Visor 3D -->
-          <div class="card" style="width:100%; max-width:1400px; margin:0 auto;">
-            <div class="card-body">
-              <div id="canvas-container">
-                <canvas id="webgl-canvas"></canvas>
-                <canvas id="view-cube"></canvas>
-              </div>
+          <div class="card" style="width:100%; max-width:1400px; margin:0 auto; display:flex; align-items:flex-start; justify-content:space-between; gap:2rem; padding:1.5rem;">
+            <!-- Canvas a la izquierda -->
+            <div id="canvas-container">
+              <canvas id="webgl-canvas"></canvas>
+              <canvas id="view-cube"></canvas>
             </div>
-          </div>
+
+            <!-- Tabla a la derecha -->
+           <div class="report-table">
+            <h5>
+              <i class="fas fa-clipboard-list"></i> 
+              Report Types
+            </h5>
+            <table class="table table-sm align-middle">
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <th>No.</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <% 
+                  const categories = [
+                    "Biologic Colonization",
+                    "Discolouration and Deposit",
+                    "Material Loss",
+                    "Detachment",
+                    "Cracks",
+                    "Deformations",
+                    "Other damages"
+                  ]; 
+                  categories.forEach((cat) => { 
+                %>
+                <tr>
+                  <td><%= cat %></td>
+                  <td>—</td>
+                  <td>
+                    <button
+                      class="btn btn-link p-0 ver-lista"
+                      data-categoria="<%= cat %>"
+                      data-bs-toggle="tooltip"
+                      title="View reports"
+                      type="button">
+                      <i class="fas fa-eye" style="color:#2563eb; font-size:1.1rem;"></i>
+                    </button>
+                  </td>
+                </tr>
+                <% }); %>
+              </tbody>
+            </table>
+            </div>
+            </div>
 
           <!-- Toolbar inferior: acciones informativas -->
           <div class="toolbar toolbar-bottom" style="margin-top:1.25rem;">
             <div class="toolbar-section" style="gap:1rem;">
-              <button id="boton-inferior"><i class="fas fa-chart-line"></i> Historial ambiental</button>
-              <button id="boton-descarga" onclick="descargarPDF()"><i class="fas fa-file-pdf"></i> Acervo documentario</button>
+              <button id="boton-inferior"><i class="fas fa-chart-line"></i>Environmental History</button>
+              <button id="boton-descarga" onclick="descargarPDF()"><i class="fas fa-file-pdf"></i> Documentation Collection</button>
             </div>
           </div>
 
@@ -207,7 +831,84 @@
       </div>
     </div>
   </div>
-  <script src="/assets/vendors/js/vendor.bundle.base.js"></script>
+  <!-- MODAL NUEVO REPORTE -->
+<div class="modal fade" id="modalNuevoReporte" tabindex="-1" aria-labelledby="nuevoReporteLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content" style="border-radius:20px; overflow:hidden; border:none;">
+      <div class="modal-header">
+        <h5 class="modal-title" id="nuevoReporteLabel">
+          <i class="fas fa-file-signature"></i> Create new report
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body" style="background:#f9fafb; padding:2rem;">
+        <form id="formNuevoReporte" class="row g-3">
+          <div class="col-12">
+            <label class="form-label fw-semibold text-secondary">Report name</label>
+            <input type="text" id="nombreReporte" class="form-control" placeholder="Ej. Registered Crack " required>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label fw-semibold text-secondary">Category</label>
+            <select id="categoriaReporte" class="form-select stylish-select" required>
+              <option value="">Select a category</option>
+               <option value="Biologic Colonization">Biologic Colonization</option>
+              <option value="Discolouration and Deposit">Discolouration and Deposit</option>
+              <option value="Material Loss">Material Loss</option>
+              <option value="Detachment">Detachment</option>
+              <option value="Cracks">Cracks</option>
+              <option value="Deformations">Deformations</option>
+              <option value="Other damages">Other damages</option>
+            </select>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label fw-semibold text-secondary">Description</label>
+            <textarea id="descripcionReporte" class="form-control" rows="3" placeholder="Damage or finding details"></textarea>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer" style="background:#f9fafb;">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="btnContinuarReporte">
+          <i class="fas fa-arrow-right"></i> Continue
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- MODAL LISTA DE REPORTES -->
+<div class="modal fade" id="modalListaReportes" tabindex="-1" aria-labelledby="listaLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content" style="border-radius:20px; overflow:hidden;">
+      <div class="modal-header" style="background:linear-gradient(90deg,#1e3a8a,#2563eb);color:white;">
+        <h5 class="modal-title" id="listaLabel">
+          <i class="fas fa-list-ul"></i> Reports of the Selected Category
+        </h5>
+
+        <!-- ESTA es la X. Importante: data-bs-dismiss="modal" y aria-label="Close" -->
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+          aria-label="Close">
+        </button>
+      </div>
+
+      <div class="modal-body" style="background:#f9fafb;">
+        <table class="table table-hover">
+          <thead>
+            <tr><th>Name</th><th>Description</th><th>Date</th></tr>
+          </thead>
+          <tbody id="tablaReportesCat"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="/assets/vendors/chart.js/Chart.min.js"></script>
   <script src="/assets/vendors/progressbar.js/progressbar.min.js"></script>
   <script src="/assets/vendors/jvectormap/jquery-jvectormap.min.js"></script>
@@ -228,6 +929,45 @@
     container.style.setProperty("--x", `${x}%`);
     container.style.setProperty("--y", `${y}%`);
   });
+  document.getElementById("btnContinuarReporte").addEventListener("click", () => {
+    const nombre = document.getElementById("nombreReporte").value.trim();
+    const categoria = document.getElementById("categoriaReporte").value;
+    const descripcion = document.getElementById("descripcionReporte").value.trim();
+
+    if (!nombre || !categoria) {
+      alert("Please fill in the report name and category.");
+      return;
+    }
+
+    // Guardar datos temporalmente
+    window.reporteActual = { nombre, categoria, descripcion, fecha: new Date().toLocaleString() };
+
+    // Cierra modal y activa modo dibujo
+    const modal = bootstrap.Modal.getInstance(document.getElementById("modalNuevoReporte"));
+    modal.hide();
+
+    iniciarModoDibujo();
+  });
+
+  function iniciarModoDibujo() {
+    drawingEnabled = true;
+    document.getElementById("drawing-tools").style.display = "inline-flex";
+    document.getElementById("btn-start-report").style.display = "none";
+    document.querySelector(".toolbar-bottom").style.display = "none";
+  }
+
+
+// Guardar al “Guardar reporte”
+document.getElementById("btn-save").addEventListener("click", () => {
+  if (window.reporteActual) {
+    const lista = JSON.parse(localStorage.getItem("reportes") || "[]");
+    lista.push(window.reporteActual);
+    localStorage.setItem("reportes", JSON.stringify(lista));
+    window.reporteActual = null;
+  }
+  alert("✅ Report saved.");
+});
+
 </script>
   <script>
     const fbxPath = "<%= fbxUrl %>";
@@ -629,7 +1369,7 @@
       lineBtn.classList.remove('active');
       areaBtn.classList.remove('active');
 
-      alert("✅ Reporte guardado (modo dibujo desactivado).");
+      alert("✅ Report saved (drawing mode disabled).");
     });
 
     function loadFBX(fbxPath, texturePath) {
@@ -863,5 +1603,38 @@
   renderer.render(scene, camera);
 }
   </script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  // Inicializa tooltips sin que bloqueen el clic
+  const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+  tooltips.forEach(el => {
+    new bootstrap.Tooltip(el, {
+      trigger: 'hover',
+      placement: 'top',
+      container: 'body'
+    });
+  });
+
+  // Abrir modal al hacer clic en el ojo
+  document.querySelectorAll(".ver-lista").forEach(btn => {
+    btn.addEventListener("click", e => {
+      e.preventDefault();
+      const categoria = btn.dataset.categoria;
+      const lista = JSON.parse(localStorage.getItem("reportes") || "[]");
+      const filtrados = lista.filter(r => r.categoria === categoria);
+      const tbody = document.getElementById("tablaReportesCat");
+      tbody.innerHTML = filtrados.length
+        ? filtrados.map(r => `
+            <tr>
+              <td>${r.nombre}</td>
+              <td>${r.descripcion || ""}</td>
+              <td>${r.fecha}</td>
+            </tr>`).join("")
+        : `<tr><td colspan="3" class="text-center text-muted">No reports in this category</td></tr>`;
+      new bootstrap.Modal(document.getElementById("modalListaReportes")).show();
+    });
+  });
+});
+</script>
 </body>
 </html>

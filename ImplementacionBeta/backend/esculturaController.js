@@ -158,7 +158,7 @@ export async function handleEsculturaUpload(req, res) {
 }
 
 
-export async function listarEsculturas(req, res) {
+export async function listarEsculturas(req, res,rol='user') {
   try {
     const esculturasSnap = await getDocs(collection(db, 'esculturas'));
     const esculturas = [];
@@ -166,11 +166,18 @@ export async function listarEsculturas(req, res) {
     esculturasSnap.forEach(doc => {
       esculturas.push(doc.data());
     });
-
-    res.render('indexAdmin', {
-      titulo: "Esculturas Registradas",
-      esculturas
-    });
+    if (rol=='admin'){
+      res.render('indexAdmin', {
+        titulo: "Esculturas Registradas",
+        esculturas
+      });
+    } else {
+      res.render('index', {
+        titulo: "Esculturas Registradas",
+        esculturas
+      });
+    }
+    
   } catch (error) {
     console.error("❌ Error al listar esculturas:", error);
     res.status(500).send("Error al cargar esculturas");

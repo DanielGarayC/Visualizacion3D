@@ -36,12 +36,13 @@ app.get('/login', (req,res)=>
   res.render('login')
 )
 //Principal sin permisos :c)
-app.get('/principal', (req,res) => 
-    res.render('index',{titulo: "Esculturas Registradas"})
-);
+app.get('/principal', (req, res) => {
+  listarEsculturas(req, res, 'user'); 
+});
 //Principal con botón con permisos
-app.get('/principalAdm', listarEsculturas);
-
+app.get('/principalAdm', (req, res) => {
+  listarEsculturas(req, res, 'admin');
+});
 //Ver escultura por id
 app.get('/verEscultura/:id', verEsculturaPorId);
 

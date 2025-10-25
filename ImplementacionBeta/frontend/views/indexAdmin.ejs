@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <title><%= titulo %></title>
@@ -480,7 +480,7 @@
             <h1><%= titulo %></h1>
             <a href="/nuevaEscultura" class="btn-fijo">
               <i class="mdi mdi-plus"></i>
-              Agregar escultura
+              Add Sculpture
             </a>
           </div>
 
@@ -492,7 +492,7 @@
                     <div class="card-image-container">
                       <img src="<%= escultura.imagen_url %>" alt="<%= escultura.nombre %>" />
                       <div class="card-overlay">
-                        <span>Ver detalles completos →</span>
+                        <span>View full details →</span>
                       </div>
                       <div class="icon-badge">
                         <i class="mdi mdi-eye"></i>
@@ -501,19 +501,19 @@
                     <div class="card-content">
                       <div class="info-detalle">
                         <div class="info-item info-item-nombre">
-                          <strong>Nombre</strong>
+                          <strong>Name</strong>
                           <span class="info-item-content"><%= escultura.nombre %></span>
                         </div>
                         <div class="info-item">
-                          <strong>Autor</strong>
+                          <strong>Author</strong>
                           <span class="info-item-content"><%= escultura.autor %></span>
                         </div>
                         <div class="info-item">
-                          <strong>Descripción</strong>
+                          <strong>Description</strong>
                           <span class="info-item-content"><%= escultura.descripcion %></span>
                         </div>
                         <div class="info-item">
-                          <strong>Fecha</strong>
+                          <strong>Date</strong>
                           <span class="info-item-content"><%= escultura.fecha_creacion.toDate().toLocaleDateString() %></span>
                         </div>
                       </div>
@@ -526,7 +526,7 @@
                 <div class="empty-state-icon">
                   <i class="mdi mdi-image-off"></i>
                 </div>
-                <p>No hay esculturas registradas.</p>
+                <p>No sculptures registered.</p>
               </div>
             <% } %>
           </div>

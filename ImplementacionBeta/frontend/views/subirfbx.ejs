@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Subir Modelo 3D</title>
+  <title>Upload 3D Model</title>
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/assets/vendors/mdi/css/materialdesignicons.min.css">
   <link rel="stylesheet" href="/assets/vendors/css/vendor.bundle.base.css">
@@ -368,19 +368,19 @@
         <div class="content-wrapper">
           <div class="page-header">
             <a href="/principalAdm" class="btn-back">
-              <i class="fas fa-arrow-left"></i> Regresar
+              <i class="fas fa-arrow-left"></i> Back
             </a>
           </div>
 
           <div class="form-card">
-            <h2 class="form-title">Subir Modelo 3D</h2>
-            <p class="form-subtitle">Agregue el archivo FBX y su textura correspondiente para visualizar el modelo en 3D</p>
+            <h2 class="form-title">Register 3D Model</h2>
+            <p class="form-subtitle">Add the FBX file and its corresponding texture to visualize the 3D model.</p>
 
             <form action="/uploadfbx?esculturaId=<%= esculturaId %>" method="POST" enctype="multipart/form-data">
               
               <!-- FBX Upload -->
               <div class="form-group">
-                <label class="form-label">Archivo del modelo 3D (FBX)</label>
+                <label class="form-label">3D Model File (FBX)</label>
                 <div class="file-upload-wrapper">
                   <label class="file-upload-label" for="fbxfile">
                     <div class="icon-badge">
@@ -388,18 +388,18 @@
                     </div>
                     <i class="fas fa-upload"></i>
                     <div class="file-upload-text">
-                      <span class="file-upload-main">Seleccionar archivo FBX</span>
-                      <span class="file-upload-hint">Haga clic o arrastre el archivo aquí</span>
+                      <span class="file-upload-main">Select FBX File</span>
+                      <span class="file-upload-hint">Click or drag the file here</span>
                     </div>
                   </label>
                   <input type="file" class="file-upload-input" id="fbxfile" name="fbxfile" accept=".fbx" required onchange="updateFileName('fbxfile')">
-                  <div class="file-name" id="fbxfile-name">Ningún archivo seleccionado</div>
+                  <div class="file-name" id="fbxfile-name">No file selected</div>
                 </div>
               </div>
 
               <!-- Textura Upload -->
               <div class="form-group">
-                <label class="form-label">Archivo de textura (Imagen)</label>
+                <label class="form-label">Texture File (Image)</label>
                 <div class="file-upload-wrapper">
                   <label class="file-upload-label" for="texturefile">
                     <div class="icon-badge">
@@ -407,27 +407,26 @@
                     </div>
                     <i class="fas fa-upload"></i>
                     <div class="file-upload-text">
-                      <span class="file-upload-main">Seleccionar imagen de textura</span>
-                      <span class="file-upload-hint">Formatos: JPG, PNG</span>
+                      <span class="file-upload-main">Select Texture Image</span>
+                      <span class="file-upload-hint">Formats: JPG, PNG</span>
                     </div>
                   </label>
                   <input type="file" class="file-upload-input" id="texturefile" name="texturefile" accept=".jpg,.jpeg,.png" required onchange="updateFileName('texturefile')">
-                  <div class="file-name" id="texturefile-name">Ningún archivo seleccionado</div>
+                  <div class="file-name" id="texturefile-name">No file selected</div>
                 </div>
               </div>
 
               <button type="submit" class="btn-submit">
                 <i class="fas fa-check-circle"></i>
-                Subir y Visualizar Modelo 3D
+                 Upload and View 3D Model
               </button>
 
               <div class="info-box">
                 <i class="fas fa-info-circle"></i>
                 <div class="info-box-content">
-                  <div class="info-box-title">Información importante</div>
+                  <div class="info-box-title">Important Information</div>
                   <div class="info-box-text">
-                    Asegúrese de que el archivo FBX y la textura correspondan al mismo modelo. La textura debe estar en formato JPG o PNG para una visualización óptima.
-                  </div>
+                    Make sure that the FBX file and the texture correspond to the same model. The texture must be in JPG or PNG format for optimal visualization.                  </div>
                 </div>
               </div>
             </form>
@@ -458,7 +457,7 @@
         label.textContent = input.files[0].name;
         label.classList.add('has-file');
       } else {
-        label.textContent = 'Ningún archivo seleccionado';
+        label.textContent = 'No file selected';
         label.classList.remove('has-file');
       }
     }
